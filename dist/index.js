@@ -21,6 +21,14 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -128,7 +136,9 @@ function (_Component) {
             });
 
             if (match.length) {
-              option = match[0];
+              var _match = _slicedToArray(match, 1);
+
+              option = _match[0];
             }
           } else if (typeof options[i].value !== 'undefined' && options[i].value === value) {
             option = options[i];
@@ -196,19 +206,18 @@ function (_Component) {
             className: "".concat(baseClassName, "-title")
           }, option.name);
 
-          var _options = option.items.map(function (item) {
+          var tmpoptions = option.items.map(function (item) {
             return _this2.renderOption(item);
           });
-
           return _react["default"].createElement("div", {
             className: "".concat(baseClassName, "-group"),
             key: option.name,
             role: "listbox",
             tabIndex: "-1"
-          }, groupTitle, _options);
-        } else {
-          return _this2.renderOption(option);
+          }, groupTitle, tmpoptions);
         }
+
+        return _this2.renderOption(option);
       });
       return ops.length ? ops : _react["default"].createElement("div", {
         className: "".concat(baseClassName, "-noresults")
@@ -218,6 +227,7 @@ function (_Component) {
     key: "handleDocumentClick",
     value: function handleDocumentClick(event) {
       if (this.mounted) {
+        // eslint-disable-next-line react/no-find-dom-node
         if (!_reactDom["default"].findDOMNode(this).contains(event.target)) {
           if (this.state.isOpen) {
             this.setState({
@@ -230,7 +240,8 @@ function (_Component) {
   }, {
     key: "isValueSelected",
     value: function isValueSelected() {
-      return typeof this.state.selected === 'string' || this.state.selected.value !== '';
+      var selected = this.state.selected;
+      return Boolean(typeof selected === 'string' || selected.value !== '');
     }
   }, {
     key: "render",

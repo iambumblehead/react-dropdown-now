@@ -6,8 +6,10 @@ react-dropdown-now
 
 Please see the README at [react-dropdown,][0] from which this project is a fork. React-dropdown is seemingly abondoned and this fork will manage minimal changes allowing the dropdown to used in newer react applications.
 
+The [demo page is here.][1]
 
 [0]: https://github.com/fraserxu/react-dropdown
+[1]: https://iambumblehead.github.io/react-dropdown-now/
 
 ### License
 
