@@ -1,4 +1,4 @@
-declare module "react-dropdown" {
+declare module "react-dropdown-now" {
   import * as React from "react";
   export interface Option {
     label: React.ReactNode;
