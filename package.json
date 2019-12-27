@@ -68,16 +68,29 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "watchify": "^3.11.1",
-    "express": "^4.17.0"
+    "express": "^4.17.0",
+    "ava": "^2.4.0",
+    "browser-env": "^3.3.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2"
   },
   "typings": "./index.d.ts",
   "scripts": {
     "build": "./node_modules/@babel/cli/bin/babel.js index.js -o dist/index.js",
     "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
     "start": "node express & npm run watch",
-    "prepublishOnly": "npm lint && npm run build",
+    "prepublishOnly": "npm run lint && npm run build",
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
-    "predeploy": "npm lint && npm run browserify",
-    "lint": "eslint index.js"
+    "predeploy": "npm run lint && npm run browserify",
+    "lint": "eslint index.js",
+    "test": "NODE_ENV=test ava --verbose"
+  },
+  "ava": {
+    "require": [
+      "./test/setup.js"
+    ],
+    "files": [
+      "./test/*.spec.js"
+    ]
   }
 }

@@ -35,6 +35,7 @@
       "let": "always",
       "const": "never"
     }],
+    "import/no-extraneous-dependencies": 0,
     "space-in-parens": [2, "never" ],
     "indent": [2, 2, {
       "flatTernaryExpressions": true,
