@@ -3,6 +3,7 @@ react-dropdown-now
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
+[![Build Status](https://travis-ci.org/iambumblehead/react-dropdown-now.svg?branch=master)](https://travis-ci.org/iambumblehead/react-dropdown-now)
 
 Please see the README at [react-dropdown,][0] from which this project is a fork. React-dropdown is seemingly abondoned and this fork will manage minimal changes allowing the dropdown to used in newer react applications.
 

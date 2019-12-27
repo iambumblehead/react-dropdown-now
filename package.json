@@ -80,11 +80,10 @@
     "build": "./node_modules/@babel/cli/bin/babel.js index.js -o dist/index.js",
     "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
     "start": "node express & npm run watch",
-    "prepublishOnly": "npm run lint && npm run build",
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
-    "predeploy": "npm run lint && npm run browserify",
+    "prepare": "npm run browserify && npm run build",
     "lint": "eslint index.js",
-    "test": "NODE_ENV=test ava --verbose"
+    "test": "npm run lint && NODE_ENV=test ava --verbose"
   },
   "ava": {
     "require": [
