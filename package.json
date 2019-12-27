@@ -64,7 +64,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.1.1",
-    "gh-pages": "^0.11.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "watchify": "^3.11.1"
@@ -72,11 +71,11 @@
   "typings": "./index.d.ts",
   "scripts": {
     "build": "./node_modules/@babel/cli/bin/babel.js index.js -o dist/index.js",
-    "watch": "watchify example/main.js -p browserify-hmr -o example/bundle.js -dv",
-    "start": "ecstatic -p 8080 example & npm run watch",
+    "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
+    "start": "ecstatic -p 8080 docs & npm run watch",
     "prepublishOnly": "npm lint && npm run build",
-    "predeploy": "npm lint && browserify example/main.js -o example/bundle.js",
-    "deploy": "gh-pages -d example",
+    "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
+    "predeploy": "npm lint && npm run browserify"
     "lint": "eslint index.js"
   }
 }
