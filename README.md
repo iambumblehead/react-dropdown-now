@@ -3,9 +3,9 @@ react-dropdown-now
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
-[![Build Status](https://travis-ci.org/iambumblehead/react-dropdown-now.svg?branch=master)](https://travis-ci.org/iambumblehead/react-dropdown-now)
+[![Build status][travis-image]][travis-url]
 
-The [demo page is here.][1] react-dropdown-now is a fork of [react-dropdown.][0]
+The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 ```Javascript
 import Dropdown from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
@@ -113,7 +113,7 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
 More [examples in the docs folder.][2]
 
 
-[0]: https://github.com/fraserxu/react-dropdown
+[0]: https://github.com/fraserxu/react-dropdown/issues/183
 [1]: https://iambumblehead.github.io/react-dropdown-now/
 [2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
 
@@ -133,3 +133,5 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [npm-url]: https://npmjs.org/package/react-dropdown-now
 [downloads-image]: http://img.shields.io/npm/dm/react-dropdown-now.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/react-dropdown-now
+[travis-image]: https://img.shields.io/travis/iambumblehead/react-dropdown-now
+[travis-url]: https://travis-ci.org/iambumblehead/react-dropdown-now
