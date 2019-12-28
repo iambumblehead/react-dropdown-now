@@ -1,6 +1,6 @@
 {
   "name": "react-dropdown-now",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React dropdown component",
   "main": "dist/index.js",
   "style": "style.css",
