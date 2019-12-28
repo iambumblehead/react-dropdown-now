@@ -184,7 +184,7 @@ var _objectArrayExample = _interopRequireDefault(require("./objectArrayExample")
 
 var _zeroValObjectArrayExample = _interopRequireDefault(require("./zeroValObjectArrayExample"));
 
-var _CustomArrowExample = _interopRequireDefault(require("./CustomArrowExample"));
+var _customArrowExample = _interopRequireDefault(require("./customArrowExample"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -210,6 +210,9 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+var reactDropdownNowUrl = '//github.com/iambumblehead/react-dropdown-now';
+var reactDropdownUrl = '//github.com/fraserxu/react-dropdown';
+
 var App =
 /*#__PURE__*/
 function (_Component) {
@@ -225,20 +228,16 @@ function (_Component) {
     key: "render",
     value: function render() {
       return _react["default"].createElement("div", null, _react["default"].createElement("header", null, _react["default"].createElement("h2", null, _react["default"].createElement("a", {
-        href: "https://github.com/fraserxu/react-dropdown"
-      }, "React Dropdown"))), _react["default"].createElement("section", {
+        href: reactDropdownNowUrl
+      }, "React Dropdown Now"))), _react["default"].createElement("section", {
         className: "description"
-      }, _react["default"].createElement("p", null, "Simple Dropdown component for React, inspired by ", _react["default"].createElement("a", {
-        href: "https://github.com/JedWatson/react-select"
-      }, "react-select")), _react["default"].createElement("div", {
+      }, _react["default"].createElement("p", null, "Simple Dropdown component for React, forked from ", _react["default"].createElement("a", {
+        href: reactDropdownUrl
+      }, "react-dropdown")), _react["default"].createElement("div", {
         className: "code"
-      }, _react["default"].createElement("pre", null, "$ npm install react-dropdown --save"))), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "Examples: "), _react["default"].createElement("h4", null, "Usage: "), _react["default"].createElement("div", {
+      }, _react["default"].createElement("pre", null, '$ npm install react-dropdown --save'))), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "Examples: "), _react["default"].createElement("h4", null, "Usage: "), _react["default"].createElement("div", {
         className: "code"
-      }, _react["default"].createElement("pre", null, "\n<Dropdown options={options} onChange={this._onSelect} value={defaultOption} placeholder=\"Select an option\" />\n              "))), _react["default"].createElement(_flatArrayExample["default"], null), _react["default"].createElement(_objectArrayExample["default"], null), _react["default"].createElement(_zeroValObjectArrayExample["default"], null), _react["default"].createElement(_CustomArrowExample["default"], null), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "License: ")), _react["default"].createElement("footer", null, _react["default"].createElement("p", null, "MIT | Build for ", _react["default"].createElement("a", {
-        href: "https://csviz.org"
-      }, "CSViz"), " project @", _react["default"].createElement("a", {
-        href: "http://wiredcraft.com"
-      }, "Wiredcraft"))));
+      }, _react["default"].createElement("pre", null, "\n<Dropdown\n  options={options}\n  onChange={this._onSelect}\n  value={defaultOption}\n  placeholder=\"Select an option\" />\n              "))), _react["default"].createElement(_flatArrayExample["default"], null), _react["default"].createElement(_objectArrayExample["default"], null), _react["default"].createElement(_zeroValObjectArrayExample["default"], null), _react["default"].createElement(_customArrowExample["default"], null), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "License: MIT")));
     }
   }]);
 
@@ -247,7 +246,7 @@ function (_Component) {
 
 _reactDom["default"].render(_react["default"].createElement(App, null), document.querySelector('#app'));
 
-},{"./CustomArrowExample":1,"./flatArrayExample":2,"./objectArrayExample":4,"./zeroValObjectArrayExample":5,"react":17,"react-dom":14}],4:[function(require,module,exports){
+},{"./customArrowExample":1,"./flatArrayExample":2,"./objectArrayExample":4,"./zeroValObjectArrayExample":5,"react":17,"react-dom":14}],4:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

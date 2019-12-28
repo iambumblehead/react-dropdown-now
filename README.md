@@ -5,12 +5,118 @@ react-dropdown-now
 [![Downloads][downloads-image]][downloads-url]
 [![Build Status](https://travis-ci.org/iambumblehead/react-dropdown-now.svg?branch=master)](https://travis-ci.org/iambumblehead/react-dropdown-now)
 
-Please see the README at [react-dropdown,][0] from which this project is a fork. React-dropdown is seemingly abondoned and this fork will manage minimal changes allowing the dropdown to used in newer react applications.
+The [demo page is here.][1] react-dropdown-now is a fork of [react-dropdown.][0]
+```Javascript
+import Dropdown from 'react-dropdown-now';
+import 'react-dropdown-now/style.css';
 
-The [demo page is here.][1]
+const options = ['one', 'two', 'three'];
+const defaultOption = options[0];
+
+<Dropdown
+  options={options}
+  onChange={this._onSelect}
+  value={defaultOption}
+  placeholder="Select an option" />;
+```
+
+**Flat Array options**
+
+```JavaScript
+const options = [
+  'one', 'two', 'three'
+];
+```
+
+**Object Array options**
+
+```JavaScript
+const options = [
+  { value: 'one', label: 'One' },
+  { value: 'two', label: 'Two', className: 'myOptionClassName' },
+  {
+   type: 'group', name: 'group1', items: [
+     { value: 'three', label: 'Three', className: 'myOptionClassName' },
+     { value: 'four', label: 'Four' }
+   ]
+  },
+  {
+   type: 'group', name: 'group2', items: [
+     { value: 'five', label: 'Five' },
+     { value: 'six', label: 'Six' }
+   ]
+  }
+];
+```
+
+When using Object options you can add to each option a className string to further customize the dropdown, e.g. adding icons to options
+
+**Disabled**
+
+```JavaScript
+<Dropdown disabled option={options} value={defaultOption} />;
+```
+
+-----------------------------------
+### Customizing
+
+**className**
+
+The `className` prop is passed down to the wrapper `div`, which also has the `Dropdown-root` class.
+
+```JavaScript
+<Dropdown className='myClassName' />;
+```
+
+**controlClassName**
+
+The `controlClassName` prop is passed down to the control `div`, which also has the `Dropdown-control` class.
+
+```JavaScript
+<Dropdown controlClassName='myControlClassName' />;
+```
+
+**placeholderClassName**
+
+The `placeholderClassName` prop is passed down to the placeholder `div`, which also has the `Dropdown-placeholder` class.
+
+```JavaScript
+<Dropdown placeholderClassName='myPlaceholderClassName' />;
+```
+
+**menuClassName**
+
+The `menuClassName` prop is passed down to the menu `div` (the one that opens and closes and holds the options), which also has the `Dropdown-menu` class.
+
+```JavaScript
+<Dropdown menuClassName='myMenuClassName' />;
+```
+
+**arrowClassName**
+
+The `arrowClassName` prop is passed down to the arrow `span` , which also has the `Dropdown-arrow` class.
+
+```JavaScript
+<Dropdown arrowClassName='myArrowClassName' />;
+```
+
+**arrowClosed**, **arrowOpen**
+
+The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the open/closed state arrows.
+
+```JavaScript
+<Dropdown
+  arrowClosed={<span className="arrow-closed" />}
+  arrowOpen={<span className="arrow-open" />} />;
+```
+
+More [examples in the docs folder.][2]
+
 
 [0]: https://github.com/fraserxu/react-dropdown
 [1]: https://iambumblehead.github.io/react-dropdown-now/
+[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
+
 
 ### License
 
