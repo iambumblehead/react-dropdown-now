@@ -504,7 +504,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.Option = void 0;
+exports["default"] = exports.OptionsMenu = exports.OptionGroup = exports.Option = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -519,14 +519,6 @@ function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -544,6 +536,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 var DEFAULT_BASE_CLASSNAME = 'Dropdown';
@@ -551,6 +551,14 @@ var DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
 var isValidLabelOrValue = function isValidLabelOrValue(value) {
   return /string|boolean|number/.test(_typeof(value));
+};
+
+var isValueSelected = function isValueSelected(value) {
+  return isValidLabelOrValue(value) || value !== '';
+};
+
+var getOptionName = function getOptionName(option) {
+  return option.name;
 };
 
 var getOptionLabel = function getOptionLabel(option) {
@@ -562,6 +570,46 @@ var getOptionLabel = function getOptionLabel(option) {
 var getOptionValue = function getOptionValue(option) {
   var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
   if (isValidLabelOrValue(option.value)) value = option.value;else if (isValidLabelOrValue(option.label)) value = option.label;
+  return value;
+};
+
+var parseOptionValue = function parseOptionValue(option, value) {
+  var optionValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
+
+  if (option.type === 'group') {
+    var match = option.items.filter(function (item) {
+      return item.value === value;
+    });
+
+    if (match.length) {
+      var _match = _slicedToArray(match, 1);
+
+      optionValue = _match[0];
+    }
+  } else if (isValidLabelOrValue(option.value) && getOptionValue(option) === value) {
+    optionValue = option;
+  }
+
+  return optionValue;
+};
+
+var parseOptionsValue = function parseOptionsValue(options, value) {
+  console.log({
+    options: options,
+    value: value
+  });
+
+  if (typeof value === 'string') {
+    for (var i = options.length, optionValue; i--;) {
+      optionValue = parseOptionValue(options[i], value);
+
+      if (optionValue !== null) {
+        value = optionValue;
+        break;
+      }
+    }
+  }
+
   return value;
 };
 
@@ -594,6 +642,64 @@ var Option = function Option(_ref) {
 
 exports.Option = Option;
 
+var OptionGroup = function OptionGroup(_ref2) {
+  var option = _ref2.option,
+      selected = _ref2.selected,
+      baseClassName = _ref2.baseClassName,
+      onSelect = _ref2.onSelect;
+  baseClassName = isValidLabelOrValue(baseClassName) ? baseClassName : DEFAULT_BASE_CLASSNAME;
+  return _react["default"].createElement("div", {
+    className: "".concat(baseClassName, "-group"),
+    key: option.name,
+    role: "listbox",
+    tabIndex: "-1"
+  }, _react["default"].createElement("div", {
+    className: "".concat(baseClassName, "-title")
+  }, option.name), option.items.map(function (item) {
+    return _react["default"].createElement(Option, {
+      key: getOptionValue(item),
+      option: item,
+      selected: selected,
+      baseClassName: baseClassName,
+      onSelect: onSelect
+    });
+  }));
+};
+
+exports.OptionGroup = OptionGroup;
+
+var OptionsMenu = function OptionsMenu(_ref3) {
+  var options = _ref3.options,
+      selected = _ref3.selected,
+      baseClassName = _ref3.baseClassName,
+      onSelect = _ref3.onSelect;
+  baseClassName = isValidLabelOrValue(baseClassName) ? baseClassName : DEFAULT_BASE_CLASSNAME;
+
+  if (options.length === 0) {
+    return _react["default"].createElement("div", {
+      className: "".concat(baseClassName, "-noresults")
+    }, "No options found");
+  }
+
+  return options.map(function (option) {
+    return option.type === 'group' ? _react["default"].createElement(OptionGroup, {
+      key: getOptionName(option),
+      option: option,
+      selected: selected,
+      baseClassName: baseClassName,
+      onSelect: onSelect
+    }) : _react["default"].createElement(Option, {
+      key: getOptionValue(option),
+      option: option,
+      selected: selected,
+      baseClassName: baseClassName,
+      onSelect: onSelect
+    });
+  });
+};
+
+exports.OptionsMenu = OptionsMenu;
+
 var Dropdown =
 /*#__PURE__*/
 function (_Component) {
@@ -606,7 +712,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Dropdown).call(this, props));
     _this.state = {
-      selected: _this.parseValue(props.value, props.options) || {
+      selected: parseOptionsValue(props.options, props.value) || {
         label: typeof props.placeholder === 'undefined' ? DEFAULT_PLACEHOLDER_STRING : props.placeholder,
         value: ''
       },
@@ -623,7 +729,7 @@ function (_Component) {
     value: function componentDidUpdate(prevProps) {
       if (this.props.value !== prevProps.value) {
         if (this.props.value) {
-          var selected = this.parseValue(this.props.value, this.props.options);
+          var selected = parseOptionsValue(this.props.options, this.props.value);
 
           if (selected !== this.state.selected) {
             this.setState({
@@ -671,31 +777,6 @@ function (_Component) {
       }
     }
   }, {
-    key: "parseValue",
-    value: function parseValue(value, options) {
-      var option;
-
-      if (typeof value === 'string') {
-        for (var i = 0, num = options.length; i < num; i++) {
-          if (options[i].type === 'group') {
-            var match = options[i].items.filter(function (item) {
-              return item.value === value;
-            });
-
-            if (match.length) {
-              var _match = _slicedToArray(match, 1);
-
-              option = _match[0];
-            }
-          } else if (typeof options[i].value !== 'undefined' && options[i].value === value) {
-            option = options[i];
-          }
-        }
-      }
-
-      return option || value;
-    }
-  }, {
     key: "setValue",
     value: function setValue(value, label) {
       var newState = {
@@ -716,52 +797,6 @@ function (_Component) {
       }
     }
   }, {
-    key: "buildMenu",
-    value: function buildMenu() {
-      var _this2 = this;
-
-      var _this$props = this.props,
-          options = _this$props.options,
-          baseClassName = _this$props.baseClassName;
-      var ops = options.map(function (option) {
-        if (option.type === 'group') {
-          var groupTitle = _react["default"].createElement("div", {
-            className: "".concat(baseClassName, "-title")
-          }, option.name);
-
-          return _react["default"].createElement("div", {
-            className: "".concat(baseClassName, "-group"),
-            key: option.name,
-            role: "listbox",
-            tabIndex: "-1"
-          }, groupTitle, option.items.map(function (item) {
-            return _react["default"].createElement(Option, {
-              key: getOptionValue(option),
-              option: item,
-              selected: getSelectedValue(_this2.state.selected),
-              baseClassName: baseClassName,
-              onSelect: function onSelect(e, value, label) {
-                return _this2.setValue(value, label);
-              }
-            });
-          }));
-        }
-
-        return _react["default"].createElement(Option, {
-          key: getOptionValue(option),
-          option: option,
-          selected: getSelectedValue(_this2.state.selected),
-          baseClassName: baseClassName,
-          onSelect: function onSelect(e, value, label) {
-            return _this2.setValue(value, label);
-          }
-        });
-      });
-      return ops.length ? ops : _react["default"].createElement("div", {
-        className: "".concat(baseClassName, "-noresults")
-      }, "No options found");
-    }
-  }, {
     key: "handleDocumentClick",
     value: function handleDocumentClick(event) {
       if (this.mounted) {
@@ -776,41 +811,31 @@ function (_Component) {
       }
     }
   }, {
-    key: "isValueSelected",
-    value: function isValueSelected() {
-      var selected = this.state.selected;
-      return Boolean(typeof selected === 'string' || selected.value !== '');
-    }
-  }, {
     key: "render",
     value: function render() {
-      var _classNames, _classNames2, _classNames3, _classNames4, _classNames5;
+      var _classNames,
+          _classNames2,
+          _classNames3,
+          _classNames4,
+          _classNames5,
+          _this2 = this;
 
-      var _this$props2 = this.props,
-          baseClassName = _this$props2.baseClassName,
-          controlClassName = _this$props2.controlClassName,
-          placeholderClassName = _this$props2.placeholderClassName,
-          menuClassName = _this$props2.menuClassName,
-          arrowClassName = _this$props2.arrowClassName,
-          arrowClosed = _this$props2.arrowClosed,
-          arrowOpen = _this$props2.arrowOpen,
-          className = _this$props2.className;
+      var _this$props = this.props,
+          baseClassName = _this$props.baseClassName,
+          controlClassName = _this$props.controlClassName,
+          placeholderClassName = _this$props.placeholderClassName,
+          menuClassName = _this$props.menuClassName,
+          arrowClassName = _this$props.arrowClassName,
+          arrowClosed = _this$props.arrowClosed,
+          arrowOpen = _this$props.arrowOpen,
+          className = _this$props.className;
       var disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
       var placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
       var dropdownClass = (0, _classnames["default"])((_classNames = {}, _defineProperty(_classNames, "".concat(baseClassName, "-root"), true), _defineProperty(_classNames, className, !!className), _defineProperty(_classNames, 'is-open', this.state.isOpen), _classNames));
       var controlClass = (0, _classnames["default"])((_classNames2 = {}, _defineProperty(_classNames2, "".concat(baseClassName, "-control"), true), _defineProperty(_classNames2, controlClassName, !!controlClassName), _defineProperty(_classNames2, disabledClass, !!disabledClass), _classNames2));
-      var placeholderClass = (0, _classnames["default"])((_classNames3 = {}, _defineProperty(_classNames3, "".concat(baseClassName, "-placeholder"), true), _defineProperty(_classNames3, placeholderClassName, !!placeholderClassName), _defineProperty(_classNames3, 'is-selected', this.isValueSelected()), _classNames3));
+      var placeholderClass = (0, _classnames["default"])((_classNames3 = {}, _defineProperty(_classNames3, "".concat(baseClassName, "-placeholder"), true), _defineProperty(_classNames3, placeholderClassName, !!placeholderClassName), _defineProperty(_classNames3, 'is-selected', isValueSelected(this.state.selected)), _classNames3));
       var menuClass = (0, _classnames["default"])((_classNames4 = {}, _defineProperty(_classNames4, "".concat(baseClassName, "-menu"), true), _defineProperty(_classNames4, menuClassName, !!menuClassName), _classNames4));
       var arrowClass = (0, _classnames["default"])((_classNames5 = {}, _defineProperty(_classNames5, "".concat(baseClassName, "-arrow"), true), _defineProperty(_classNames5, arrowClassName, !!arrowClassName), _classNames5));
-
-      var value = _react["default"].createElement("div", {
-        className: placeholderClass
-      }, placeHolderValue);
-
-      var menu = this.state.isOpen ? _react["default"].createElement("div", {
-        className: menuClass,
-        "aria-expanded": "true"
-      }, this.buildMenu()) : null;
       return _react["default"].createElement("div", {
         className: dropdownClass
       }, _react["default"].createElement("div", {
@@ -818,11 +843,23 @@ function (_Component) {
         onMouseDown: this.handleMouseDown.bind(this),
         onTouchEnd: this.handleMouseDown.bind(this),
         "aria-haspopup": "listbox"
-      }, value, _react["default"].createElement("div", {
+      }, _react["default"].createElement("div", {
+        className: placeholderClass
+      }, placeHolderValue), _react["default"].createElement("div", {
         className: "".concat(baseClassName, "-arrow-wrapper")
       }, arrowOpen && arrowClosed ? this.state.isOpen ? arrowOpen : arrowClosed : _react["default"].createElement("span", {
         className: arrowClass
-      }))), menu);
+      }))), this.state.isOpen ? _react["default"].createElement("div", {
+        className: menuClass,
+        "aria-expanded": "true"
+      }, _react["default"].createElement(OptionsMenu, {
+        options: this.props.options,
+        baseClassName: this.props.baseClassName,
+        selected: getSelectedValue(this.state.selected),
+        onSelect: function onSelect(e, value, label) {
+          return _this2.setValue(value, label);
+        }
+      })) : null);
     }
   }]);
 

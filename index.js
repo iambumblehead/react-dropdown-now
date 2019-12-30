@@ -9,6 +9,10 @@ const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 const isValidLabelOrValue = value => (
   /string|boolean|number/.test(typeof value));
 
+const isValueSelected = value => isValidLabelOrValue(value) || value !== '';
+
+const getOptionName = option => option.name;
+
 const getOptionLabel = (option, label = option) => {
   if (isValidLabelOrValue(option.label))
     label = option.label;
@@ -23,6 +27,38 @@ const getOptionValue = (option, value = option) => {
     value = option.value;
   else if (isValidLabelOrValue(option.label))
     value = option.label;
+
+  return value;
+};
+
+const parseOptionValue = (option, value, optionValue = null) => {
+  if (option.type === 'group') {
+    const match = option.items.filter(item => item.value === value);
+    if (match.length) {
+      [ optionValue ] = match;
+    }
+  } else if (
+    isValidLabelOrValue(option.value)
+      && getOptionValue(option) === value) {
+    optionValue = option;
+  }
+
+  return optionValue;
+};
+
+const parseOptionsValue = (options, value) => {
+  console.log({ options, value });
+
+  if (typeof value === 'string') {
+    for (let i = options.length, optionValue; i--;) {
+      optionValue = parseOptionValue(options[i], value);
+
+      if (optionValue !== null) {
+        value = optionValue;
+        break;
+      }
+    }
+  }
 
   return value;
 };
@@ -54,11 +90,67 @@ export const Option = ({ option, selected, baseClassName, onSelect }) => {
   );
 };
 
+export const OptionGroup = ({ option, selected, baseClassName, onSelect }) => {
+  baseClassName = isValidLabelOrValue(baseClassName)
+    ? baseClassName
+    : DEFAULT_BASE_CLASSNAME;
+
+  return (
+    <div
+      className={`${baseClassName}-group`}
+      key={option.name}
+      role='listbox'
+      tabIndex='-1'>
+      <div className={`${baseClassName}-title`}>
+        {option.name}
+      </div>
+      {option.items.map(item => (
+        <Option
+          key={getOptionValue(item)}
+          option={item}
+          selected={selected}
+          baseClassName={baseClassName}
+          onSelect={onSelect} />
+      ))}
+    </div>
+  );
+};
+
+export const OptionsMenu = ({ options, selected, baseClassName, onSelect }) => {
+  baseClassName = isValidLabelOrValue(baseClassName)
+    ? baseClassName
+    : DEFAULT_BASE_CLASSNAME;
+
+  if (options.length === 0) {
+    return (
+      <div className={`${baseClassName}-noresults`}>
+        No options found
+      </div>
+    );
+  }
+
+  return options.map(option => option.type === 'group' ? (
+    <OptionGroup
+      key={getOptionName(option)}
+      option={option}
+      selected={selected}
+      baseClassName={baseClassName}
+      onSelect={onSelect} />
+  ) : (
+    <Option
+      key={getOptionValue(option)}
+      option={option}
+      selected={selected}
+      baseClassName={baseClassName}
+      onSelect={onSelect} />
+  ));
+};
+
 class Dropdown extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      selected: this.parseValue(props.value, props.options) || {
+      selected: parseOptionsValue(props.options, props.value) || {
         label: typeof props.placeholder === 'undefined'
           ? DEFAULT_PLACEHOLDER_STRING
           : props.placeholder,
@@ -74,7 +166,7 @@ class Dropdown extends Component {
   componentDidUpdate (prevProps) {
     if (this.props.value !== prevProps.value) {
       if (this.props.value) {
-        let selected = this.parseValue(this.props.value, this.props.options);
+        let selected = parseOptionsValue(this.props.options, this.props.value);
         if (selected !== this.state.selected) {
           this.setState({ selected });
         }
@@ -117,27 +209,6 @@ class Dropdown extends Component {
     }
   }
 
-  parseValue (value, options) {
-    let option;
-
-    if (typeof value === 'string') {
-      for (let i = 0, num = options.length; i < num; i++) {
-        if (options[i].type === 'group') {
-          const match = options[i].items.filter(item => item.value === value);
-          if (match.length) {
-            [ option ] = match;
-          }
-        } else if (
-          typeof options[i].value !== 'undefined' && options[i].value === value
-        ) {
-          option = options[i];
-        }
-      }
-    }
-
-    return option || value;
-  }
-
   setValue (value, label) {
     let newState = {
       selected: {
@@ -156,53 +227,6 @@ class Dropdown extends Component {
     }
   }
 
-  buildMenu () {
-    let { options, baseClassName } = this.props;
-    let ops = options.map(option => {
-      if (option.type === 'group') {
-        let groupTitle = (
-          <div className={`${baseClassName}-title`}>
-            {option.name}
-          </div>
-        );
-        return (
-          <div
-            className={`${baseClassName}-group`}
-            key={option.name} role='listbox'
-            tabIndex='-1'
-          >
-            {groupTitle}
-            {option.items.map(item => (
-              <Option
-                key={getOptionValue(option)}
-                option={item}
-                selected={getSelectedValue(this.state.selected)}
-                baseClassName={baseClassName}
-                onSelect={(e, value, label) => this.setValue(value, label)}
-              />
-            ))}
-          </div>
-        );
-      }
-
-      return (
-        <Option
-          key={getOptionValue(option)}
-          option={option}
-          selected={getSelectedValue(this.state.selected)}
-          baseClassName={baseClassName}
-          onSelect={(e, value, label) => this.setValue(value, label)}
-        />
-      );
-    });
-
-    return ops.length ? ops : (
-      <div className={`${baseClassName}-noresults`}>
-        No options found
-      </div>
-    );
-  }
-
   handleDocumentClick (event) {
     if (this.mounted) {
       // eslint-disable-next-line react/no-find-dom-node
@@ -212,14 +236,6 @@ class Dropdown extends Component {
         }
       }
     }
-  }
-
-  isValueSelected () {
-    let { selected } = this.state;
-
-    return Boolean(
-      typeof selected === 'string' || selected.value !== ''
-    );
   }
 
   render () {
@@ -252,7 +268,7 @@ class Dropdown extends Component {
     const placeholderClass = classNames({
       [`${baseClassName}-placeholder`]: true,
       [placeholderClassName]: !!placeholderClassName,
-      'is-selected': this.isValueSelected()
+      'is-selected': isValueSelected(this.state.selected)
     });
     const menuClass = classNames({
       [`${baseClassName}-menu`]: true,
@@ -263,33 +279,31 @@ class Dropdown extends Component {
       [arrowClassName]: !!arrowClassName
     });
 
-    const value = (
-      <div className={placeholderClass}>
-        {placeHolderValue}
-      </div>
-    );
-    const menu = this.state.isOpen ? (
-      <div className={menuClass} aria-expanded='true'>
-        {this.buildMenu()}
-      </div>
-    ) : null;
-
     return (
       <div className={dropdownClass}>
         <div
           className={controlClass}
           onMouseDown={this.handleMouseDown.bind(this)}
           onTouchEnd={this.handleMouseDown.bind(this)}
-          aria-haspopup='listbox'
-        >
-          {value}
+          aria-haspopup='listbox'>
+          <div className={placeholderClass}>
+            {placeHolderValue}
+          </div>
           <div className={`${baseClassName}-arrow-wrapper`}>
             {arrowOpen && arrowClosed
               ? this.state.isOpen ? arrowOpen : arrowClosed
               : <span className={arrowClass} />}
           </div>
         </div>
-        {menu}
+        {this.state.isOpen ? (
+          <div className={menuClass} aria-expanded='true'>
+            <OptionsMenu
+              options={this.props.options}
+              baseClassName={this.props.baseClassName}
+              selected={getSelectedValue(this.state.selected)}
+              onSelect={(e, value, label) => this.setValue(value, label)} />
+          </div>
+        ) : null}
       </div>
     );
   }
