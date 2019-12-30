@@ -38,7 +38,7 @@ class App extends Component {
               {`
 <Dropdown
   options={options}
-  onChange={this._onSelect}
+  onChange={onChange}
   value={defaultOption}
   placeholder="Select an option" />
               `}

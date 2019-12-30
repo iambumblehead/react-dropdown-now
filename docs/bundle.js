@@ -237,7 +237,7 @@ function (_Component) {
         className: "code"
       }, _react["default"].createElement("pre", null, '$ npm install react-dropdown --save'))), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "Examples: "), _react["default"].createElement("h4", null, "Usage: "), _react["default"].createElement("div", {
         className: "code"
-      }, _react["default"].createElement("pre", null, "\n<Dropdown\n  options={options}\n  onChange={this._onSelect}\n  value={defaultOption}\n  placeholder=\"Select an option\" />\n              "))), _react["default"].createElement(_flatArrayExample["default"], null), _react["default"].createElement(_objectArrayExample["default"], null), _react["default"].createElement(_zeroValObjectArrayExample["default"], null), _react["default"].createElement(_customArrowExample["default"], null), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "License: MIT")));
+      }, _react["default"].createElement("pre", null, "\n<Dropdown\n  options={options}\n  onChange={onChange}\n  value={defaultOption}\n  placeholder=\"Select an option\" />\n              "))), _react["default"].createElement(_flatArrayExample["default"], null), _react["default"].createElement(_objectArrayExample["default"], null), _react["default"].createElement(_zeroValObjectArrayExample["default"], null), _react["default"].createElement(_customArrowExample["default"], null), _react["default"].createElement("section", null, _react["default"].createElement("h3", null, "License: MIT")));
     }
   }]);
 
@@ -504,7 +504,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.Option = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -517,8 +517,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function _getRequireWildcardCache() { return cache; }; return cache; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -546,7 +544,55 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+var DEFAULT_BASE_CLASSNAME = 'Dropdown';
 var DEFAULT_PLACEHOLDER_STRING = 'Select...';
+
+var isValidLabelOrValue = function isValidLabelOrValue(value) {
+  return /string|boolean|number/.test(_typeof(value));
+};
+
+var getOptionLabel = function getOptionLabel(option) {
+  var label = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
+  if (isValidLabelOrValue(option.label)) label = option.label;else if (isValidLabelOrValue(option.value)) label = option.value;
+  return label;
+};
+
+var getOptionValue = function getOptionValue(option) {
+  var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
+  if (isValidLabelOrValue(option.value)) value = option.value;else if (isValidLabelOrValue(option.label)) value = option.label;
+  return value;
+};
+
+var getSelectedValue = function getSelectedValue(selected) {
+  return selected && isValidLabelOrValue(selected.value) ? selected.value : selected;
+};
+
+var Option = function Option(_ref) {
+  var option = _ref.option,
+      selected = _ref.selected,
+      baseClassName = _ref.baseClassName,
+      onSelect = _ref.onSelect;
+  var value = getOptionValue(option);
+  var label = getOptionLabel(option);
+  var isSelected = value === selected;
+  return _react["default"].createElement("div", {
+    className: ["".concat(baseClassName || DEFAULT_BASE_CLASSNAME, "-option"), option.className, isSelected ? 'is-selected' : ''].filter(function (e) {
+      return e;
+    }).join(' '),
+    onMouseDown: function onMouseDown(e) {
+      return onSelect(e, value, label);
+    },
+    onClick: function onClick(e) {
+      return onSelect(e, value, label);
+    },
+    role: "option",
+    "aria-selected": String(isSelected)
+  }, label);
+};
+
+exports.Option = Option;
 
 var Dropdown =
 /*#__PURE__*/
@@ -670,30 +716,6 @@ function (_Component) {
       }
     }
   }, {
-    key: "renderOption",
-    value: function renderOption(option) {
-      var _classes;
-
-      var value = option.value;
-
-      if (typeof value === 'undefined') {
-        value = option.label || option;
-      }
-
-      var label = option.label || option.value || option;
-      var isSelected = value === this.state.selected.value || value === this.state.selected;
-      var classes = (_classes = {}, _defineProperty(_classes, "".concat(this.props.baseClassName, "-option"), true), _defineProperty(_classes, option.className, !!option.className), _defineProperty(_classes, 'is-selected', isSelected), _classes);
-      var optionClass = (0, _classnames["default"])(classes);
-      return _react["default"].createElement("div", {
-        key: value,
-        className: optionClass,
-        onMouseDown: this.setValue.bind(this, value, label),
-        onClick: this.setValue.bind(this, value, label),
-        role: "option",
-        "aria-selected": isSelected ? 'true' : 'false'
-      }, label);
-    }
-  }, {
     key: "buildMenu",
     value: function buildMenu() {
       var _this2 = this;
@@ -707,18 +729,33 @@ function (_Component) {
             className: "".concat(baseClassName, "-title")
           }, option.name);
 
-          var tmpoptions = option.items.map(function (item) {
-            return _this2.renderOption(item);
-          });
           return _react["default"].createElement("div", {
             className: "".concat(baseClassName, "-group"),
             key: option.name,
             role: "listbox",
             tabIndex: "-1"
-          }, groupTitle, tmpoptions);
+          }, groupTitle, option.items.map(function (item) {
+            return _react["default"].createElement(Option, {
+              key: getOptionValue(option),
+              option: item,
+              selected: getSelectedValue(_this2.state.selected),
+              baseClassName: baseClassName,
+              onSelect: function onSelect(e, value, label) {
+                return _this2.setValue(value, label);
+              }
+            });
+          }));
         }
 
-        return _this2.renderOption(option);
+        return _react["default"].createElement(Option, {
+          key: getOptionValue(option),
+          option: option,
+          selected: getSelectedValue(_this2.state.selected),
+          baseClassName: baseClassName,
+          onSelect: function onSelect(e, value, label) {
+            return _this2.setValue(value, label);
+          }
+        });
       });
       return ops.length ? ops : _react["default"].createElement("div", {
         className: "".concat(baseClassName, "-noresults")
@@ -793,7 +830,7 @@ function (_Component) {
 }(_react.Component);
 
 Dropdown.defaultProps = {
-  baseClassName: 'Dropdown'
+  baseClassName: DEFAULT_BASE_CLASSNAME
 };
 var _default = Dropdown;
 exports["default"] = _default;
