@@ -6,14 +6,15 @@ const DEFAULT_BASE_CLASSNAME = 'Dropdown';
 
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
-const isValidLabelOrValue = value => (
+export const isValidLabelOrValue = value => (
   /string|boolean|number/.test(typeof value));
 
-const isValueSelected = value => isValidLabelOrValue(value) || value !== '';
+export const isValueSelected = value => (
+  isValidLabelOrValue(value) || value !== '');
 
-const getOptionName = option => option.name;
+export const getOptionName = option => option.name;
 
-const getOptionLabel = (option, label = option) => {
+export const getOptionLabel = (option, label = option) => {
   if (isValidLabelOrValue(option.label))
     label = option.label;
   else if (isValidLabelOrValue(option.value))
@@ -22,7 +23,7 @@ const getOptionLabel = (option, label = option) => {
   return label;
 };
 
-const getOptionValue = (option, value = option) => {
+export const getOptionValue = (option, value = option) => {
   if (isValidLabelOrValue(option.value))
     value = option.value;
   else if (isValidLabelOrValue(option.label))
@@ -31,7 +32,7 @@ const getOptionValue = (option, value = option) => {
   return value;
 };
 
-const parseOptionValue = (option, value, optionValue = null) => {
+export const parseOptionValue = (option, value, optionValue = null) => {
   if (option.type === 'group') {
     const match = option.items.filter(item => item.value === value);
     if (match.length) {
@@ -46,9 +47,7 @@ const parseOptionValue = (option, value, optionValue = null) => {
   return optionValue;
 };
 
-const parseOptionsValue = (options, value) => {
-  console.log({ options, value });
-
+export const parseOptionsValue = (options, value) => {
   if (typeof value === 'string') {
     for (let i = options.length, optionValue; i--;) {
       optionValue = parseOptionValue(options[i], value);
@@ -63,7 +62,7 @@ const parseOptionsValue = (options, value) => {
   return value;
 };
 
-const getSelectedValue = selected => (
+export const getSelectedValue = selected => (
   (selected && isValidLabelOrValue(selected.value))
     ? selected.value
     : selected
