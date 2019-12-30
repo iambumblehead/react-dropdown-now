@@ -12,6 +12,18 @@ export const isValidLabelOrValue = value => (
 export const isValueSelected = value => (
   isValidLabelOrValue(value) || value !== '');
 
+export const getSelectedValue = selected => (
+  (selected && isValidLabelOrValue(selected.value))
+    ? selected.value
+    : selected
+);
+
+export const getSelectedLabel = selected => (
+  (selected && isValidLabelOrValue(selected.label))
+    ? selected.label
+    : selected
+);
+
 export const getOptionName = option => option.name;
 
 export const getOptionLabel = (option, label = option) => {
@@ -61,12 +73,6 @@ export const parseOptionsValue = (options, value) => {
 
   return value;
 };
-
-export const getSelectedValue = selected => (
-  (selected && isValidLabelOrValue(selected.value))
-    ? selected.value
-    : selected
-);
 
 export const Option = ({ option, selected, baseClassName, onSelect }) => {
   const value = getOptionValue(option);
@@ -172,9 +178,9 @@ class Dropdown extends Component {
       } else {
         this.setState({
           selected: {
-            label: typeof this.props.placeholder === 'undefined'
-              ? DEFAULT_PLACEHOLDER_STRING
-              : this.props.placeholder,
+            label: isValidLabelOrValue(this.props.placeholder)
+              ? this.props.placeholder
+              : DEFAULT_PLACEHOLDER_STRING,
             value: ''
           }
         });
@@ -250,10 +256,7 @@ class Dropdown extends Component {
     } = this.props;
 
     const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
-    const placeHolderValue = typeof this.state.selected === 'string'
-      ? this.state.selected
-      : this.state.selected.label;
-
+    const placeHolderValue = getSelectedLabel(this.state.selected);
     const dropdownClass = classNames({
       [`${baseClassName}-root`]: true,
       [className]: !!className,
@@ -298,7 +301,7 @@ class Dropdown extends Component {
           <div className={menuClass} aria-expanded='true'>
             <OptionsMenu
               options={this.props.options}
-              baseClassName={this.props.baseClassName}
+              baseClassName={baseClassName}
               selected={getSelectedValue(this.state.selected)}
               onSelect={(e, value, label) => this.setValue(value, label)} />
           </div>

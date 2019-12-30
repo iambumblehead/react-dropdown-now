@@ -504,7 +504,7 @@ exports["default"] = _default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.OptionsMenu = exports.OptionGroup = exports.Option = void 0;
+exports["default"] = exports.OptionsMenu = exports.OptionGroup = exports.Option = exports.parseOptionsValue = exports.parseOptionValue = exports.getOptionValue = exports.getOptionLabel = exports.getOptionName = exports.getSelectedLabel = exports.getSelectedValue = exports.isValueSelected = exports.isValidLabelOrValue = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
@@ -553,13 +553,31 @@ var isValidLabelOrValue = function isValidLabelOrValue(value) {
   return /string|boolean|number/.test(_typeof(value));
 };
 
+exports.isValidLabelOrValue = isValidLabelOrValue;
+
 var isValueSelected = function isValueSelected(value) {
   return isValidLabelOrValue(value) || value !== '';
 };
 
+exports.isValueSelected = isValueSelected;
+
+var getSelectedValue = function getSelectedValue(selected) {
+  return selected && isValidLabelOrValue(selected.value) ? selected.value : selected;
+};
+
+exports.getSelectedValue = getSelectedValue;
+
+var getSelectedLabel = function getSelectedLabel(selected) {
+  return selected && isValidLabelOrValue(selected.label) ? selected.label : selected;
+};
+
+exports.getSelectedLabel = getSelectedLabel;
+
 var getOptionName = function getOptionName(option) {
   return option.name;
 };
+
+exports.getOptionName = getOptionName;
 
 var getOptionLabel = function getOptionLabel(option) {
   var label = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
@@ -567,11 +585,15 @@ var getOptionLabel = function getOptionLabel(option) {
   return label;
 };
 
+exports.getOptionLabel = getOptionLabel;
+
 var getOptionValue = function getOptionValue(option) {
   var value = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
   if (isValidLabelOrValue(option.value)) value = option.value;else if (isValidLabelOrValue(option.label)) value = option.label;
   return value;
 };
+
+exports.getOptionValue = getOptionValue;
 
 var parseOptionValue = function parseOptionValue(option, value) {
   var optionValue = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
@@ -593,12 +615,9 @@ var parseOptionValue = function parseOptionValue(option, value) {
   return optionValue;
 };
 
-var parseOptionsValue = function parseOptionsValue(options, value) {
-  console.log({
-    options: options,
-    value: value
-  });
+exports.parseOptionValue = parseOptionValue;
 
+var parseOptionsValue = function parseOptionsValue(options, value) {
   if (typeof value === 'string') {
     for (var i = options.length, optionValue; i--;) {
       optionValue = parseOptionValue(options[i], value);
@@ -613,9 +632,7 @@ var parseOptionsValue = function parseOptionsValue(options, value) {
   return value;
 };
 
-var getSelectedValue = function getSelectedValue(selected) {
-  return selected && isValidLabelOrValue(selected.value) ? selected.value : selected;
-};
+exports.parseOptionsValue = parseOptionsValue;
 
 var Option = function Option(_ref) {
   var option = _ref.option,
@@ -739,7 +756,7 @@ function (_Component) {
         } else {
           this.setState({
             selected: {
-              label: typeof this.props.placeholder === 'undefined' ? DEFAULT_PLACEHOLDER_STRING : this.props.placeholder,
+              label: isValidLabelOrValue(this.props.placeholder) ? this.props.placeholder : DEFAULT_PLACEHOLDER_STRING,
               value: ''
             }
           });
@@ -830,7 +847,7 @@ function (_Component) {
           arrowOpen = _this$props.arrowOpen,
           className = _this$props.className;
       var disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
-      var placeHolderValue = typeof this.state.selected === 'string' ? this.state.selected : this.state.selected.label;
+      var placeHolderValue = getSelectedLabel(this.state.selected);
       var dropdownClass = (0, _classnames["default"])((_classNames = {}, _defineProperty(_classNames, "".concat(baseClassName, "-root"), true), _defineProperty(_classNames, className, !!className), _defineProperty(_classNames, 'is-open', this.state.isOpen), _classNames));
       var controlClass = (0, _classnames["default"])((_classNames2 = {}, _defineProperty(_classNames2, "".concat(baseClassName, "-control"), true), _defineProperty(_classNames2, controlClassName, !!controlClassName), _defineProperty(_classNames2, disabledClass, !!disabledClass), _classNames2));
       var placeholderClass = (0, _classnames["default"])((_classNames3 = {}, _defineProperty(_classNames3, "".concat(baseClassName, "-placeholder"), true), _defineProperty(_classNames3, placeholderClassName, !!placeholderClassName), _defineProperty(_classNames3, 'is-selected', isValueSelected(this.state.selected)), _classNames3));
@@ -854,7 +871,7 @@ function (_Component) {
         "aria-expanded": "true"
       }, _react["default"].createElement(OptionsMenu, {
         options: this.props.options,
-        baseClassName: this.props.baseClassName,
+        baseClassName: baseClassName,
         selected: getSelectedValue(this.state.selected),
         onSelect: function onSelect(e, value, label) {
           return _this2.setValue(value, label);
