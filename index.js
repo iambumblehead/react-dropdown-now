@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-const DEFAULT_BASE_CLASSNAME = 'Dropdown';
+const BASE_CLASS = 'Dropdown';
 
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
@@ -74,7 +73,8 @@ export const parseOptionsValue = (options, value) => {
   return value;
 };
 
-export const Option = ({ option, selected, baseClassName, onSelect }) => {
+export const Option = props => {
+  const { option, selected, onSelect, baseClassName = BASE_CLASS } = props;
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = value === selected;
@@ -82,7 +82,7 @@ export const Option = ({ option, selected, baseClassName, onSelect }) => {
   return (
     <div
       className={[
-        `${baseClassName || DEFAULT_BASE_CLASSNAME}-option`,
+        `${baseClassName}-option`,
         option.className,
         isSelected ? 'is-selected' : ''
       ].filter(e => e).join(' ')}
@@ -95,10 +95,8 @@ export const Option = ({ option, selected, baseClassName, onSelect }) => {
   );
 };
 
-export const OptionGroup = ({ option, selected, baseClassName, onSelect }) => {
-  baseClassName = isValidLabelOrValue(baseClassName)
-    ? baseClassName
-    : DEFAULT_BASE_CLASSNAME;
+export const OptionGroup = props => {
+  const { option, selected, onSelect, baseClassName = BASE_CLASS } = props;
 
   return (
     <div
@@ -121,10 +119,8 @@ export const OptionGroup = ({ option, selected, baseClassName, onSelect }) => {
   );
 };
 
-export const OptionsMenu = ({ options, selected, baseClassName, onSelect }) => {
-  baseClassName = isValidLabelOrValue(baseClassName)
-    ? baseClassName
-    : DEFAULT_BASE_CLASSNAME;
+export const OptionsMenu = props => {
+  const { options, selected, onSelect, baseClassName = BASE_CLASS } = props;
 
   if (options.length === 0) {
     return (
@@ -149,6 +145,25 @@ export const OptionsMenu = ({ options, selected, baseClassName, onSelect }) => {
       baseClassName={baseClassName}
       onSelect={onSelect} />
   ));
+};
+
+export const Arrow = props => {
+  const {
+    arrowOpen,
+    arrowClosed,
+    arrowClassName = 'arrow',
+    baseClassName = BASE_CLASS,
+    isOpen
+  } = props;
+
+  return (
+    <div className={`${baseClassName}-arrow-wrapper`}>
+      {arrowOpen && arrowClosed
+        ? isOpen ? arrowOpen : arrowClosed
+        : <span className={`${baseClassName}-arrow ${arrowClassName}`} />
+      }
+    </div>
+  );
 };
 
 const createSelectedOption = (options, selectedValue, placeholder) => (
@@ -203,9 +218,7 @@ class Dropdown extends Component {
     if (event.type === 'mousedown' && event.button !== 0) return;
 
     if (!this.props.disabled) {
-      this.setState({
-        isOpen: !this.state.isOpen
-      });
+      this.setState({ isOpen: !this.state.isOpen });
     }
   }
 
@@ -241,9 +254,6 @@ class Dropdown extends Component {
       controlClassName,
       placeholderClassName,
       menuClassName,
-      arrowClassName,
-      arrowClosed,
-      arrowOpen,
       className
     } = this.props;
 
@@ -268,10 +278,6 @@ class Dropdown extends Component {
       [`${baseClassName}-menu`]: true,
       [menuClassName]: !!menuClassName
     });
-    const arrowClass = classNames({
-      [`${baseClassName}-arrow`]: true,
-      [arrowClassName]: !!arrowClassName
-    });
 
     return (
       <div className={dropdownClass} ref={c => this.containerElem = c}>
@@ -283,11 +289,7 @@ class Dropdown extends Component {
           <div className={placeholderClass}>
             {placeHolderValue}
           </div>
-          <div className={`${baseClassName}-arrow-wrapper`}>
-            {arrowOpen && arrowClosed
-              ? this.state.isOpen ? arrowOpen : arrowClosed
-              : <span className={arrowClass} />}
-          </div>
+          <Arrow {...this.props} isOpen={this.state.isOpen} />
         </div>
         {this.state.isOpen ? (
           <div className={menuClass} aria-expanded='true'>
@@ -303,5 +305,5 @@ class Dropdown extends Component {
   }
 }
 
-Dropdown.defaultProps = { baseClassName: DEFAULT_BASE_CLASSNAME };
+Dropdown.defaultProps = { baseClassName: BASE_CLASS };
 export default Dropdown;
