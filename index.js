@@ -151,39 +151,37 @@ export const OptionsMenu = ({ options, selected, baseClassName, onSelect }) => {
   ));
 };
 
+const createSelectedOption = (options, selectedValue, placeholder) => (
+  parseOptionsValue(options, selectedValue) || {
+    label: isValidLabelOrValue(placeholder)
+      ? placeholder
+      : DEFAULT_PLACEHOLDER_STRING,
+    value: ''
+  }
+);
+
 class Dropdown extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      selected: parseOptionsValue(props.options, props.value) || {
-        label: typeof props.placeholder === 'undefined'
-          ? DEFAULT_PLACEHOLDER_STRING
-          : props.placeholder,
-        value: ''
-      },
+      selected: createSelectedOption(
+        props.options, props.value, props.placeholder),
       isOpen: false
     };
-    this.mounted = true;
+    this.containerElem = null;
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
     this.fireChangeEvent = this.fireChangeEvent.bind(this);
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.value !== prevProps.value) {
-      if (this.props.value) {
-        let selected = parseOptionsValue(this.props.options, this.props.value);
-        if (selected !== this.state.selected) {
-          this.setState({ selected });
-        }
-      } else {
-        this.setState({
-          selected: {
-            label: isValidLabelOrValue(this.props.placeholder)
-              ? this.props.placeholder
-              : DEFAULT_PLACEHOLDER_STRING,
-            value: ''
-          }
-        });
+    let { props } = this;
+
+    if (props.value !== prevProps.value) {
+      const selected = createSelectedOption(
+        props.options, props.value, props.placeholder);
+
+      if (selected.value !== this.state.selected.value) {
+        this.setState({ selected });
       }
     }
   }
@@ -194,13 +192,12 @@ class Dropdown extends Component {
   }
 
   componentWillUnmount () {
-    this.mounted = false;
     document.removeEventListener('click', this.handleDocumentClick, false);
     document.removeEventListener('touchend', this.handleDocumentClick, false);
   }
 
   handleMouseDown (event) {
-    if (this.props.onFocus && typeof this.props.onFocus === 'function') {
+    if (typeof this.props.onFocus === 'function') {
       this.props.onFocus(this.state.isOpen);
     }
     if (event.type === 'mousedown' && event.button !== 0) return;
@@ -233,13 +230,10 @@ class Dropdown extends Component {
   }
 
   handleDocumentClick (event) {
-    if (this.mounted) {
-      // eslint-disable-next-line react/no-find-dom-node
-      if (!ReactDOM.findDOMNode(this).contains(event.target)) {
-        if (this.state.isOpen) {
-          this.setState({ isOpen: false });
-        }
-      }
+    if (this.containerElem instanceof Element &&
+        !this.containerElem.contains(event.target) &&
+        this.state.isOpen) {
+      this.setState({ isOpen: false });
     }
   }
 
@@ -282,11 +276,11 @@ class Dropdown extends Component {
     });
 
     return (
-      <div className={dropdownClass}>
+      <div className={dropdownClass} ref={c => this.containerElem = c}>
         <div
           className={controlClass}
-          onMouseDown={this.handleMouseDown.bind(this)}
-          onTouchEnd={this.handleMouseDown.bind(this)}
+          onMouseDown={e => this.handleMouseDown(e)}
+          onTouchEnd={e => this.handleMouseDown(e)}
           aria-haspopup='listbox'>
           <div className={placeholderClass}>
             {placeHolderValue}
