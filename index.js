@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 const BASE_CLASS = 'Dropdown';
 const LOCAL_CLASS = 'now';
 
-const DEFAULT_PLACEHOLDER_STRING = 'Select...';
-
 export const isValidLabelOrValue = value => (
   /string|boolean|number/.test(typeof value));
 
@@ -154,9 +152,7 @@ export const Arrow = props => {
 
 const createSelectedOption = (options, selectedValue, placeholder) => (
   parseOptionsValue(options, selectedValue) || {
-    label: isValidLabelOrValue(placeholder)
-      ? placeholder
-      : DEFAULT_PLACEHOLDER_STRING,
+    label: isValidLabelOrValue(placeholder) ? placeholder : 'Select...',
     value: ''
   }
 );

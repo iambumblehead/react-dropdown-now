@@ -528,7 +528,6 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 var BASE_CLASS = 'Dropdown';
 var LOCAL_CLASS = 'now';
-var DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
 var isValidLabelOrValue = function isValidLabelOrValue(value) {
   return /string|boolean|number/.test(_typeof(value));
@@ -712,7 +711,7 @@ exports.Arrow = Arrow;
 
 var createSelectedOption = function createSelectedOption(options, selectedValue, placeholder) {
   return parseOptionsValue(options, selectedValue) || {
-    label: isValidLabelOrValue(placeholder) ? placeholder : DEFAULT_PLACEHOLDER_STRING,
+    label: isValidLabelOrValue(placeholder) ? placeholder : 'Select...',
     value: ''
   };
 };
