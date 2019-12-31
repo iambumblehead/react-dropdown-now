@@ -62,42 +62,16 @@ When using Object options you can add to each option a className string to furth
 
 **className**
 
-The `className` prop is passed down to the wrapper `div`, which also has the `Dropdown-root` class.
+The `className` prop is passed down to the elements that compose the dropdown. The `className` can be used for applying styles to specific elements.
 
 ```JavaScript
 <Dropdown className='myClassName' />;
 ```
-
-**controlClassName**
-
-The `controlClassName` prop is passed down to the control `div`, which also has the `Dropdown-control` class.
-
-```JavaScript
-<Dropdown controlClassName='myControlClassName' />;
-```
-
-**placeholderClassName**
-
-The `placeholderClassName` prop is passed down to the placeholder `div`, which also has the `Dropdown-placeholder` class.
-
-```JavaScript
-<Dropdown placeholderClassName='myPlaceholderClassName' />;
-```
-
-**menuClassName**
-
-The `menuClassName` prop is passed down to the menu `div` (the one that opens and closes and holds the options), which also has the `Dropdown-menu` class.
-
-```JavaScript
-<Dropdown menuClassName='myMenuClassName' />;
-```
-
-**arrowClassName**
-
-The `arrowClassName` prop is passed down to the arrow `span` , which also has the `Dropdown-arrow` class.
-
-```JavaScript
-<Dropdown arrowClassName='myArrowClassName' />;
+``` css
+.Dropdown-placeholder.myClassName {
+  border: 2px solid #faa;
+  color: #faa;
+}
 ```
 
 **arrowClosed**, **arrowOpen**

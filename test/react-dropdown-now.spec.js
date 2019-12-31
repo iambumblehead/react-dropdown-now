@@ -72,7 +72,7 @@ test('ReactDropdownNow, opens', t => {
     .find('.Dropdown-control')
     .simulate('mousedown', { button: 0 });
 
-  t.true(/class="Dropdown-root is-open"/.test(component.html()));
+  t.true(component.find('.Dropdown-root').hasClass('is-open'));
 });
 
 test('ReactDropdownNow, calls onChange', t => {
@@ -95,5 +95,5 @@ test('ReactDropdownNow, calls onChange', t => {
     .simulate('mousedown', { button: 0 });
 
   t.true(onChange.calledOnce);
-  t.false(/class="Dropdown-root is-open"/.test(component.html()));
+  t.false(component.find('.Dropdown-root').hasClass('is-open'));
 });

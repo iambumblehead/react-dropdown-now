@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import classNames from 'classnames';
 
 const BASE_CLASS = 'Dropdown';
+const LOCAL_CLASS = 'now';
 
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
@@ -10,18 +10,6 @@ export const isValidLabelOrValue = value => (
 
 export const isValueSelected = value => (
   isValidLabelOrValue(value) || value !== '');
-
-export const getSelectedValue = selected => (
-  (selected && isValidLabelOrValue(selected.value))
-    ? selected.value
-    : selected
-);
-
-export const getSelectedLabel = selected => (
-  (selected && isValidLabelOrValue(selected.label))
-    ? selected.label
-    : selected
-);
 
 export const getOptionName = option => option.name;
 
@@ -73,19 +61,23 @@ export const parseOptionsValue = (options, value) => {
   return value;
 };
 
+const createHyphens = str => str.replace(/([A-Z])/g, '-$1').toLowerCase();
+
+const classStr = (className, elemName, opts = {}) => (
+  `${BASE_CLASS}-${elemName} ${className} ${Object.keys(opts)
+    .map(key => (opts[key] ? createHyphens(key) : '')).join(' ')}`.trim()
+);
+
 export const Option = props => {
-  const { option, selected, onSelect, baseClassName = BASE_CLASS } = props;
+  const { option, selected, onSelect, className } = props;
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = value === selected;
+  const optionClassName = `option ${option.className || ''}`.trim();
 
   return (
     <div
-      className={[
-        `${baseClassName}-option`,
-        option.className,
-        isSelected ? 'is-selected' : ''
-      ].filter(e => e).join(' ')}
+      className={classStr(className, optionClassName, { isSelected })}
       onMouseDown={e => onSelect(e, value, label)}
       onClick={e => onSelect(e, value, label)}
       role='option'
@@ -96,15 +88,15 @@ export const Option = props => {
 };
 
 export const OptionGroup = props => {
-  const { option, selected, onSelect, baseClassName = BASE_CLASS } = props;
+  const { option, selected, onSelect, className } = props;
 
   return (
     <div
-      className={`${baseClassName}-group`}
+      className={classStr(className, 'group')}
       key={option.name}
       role='listbox'
       tabIndex='-1'>
-      <div className={`${baseClassName}-title`}>
+      <div className={classStr(className, 'title')}>
         {option.name}
       </div>
       {option.items.map(item => (
@@ -112,7 +104,7 @@ export const OptionGroup = props => {
           key={getOptionValue(item)}
           option={item}
           selected={selected}
-          baseClassName={baseClassName}
+          className={className}
           onSelect={onSelect} />
       ))}
     </div>
@@ -120,11 +112,11 @@ export const OptionGroup = props => {
 };
 
 export const OptionsMenu = props => {
-  const { options, selected, onSelect, baseClassName = BASE_CLASS } = props;
+  const { options, selected, onSelect, className } = props;
 
   if (options.length === 0) {
     return (
-      <div className={`${baseClassName}-noresults`}>
+      <div className={classStr(className, 'noresults')}>
         No options found
       </div>
     );
@@ -135,32 +127,26 @@ export const OptionsMenu = props => {
       key={getOptionName(option)}
       option={option}
       selected={selected}
-      baseClassName={baseClassName}
+      className={className}
       onSelect={onSelect} />
   ) : (
     <Option
       key={getOptionValue(option)}
       option={option}
       selected={selected}
-      baseClassName={baseClassName}
+      className={className}
       onSelect={onSelect} />
   ));
 };
 
 export const Arrow = props => {
-  const {
-    arrowOpen,
-    arrowClosed,
-    arrowClassName = 'arrow',
-    baseClassName = BASE_CLASS,
-    isOpen
-  } = props;
+  const { arrowOpen, arrowClosed, className, isOpen } = props;
 
   return (
-    <div className={`${baseClassName}-arrow-wrapper`}>
+    <div className={classStr(className, 'arrow-wrapper')}>
       {arrowOpen && arrowClosed
         ? isOpen ? arrowOpen : arrowClosed
-        : <span className={`${baseClassName}-arrow ${arrowClassName}`} />
+        : <span className={classStr(className, 'arrow')} />
       }
     </div>
   );
@@ -249,35 +235,13 @@ class Dropdown extends Component {
   }
 
   render () {
-    const {
-      baseClassName,
-      controlClassName,
-      placeholderClassName,
-      menuClassName,
-      className
-    } = this.props;
-
-    const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
-    const placeHolderValue = getSelectedLabel(this.state.selected);
-    const dropdownClass = classNames({
-      [`${baseClassName}-root`]: true,
-      [className]: !!className,
-      'is-open': this.state.isOpen
-    });
-    const controlClass = classNames({
-      [`${baseClassName}-control`]: true,
-      [controlClassName]: !!controlClassName,
-      [disabledClass]: !!disabledClass
-    });
-    const placeholderClass = classNames({
-      [`${baseClassName}-placeholder`]: true,
-      [placeholderClassName]: !!placeholderClassName,
-      'is-selected': isValueSelected(this.state.selected)
-    });
-    const menuClass = classNames({
-      [`${baseClassName}-menu`]: true,
-      [menuClassName]: !!menuClassName
-    });
+    const { className, disabled } = this.props;
+    const { isOpen } = this.state;
+    const placeHolderValue = this.state.selected.label;
+    const placeholderClass = classStr(className, 'placeholder', { isOpen });
+    const dropdownClass = classStr(className, 'root', { isOpen });
+    const controlClass = classStr(className, 'control', { isOpen, disabled });
+    const menuClass = classStr(className, 'menu', { isOpen });
 
     return (
       <div className={dropdownClass} ref={c => this.containerElem = c}>
@@ -295,8 +259,8 @@ class Dropdown extends Component {
           <div className={menuClass} aria-expanded='true'>
             <OptionsMenu
               options={this.props.options}
-              baseClassName={baseClassName}
-              selected={getSelectedValue(this.state.selected)}
+              className={className}
+              selected={this.state.selected.value}
               onSelect={(e, value, label) => this.setValue(value, label)} />
           </div>
         ) : null}
@@ -305,5 +269,5 @@ class Dropdown extends Component {
   }
 }
 
-Dropdown.defaultProps = { baseClassName: BASE_CLASS };
+Dropdown.defaultProps = { className: LOCAL_CLASS };
 export default Dropdown;

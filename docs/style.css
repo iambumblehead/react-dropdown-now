@@ -138,7 +138,22 @@ pre code {
   padding: 8px 10px;
 }
 
-.my-custom-class {
+.Dropdown-root.my-custom-class {
+  border: 2px solid #ffa;
+  color: #ffa;
+}
+
+.Dropdown-placeholder.my-custom-class {
+  border: 2px solid #faa;
+  color: #faa;
+}
+
+.Dropdown-menu.my-custom-class {
+  border: 2px solid #aaf;
+  color: #aaf;
+}
+
+.custom {
   border: 2px solid red;
   font-weight: bold;
   color: purple;

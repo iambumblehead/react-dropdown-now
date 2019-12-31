@@ -11,7 +11,7 @@ class ObjectArrayExample extends Component {
   }
 
   _onSelect (option) {
-    console.log('You selected ', option.label)
+    console.log('You selected', option.label)
     this.setState({selected: option})
   }
 
@@ -20,10 +20,10 @@ class ObjectArrayExample extends Component {
 
     const options = [
       { value: 'one', label: 'One' },
-      { value: 'two', label: 'Two', className: toggleOptionsClassName && 'my-custom-class' },
+      { value: 'two', label: 'Two', className: toggleOptionsClassName && 'custom' },
       {
        type: 'group', name: 'group1', items: [
-         { value: 'three', label: 'Three', className: toggleOptionsClassName && 'my-custom-class' },
+         { value: 'three', label: 'Three', className: toggleOptionsClassName && 'custom' },
          { value: 'four', label: 'Four' }
        ]
       },
@@ -44,13 +44,7 @@ class ObjectArrayExample extends Component {
         <h3>Object Array and Custom ClassNames Example </h3>
         <div className="buttons">
           <button onClick={() => this.setState({ toggleClassName: !toggleClassName })}>
-            Toggle dropdown custom class
-          </button>
-          <button onClick={() => this.setState({ togglePlaholderClassName: !togglePlaholderClassName })}>
-            Toggle placeholder custom class
-          </button>
-          <button onClick={() => this.setState({ toggleMenuClassName: !toggleMenuClassName })}>
-            Toggle menu custom class
+            Toggle className custom class
           </button>
           <button onClick={() => this.setState({ toggleOptionsClassName: !toggleOptionsClassName })}>
             Toggle options custom class
@@ -62,8 +56,6 @@ class ObjectArrayExample extends Component {
           value={defaultOption}
           placeholder="Select an option"
           className={ toggleClassName ? 'my-custom-class' : '' }
-          placeholderClassName={ togglePlaholderClassName ? 'my-custom-class' : '' }
-          menuClassName={ toggleMenuClassName ? 'my-custom-class' : '' }
         />
         <div className='result'>
           You selected
@@ -76,11 +68,11 @@ class ObjectArrayExample extends Component {
               {`
 const options = [
   { value: 'one', label: 'One' },
-  { value: 'two', label: 'Two'${toggleOptionsClassName ? ', classNames \'my-custom-class\'' : ''} },
+  { value: 'two', label: 'Two'${toggleOptionsClassName ? ', className: \'custom\'' : ''} },
   {
     type: 'group', name: 'group1', items: [
       { value: 'three', label: 'Three' },
-      { value: 'four', label: 'Four'${toggleOptionsClassName ? ', className: \'my-custom-class\'' : ''} }
+      { value: 'four', label: 'Four'${toggleOptionsClassName ? ', className: \'custom\'' : ''} }
     ]
   },
   {
@@ -102,8 +94,6 @@ const options = [
   value={defaultOption}
   placeholder="Select an option"
   className=${ toggleClassName ? '"my-custom-class"' : '""' }
-  placeholderClassName=${ togglePlaholderClassName ? '"my-custom-class"' : '""' }
-  menuClassName=${ toggleMenuClassName ? '"my-custom-class"' : '""' }
 />
 `}
             </pre>
