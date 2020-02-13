@@ -1,11 +1,11 @@
-react-dropdown-now
-==================
+# react-dropdown-now
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
 [![Build status][travis-image]][travis-url]
 
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
+
 ```Javascript
 import Dropdown from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
@@ -57,7 +57,8 @@ When using Object options you can add to each option a className string to furth
 <Dropdown disabled option={options} value={defaultOption} />;
 ```
 
------------------------------------
+---
+
 ### Customizing
 
 **className**
@@ -110,13 +111,21 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
   arrowOpen={<span className="arrow-open" />} />;
 ```
 
-More [examples in the docs folder.][2]
+**onClose**, **onOpen**
 
+The `onClose` & `onOpen` props enable actions to be taken when the dropdown either opens/closes
+
+```JavaScript
+<Dropdown
+  onClose={() => { /** do something **/ }}
+  onOpen={() => { /** do something **/ }} />;
+```
+
+More [examples in the docs folder.][2]
 
 [0]: https://github.com/fraserxu/react-dropdown/issues/183
 [1]: https://iambumblehead.github.io/react-dropdown-now/
 [2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
-
 
 ### License
 
@@ -127,7 +136,6 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 
 [npm-image]: https://img.shields.io/npm/v/react-dropdown-now.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-dropdown-now
