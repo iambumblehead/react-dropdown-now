@@ -1,12 +1,12 @@
-declare module "react-dropdown-now" {
-  import * as React from "react";
+declare module 'react-dropdown-now' {
+  import * as React from 'react';
   export interface Option {
     label: React.ReactNode;
     value: string;
     className?: string;
   }
   export interface Group {
-    type: "group";
+    type: 'group';
     name: string;
     items: Option[];
   }
@@ -19,16 +19,17 @@ declare module "react-dropdown-now" {
     menuClassName?: string;
     arrowClassName?: string;
     disabled?: boolean;
-    arrowClosed?: React.ReactNode,
-    arrowOpen?: React.ReactNode,
+    arrowClosed?: React.ReactNode;
+    arrowOpen?: React.ReactNode;
     onChange?: (arg: Option) => void;
     onFocus?: (arg: boolean) => void;
+    onOpen?: () => void;
+    onClose?: () => void;
     value?: Option | string;
     placeholder?: String;
   }
 
-  class ReactDropdown extends React.Component<ReactDropdownProps> {
-  }
+  class ReactDropdown extends React.Component<ReactDropdownProps> {}
 
   export default ReactDropdown;
 }

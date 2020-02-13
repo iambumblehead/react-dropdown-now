@@ -19,8 +19,6 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -45,6 +43,8 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
 var Dropdown =
@@ -58,6 +58,17 @@ function (_Component) {
     _classCallCheck(this, Dropdown);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Dropdown).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "handleOpenStateEvents", function (isOpen) {
+      if (isOpen && typeof _this.props.onOpen === 'function') {
+        _this.props.onOpen();
+      }
+
+      if (!isOpen && typeof _this.props.onClose === 'function') {
+        _this.props.onClose();
+      }
+    });
+
     _this.state = {
       selected: _this.parseValue(props.value, props.options) || {
         label: typeof props.placeholder === 'undefined' ? DEFAULT_PLACEHOLDER_STRING : props.placeholder,
@@ -116,10 +127,12 @@ function (_Component) {
       if (event.type === 'mousedown' && event.button !== 0) return;
       event.stopPropagation();
       event.preventDefault();
+      var isOpen = !this.state.isOpen;
+      this.handleOpenStateEvents(isOpen);
 
       if (!this.props.disabled) {
         this.setState({
-          isOpen: !this.state.isOpen
+          isOpen: isOpen
         });
       }
     }
@@ -160,6 +173,7 @@ function (_Component) {
       };
       this.fireChangeEvent(newState);
       this.setState(newState);
+      this.handleOpenStateEvents(false);
     }
   }, {
     key: "fireChangeEvent",
@@ -233,6 +247,7 @@ function (_Component) {
             this.setState({
               isOpen: false
             });
+            this.handleOpenStateEvents(false);
           }
         }
       }
@@ -292,7 +307,9 @@ function (_Component) {
 }(_react.Component);
 
 Dropdown.defaultProps = {
-  baseClassName: 'Dropdown'
+  baseClassName: 'Dropdown',
+  onOpen: function onOpen() {},
+  onClose: function onClose() {}
 };
 var _default = Dropdown;
 exports["default"] = _default;
