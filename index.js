@@ -5,7 +5,7 @@ import classNames from 'classnames';
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
 class Dropdown extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props);
     this.state = {
       selected: this.parseValue(props.value, props.options) || {
@@ -13,9 +13,9 @@ class Dropdown extends Component {
           typeof props.placeholder === 'undefined'
             ? DEFAULT_PLACEHOLDER_STRING
             : props.placeholder,
-        value: '',
+        value: ''
       },
-      isOpen: false,
+      isOpen: false
     };
     this.mounted = true;
     this.handleDocumentClick = this.handleDocumentClick.bind(this);
@@ -23,7 +23,7 @@ class Dropdown extends Component {
     this.handleOpenStateEvents = this.handleOpenStateEvents.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate (prevProps) {
     if (this.props.value !== prevProps.value) {
       if (this.props.value) {
         let selected = this.parseValue(this.props.value, this.props.options);
@@ -37,25 +37,25 @@ class Dropdown extends Component {
               typeof this.props.placeholder === 'undefined'
                 ? DEFAULT_PLACEHOLDER_STRING
                 : this.props.placeholder,
-            value: '',
-          },
+            value: ''
+          }
         });
       }
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     document.addEventListener('click', this.handleDocumentClick, false);
     document.addEventListener('touchend', this.handleDocumentClick, false);
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.mounted = false;
     document.removeEventListener('click', this.handleDocumentClick, false);
     document.removeEventListener('touchend', this.handleDocumentClick, false);
   }
 
-  handleOpenStateEvents(isOpen) {
+  handleOpenStateEvents (isOpen) {
     if (isOpen && typeof this.props.onOpen === 'function') {
       this.props.onOpen();
     }
@@ -65,7 +65,7 @@ class Dropdown extends Component {
     }
   }
 
-  handleMouseDown(event) {
+  handleMouseDown (event) {
     if (this.props.onFocus && typeof this.props.onFocus === 'function') {
       this.props.onFocus(this.state.isOpen);
     }
@@ -73,17 +73,16 @@ class Dropdown extends Component {
     event.stopPropagation();
     event.preventDefault();
 
-    const isOpen = !this.state.isOpen;
-    this.handleOpenStateEvents(isOpen);
-
     if (!this.props.disabled) {
+      const isOpen = !this.state.isOpen;
       this.setState({
-        isOpen,
+        isOpen
       });
+      this.handleOpenStateEvents(isOpen);
     }
   }
 
-  parseValue(value, options) {
+  parseValue (value, options) {
     let option;
 
     if (typeof value === 'string') {
@@ -91,7 +90,7 @@ class Dropdown extends Component {
         if (options[i].type === 'group') {
           const match = options[i].items.filter(item => item.value === value);
           if (match.length) {
-            [option] = match;
+            [ option ] = match;
           }
         } else if (
           typeof options[i].value !== 'undefined' &&
@@ -105,26 +104,26 @@ class Dropdown extends Component {
     return option || value;
   }
 
-  setValue(value, label) {
+  setValue (value, label) {
     let newState = {
       selected: {
         value,
-        label,
+        label
       },
-      isOpen: false,
+      isOpen: false
     };
     this.fireChangeEvent(newState);
     this.setState(newState);
     this.handleOpenStateEvents(false);
   }
 
-  fireChangeEvent(newState) {
+  fireChangeEvent (newState) {
     if (newState.selected !== this.state.selected && this.props.onChange) {
       this.props.onChange(newState.selected);
     }
   }
 
-  renderOption(option) {
+  renderOption (option) {
     let { value } = option;
     if (typeof value === 'undefined') {
       value = option.label || option;
@@ -136,7 +135,7 @@ class Dropdown extends Component {
     const classes = {
       [`${this.props.baseClassName}-option`]: true,
       [option.className]: !!option.className,
-      'is-selected': isSelected,
+      'is-selected': isSelected
     };
 
     const optionClass = classNames(classes);
@@ -155,7 +154,7 @@ class Dropdown extends Component {
     );
   }
 
-  buildMenu() {
+  buildMenu () {
     let { options, baseClassName } = this.props;
     let ops = options.map(option => {
       if (option.type === 'group') {
@@ -187,7 +186,7 @@ class Dropdown extends Component {
     );
   }
 
-  handleDocumentClick(event) {
+  handleDocumentClick (event) {
     if (this.mounted) {
       // eslint-disable-next-line react/no-find-dom-node
       if (!ReactDOM.findDOMNode(this).contains(event.target)) {
@@ -199,13 +198,13 @@ class Dropdown extends Component {
     }
   }
 
-  isValueSelected() {
+  isValueSelected () {
     let { selected } = this.state;
 
     return Boolean(typeof selected === 'string' || selected.value !== '');
   }
 
-  render() {
+  render () {
     const {
       baseClassName,
       controlClassName,
@@ -214,7 +213,7 @@ class Dropdown extends Component {
       arrowClassName,
       arrowClosed,
       arrowOpen,
-      className,
+      className
     } = this.props;
 
     const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
@@ -226,25 +225,25 @@ class Dropdown extends Component {
     const dropdownClass = classNames({
       [`${baseClassName}-root`]: true,
       [className]: !!className,
-      'is-open': this.state.isOpen,
+      'is-open': this.state.isOpen
     });
     const controlClass = classNames({
       [`${baseClassName}-control`]: true,
       [controlClassName]: !!controlClassName,
-      [disabledClass]: !!disabledClass,
+      [disabledClass]: !!disabledClass
     });
     const placeholderClass = classNames({
       [`${baseClassName}-placeholder`]: true,
       [placeholderClassName]: !!placeholderClassName,
-      'is-selected': this.isValueSelected(),
+      'is-selected': this.isValueSelected()
     });
     const menuClass = classNames({
       [`${baseClassName}-menu`]: true,
-      [menuClassName]: !!menuClassName,
+      [menuClassName]: !!menuClassName
     });
     const arrowClass = classNames({
       [`${baseClassName}-arrow`]: true,
-      [arrowClassName]: !!arrowClassName,
+      [arrowClassName]: !!arrowClassName
     });
 
     const value = <div className={placeholderClass}>{placeHolderValue}</div>;
@@ -284,6 +283,6 @@ class Dropdown extends Component {
 Dropdown.defaultProps = {
   baseClassName: 'Dropdown',
   onOpen: () => {},
-  onClose: () => {},
+  onClose: () => {}
 };
 export default Dropdown;
