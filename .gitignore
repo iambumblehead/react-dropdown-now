@@ -17,8 +17,7 @@ build/Release
 
 # Dependency directory
 node_modules
-
-example/bundle.js
+dist
 
 # This project doesn't use Yarn
 yarn.lock
