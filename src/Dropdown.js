@@ -4,6 +4,48 @@ import classNames from 'classnames';
 
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
+export const isValidLabelOrValue = value => (
+  /string|boolean|number/.test(typeof value));
+
+export const getOptionLabel = (option, label = option) => {
+  if (isValidLabelOrValue(option.label))
+    label = option.label;
+  else if (isValidLabelOrValue(option.value))
+    label = option.value;
+
+  return label;
+};
+
+export const getOptionValue = (option, value = option) => {
+  if (isValidLabelOrValue(option.value))
+    value = option.value;
+  else if (isValidLabelOrValue(option.label))
+    value = option.label;
+
+  return value;
+};
+
+export const Option = props => {
+  const { option, selected, onSelect, className } = props;
+  const value = getOptionValue(option);
+  const label = getOptionLabel(option);
+  const isSelected = value === selected;
+  let optionClassName = `Dropdown-option ${className || ''}`;
+
+  optionClassName = `${optionClassName} ${isSelected ? 'is-selected' : ''}`;
+
+  return (
+    <div
+      className={optionClassName.trim()}
+      onMouseDown={e => onSelect(e, value, label)}
+      onClick={e => onSelect(e, value, label)}
+      role="option"
+      aria-selected={String(isSelected)}>
+      {label}
+    </div>
+  );
+};
+
 class Dropdown extends Component {
   constructor (props) {
     super(props);
@@ -106,7 +148,7 @@ class Dropdown extends Component {
 
   setValue (value, label) {
     let newState = {
-      selected: {
+      selected: this.parseValue(value, this.props.options) || {
         value,
         label
       },
@@ -128,29 +170,19 @@ class Dropdown extends Component {
     if (typeof value === 'undefined') {
       value = option.label || option;
     }
+
     let label = option.label || option.value || option;
-    let isSelected =
-      value === this.state.selected.value || value === this.state.selected;
-
-    const classes = {
-      [`${this.props.baseClassName}-option`]: true,
-      [option.className]: !!option.className,
-      'is-selected': isSelected
-    };
-
-    const optionClass = classNames(classes);
 
     return (
-      <div
+      <Option
+        option={option}
         key={value}
-        className={optionClass}
-        onMouseDown={this.setValue.bind(this, value, label)}
-        onClick={this.setValue.bind(this, value, label)}
-        role="option"
-        aria-selected={isSelected ? 'true' : 'false'}
-      >
-        {label}
-      </div>
+        selected={this.state.selected}
+        onSelect={() => this.setValue(value, label)}
+        className={classNames({
+          [`${this.props.baseClassName}-option`]: true,
+          [option.className]: !!option.className
+        })} />
     );
   }
 
