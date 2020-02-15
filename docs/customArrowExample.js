@@ -1,27 +1,21 @@
-import React, { Component } from 'react'
-import Dropdown from '../index.js'
+import React, { Component } from 'react';
+import Dropdown from '../src';
 
-const options = [
-  'one', 'two', 'three'
-]
+const options = ['one', 'two', 'three'];
 
-const arrowClosed = (
-  <span className="arrow-closed" />
-)
-const arrowOpen = (
-  <span className="arrow-open" />
-)
+const arrowClosed = <span className="arrow-closed" />;
+const arrowOpen = <span className="arrow-open" />;
 
 class CustomArrowExample extends Component {
-  constructor (props) {
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      selected: ''
-    }
+      selected: '',
+    };
   }
 
-  render () {
-    const defaultOption = this.state.selected
+  render() {
+    const defaultOption = this.state.selected;
 
     return (
       <section>
@@ -36,7 +30,7 @@ class CustomArrowExample extends Component {
 
         <section>
           <h4>Usage: </h4>
-          <div className='code'>
+          <div className="code">
             <pre>
               {`
 const arrowClosed = (
@@ -58,8 +52,8 @@ const arrowOpen = (
           </div>
         </section>
       </section>
-    )
+    );
   }
 }
 
-export default CustomArrowExample
+export default CustomArrowExample;
