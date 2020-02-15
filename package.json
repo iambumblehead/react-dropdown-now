@@ -77,7 +77,7 @@
   },
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "./node_modules/@babel/cli/bin/babel.js index.js -o dist/index.js",
+    "build": "babel src --out-dir dist",
     "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
     "start": "node express & npm run watch",
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
