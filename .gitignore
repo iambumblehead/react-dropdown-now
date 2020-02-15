@@ -1,3 +1,7 @@
+### OSX ###
+# General
+.DS_Store
+
 # Logs
 logs
 *.log

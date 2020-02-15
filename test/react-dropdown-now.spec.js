@@ -3,7 +3,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import ReactDropdownNow from '../index';
+import ReactDropdownNow from '../src';
 
 test('ReactDropdownNow, opens', t => {
   const onOpen = sinon.spy();
