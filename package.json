@@ -85,7 +85,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "npm run lint && NODE_ENV=test ava --verbose",
-    "prepublishOnly": "npm run prepare",
+    "prepublishOnly": "npm run build",
     "publish": "git push origin --tags && git push origin",
     "release:patch": "npm version patch && npm publish --access public",
     "release:minor": "npm version minor && npm publish --access public",
