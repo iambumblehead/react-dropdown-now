@@ -83,6 +83,7 @@
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
     "prepare": "npm run browserify && npm run build",
     "lint": "eslint index.js",
+    "lint:fix": "eslint index.js --fix",
     "test": "npm run lint && NODE_ENV=test ava --verbose"
   },
   "ava": {

@@ -68,6 +68,7 @@ function (_Component) {
     _this.mounted = true;
     _this.handleDocumentClick = _this.handleDocumentClick.bind(_assertThisInitialized(_this));
     _this.fireChangeEvent = _this.fireChangeEvent.bind(_assertThisInitialized(_this));
+    _this.handleOpenStateEvents = _this.handleOpenStateEvents.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -107,6 +108,17 @@ function (_Component) {
       document.removeEventListener('touchend', this.handleDocumentClick, false);
     }
   }, {
+    key: "handleOpenStateEvents",
+    value: function handleOpenStateEvents(isOpen) {
+      if (isOpen && typeof this.props.onOpen === 'function') {
+        this.props.onOpen();
+      }
+
+      if (!isOpen && typeof this.props.onClose === 'function') {
+        this.props.onClose();
+      }
+    }
+  }, {
     key: "handleMouseDown",
     value: function handleMouseDown(event) {
       if (this.props.onFocus && typeof this.props.onFocus === 'function') {
@@ -118,9 +130,11 @@ function (_Component) {
       event.preventDefault();
 
       if (!this.props.disabled) {
+        var isOpen = !this.state.isOpen;
         this.setState({
-          isOpen: !this.state.isOpen
+          isOpen: isOpen
         });
+        this.handleOpenStateEvents(isOpen);
       }
     }
   }, {
@@ -160,6 +174,7 @@ function (_Component) {
       };
       this.fireChangeEvent(newState);
       this.setState(newState);
+      this.handleOpenStateEvents(false);
     }
   }, {
     key: "fireChangeEvent",
@@ -233,6 +248,7 @@ function (_Component) {
             this.setState({
               isOpen: false
             });
+            this.handleOpenStateEvents(false);
           }
         }
       }
@@ -292,7 +308,9 @@ function (_Component) {
 }(_react.Component);
 
 Dropdown.defaultProps = {
-  baseClassName: 'Dropdown'
+  baseClassName: 'Dropdown',
+  onOpen: function onOpen() {},
+  onClose: function onClose() {}
 };
 var _default = Dropdown;
 exports["default"] = _default;
