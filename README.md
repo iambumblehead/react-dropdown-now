@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
-[![Build status][travis-image]][travis-url]
+![Build Status](build-image)
 
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 
@@ -141,5 +141,4 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [npm-url]: https://npmjs.org/package/react-dropdown-now
 [downloads-image]: http://img.shields.io/npm/dm/react-dropdown-now.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/react-dropdown-now
-[travis-image]: https://img.shields.io/travis/iambumblehead/react-dropdown-now
-[travis-url]: https://travis-ci.org/iambumblehead/react-dropdown-now
+[build-image]: https://github.com/iambumblehead/react-dropdown-now/workflows/test-component/badge.svg
