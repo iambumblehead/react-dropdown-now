@@ -84,7 +84,12 @@
     "prepare": "npm run browserify && npm run build",
     "lint": "eslint index.js",
     "lint:fix": "eslint index.js --fix",
-    "test": "npm run lint && NODE_ENV=test ava --verbose"
+    "test": "npm run lint && NODE_ENV=test ava --verbose",
+    "prepublishOnly": "npm run prepare",
+    "publish": "git push origin --tags && git push origin",
+    "release:patch": "npm version patch && npm publish --access public",
+    "release:minor": "npm version minor && npm publish --access public",
+    "release:major": "npm version major && npm publish --access public"
   },
   "ava": {
     "require": [
