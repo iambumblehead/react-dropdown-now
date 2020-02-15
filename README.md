@@ -2,7 +2,7 @@
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
-![Build Status](build-image)
+![Build Status][build-image]
 
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 
