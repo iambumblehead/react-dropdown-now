@@ -47,7 +47,7 @@ test('ReactDropdownNow.option, emits onSelect event', t => {
     <Option option={'option'} onSelect={onSelect} />
   );
 
-   component
+  component
     .find('.Dropdown-option')
     .simulate('mousedown', { button: 0 });
 
@@ -59,4 +59,3 @@ test('ReactDropdownNow.option, emits onSelect event', t => {
   t.is(value, 'option');
   t.is(label, 'option');
 });
-

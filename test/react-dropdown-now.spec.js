@@ -9,10 +9,10 @@ test('ReactDropdownNow, opens', t => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={['one', 'two', 'three']}
+      options={[ 'one', 'two', 'three' ]}
       onOpen={onOpen}
       value={'one'}
-    />,
+    />
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -27,19 +27,19 @@ test('ReactDropdownNow, calls onChange', t => {
   const onChange = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={['one', 'two', 'three']}
+      options={[ 'one', 'two', 'three' ]}
       value={'one'}
       onOpen={onOpen}
       onClose={onClose}
       onChange={onChange}
-    />,
+    />
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
 
   component
     .find('.Dropdown-option')
-    .at(0)
+    .at(2)
     .simulate('mousedown', { button: 0 });
 
   t.true(onOpen.calledOnce);
@@ -49,14 +49,14 @@ test('ReactDropdownNow, calls onChange', t => {
   component.unmount();
 });
 
-test.only('ReactDropdownNow, uses and updates the selected value state', t => {
+test('ReactDropdownNow, uses and updates the selected value state', t => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={['one', 'two', 'three']}
+      options={[ 'one', 'two', 'three' ]}
       onOpen={onOpen}
       value={'one'}
-    />,
+    />
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -67,5 +67,24 @@ test.only('ReactDropdownNow, uses and updates the selected value state', t => {
   t.true(component.find('.Dropdown-root').hasClass('is-open'));
   t.is(component.find('.Dropdown-option.is-selected').text(), 'two');
 
+  component.unmount();
+});
+
+test('ReactDropdownNow, should close when external click', t => {
+  const onAddEventListener = sinon.spy(document, 'addEventListener');
+  const component = mount(
+    <ReactDropdownNow options={[ 'one', 'two', 'three' ]} />
+  );
+
+  const docListener = onAddEventListener.getCalls().reduce((prev, call) => ({
+    ...prev,
+    [call.args[0]]: call.args[1]
+  }), {});
+
+  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
+  t.true(component.find('.Dropdown-root').hasClass('is-open'));
+  docListener.click.call(window, { target: document.createElement('span') });
+  component.update();
+  t.false(component.find('.Dropdown-root').hasClass('is-open'));
   component.unmount();
 });
