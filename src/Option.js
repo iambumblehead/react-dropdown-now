@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { getOptionLabel, getOptionValue } from './helpers';
 
 const Option = props => {
@@ -6,10 +7,7 @@ const Option = props => {
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = value === selected;
-  import classNames from 'classnames';
   const optionClassName = classNames('Dropdown-option', className, { 'is-selected': isSelected });
-
-  optionClassName = `${optionClassName} ${isSelected ? 'is-selected' : ''}`;
 
   return (
     <div
