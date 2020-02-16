@@ -6,7 +6,7 @@ test('parseValue("value", []), should return "value"', t => {
   t.is(parseValue('value', []), 'value');
 });
 
-test('parseValue("value 2", [...]), should return value 2 item', t => {
+test('parseValue("value 2", […]), should return value 2 item', t => {
   t.deepEqual(parseValue('value 2', [ {
     type: 'group',
     items: [ {
@@ -22,7 +22,7 @@ test('parseValue("value 2", [...]), should return value 2 item', t => {
   });
 });
 
-test('parseValue("group value", [...]), should return group value item', t => {
+test('parseValue("group value", […]), should return group value item', t => {
   t.deepEqual(parseValue('group value', [ {
     type: 'group',
     items: [ {
@@ -38,7 +38,7 @@ test('parseValue("group value", [...]), should return group value item', t => {
   });
 });
 
-test('parseValue("no value", [...]), should return "no value"', t => {
+test('parseValue("no value", […]), should return "no value"', t => {
   t.deepEqual(parseValue('no value', [ {
     type: 'group',
     items: [ {
