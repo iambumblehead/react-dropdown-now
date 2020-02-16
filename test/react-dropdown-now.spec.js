@@ -70,7 +70,7 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
   component.unmount();
 });
 
-test('ReactDropdownNow, should close when external click', async t => {
+test('ReactDropdownNow, should close when external click', t => {
   const onAddEventListener = sinon.spy(document, 'addEventListener');
   const component = mount(
     <ReactDropdownNow options={[ 'one', 'two', 'three' ]} />
