@@ -26,6 +26,7 @@ jobs:
       - run: npm ci
       - run: npm run browserify
       - run: touch ./docs/.nojekyll
+      - run: ls -a ./docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
