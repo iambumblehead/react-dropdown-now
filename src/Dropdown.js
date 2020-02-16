@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import Option from './Option';
 
-const DEFAULT_PLACEHOLDER_STRING = 'Select...';
+import Option from './Option';
+import { parseValue } from './helpers';
+import { DEFAULT_PLACEHOLDER_STRING } from './constants';
 
 class Dropdown extends Component {
   constructor (props) {
     super(props);
     this.state = {
-      selected: this.parseValue(props.value, props.options) || {
+      selected: parseValue(props.value, props.options) || {
         label:
           typeof props.placeholder === 'undefined'
             ? DEFAULT_PLACEHOLDER_STRING
@@ -27,7 +28,7 @@ class Dropdown extends Component {
   componentDidUpdate (prevProps) {
     if (this.props.value !== prevProps.value) {
       if (this.props.value) {
-        let selected = this.parseValue(this.props.value, this.props.options);
+        let selected = parseValue(this.props.value, this.props.options);
         if (selected !== this.state.selected) {
           this.setState({ selected });
         }
@@ -83,31 +84,9 @@ class Dropdown extends Component {
     }
   }
 
-  parseValue (value, options) {
-    let option;
-
-    if (typeof value === 'string') {
-      for (let i = 0, num = options.length; i < num; i++) {
-        if (options[i].type === 'group') {
-          const match = options[i].items.filter(item => item.value === value);
-          if (match.length) {
-            [ option ] = match;
-          }
-        } else if (
-          typeof options[i].value !== 'undefined' &&
-          options[i].value === value
-        ) {
-          option = options[i];
-        }
-      }
-    }
-
-    return option || value;
-  }
-
   setValue (value, label) {
     let newState = {
-      selected: this.parseValue(value, this.props.options) || {
+      selected: parseValue(value, this.props.options) || {
         value,
         label
       },
@@ -141,7 +120,8 @@ class Dropdown extends Component {
         className={classNames({
           [`${this.props.baseClassName}-option`]: true,
           [option.className]: !!option.className
-        })} />
+        })}
+      />
     );
   }
 
