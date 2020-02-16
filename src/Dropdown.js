@@ -20,9 +20,11 @@ class Dropdown extends Component {
       isOpen: false
     };
     this.mounted = true;
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-    this.fireChangeEvent = this.fireChangeEvent.bind(this);
-    this.handleOpenStateEvents = this.handleOpenStateEvents.bind(this);
+  }
+
+  componentDidMount () {
+    document.addEventListener('click', this.handleDocumentClick, false);
+    document.addEventListener('touchend', this.handleDocumentClick, false);
   }
 
   componentDidUpdate (prevProps) {
@@ -46,18 +48,13 @@ class Dropdown extends Component {
     }
   }
 
-  componentDidMount () {
-    document.addEventListener('click', this.handleDocumentClick, false);
-    document.addEventListener('touchend', this.handleDocumentClick, false);
-  }
-
   componentWillUnmount () {
     this.mounted = false;
     document.removeEventListener('click', this.handleDocumentClick, false);
     document.removeEventListener('touchend', this.handleDocumentClick, false);
   }
 
-  handleOpenStateEvents (isOpen) {
+  handleOpenStateEvents = isOpen => {
     if (isOpen && typeof this.props.onOpen === 'function') {
       this.props.onOpen();
     }
@@ -65,9 +62,9 @@ class Dropdown extends Component {
     if (!isOpen && typeof this.props.onClose === 'function') {
       this.props.onClose();
     }
-  }
+  };
 
-  handleMouseDown (event) {
+  handleMouseDown = event => {
     if (this.props.onFocus && typeof this.props.onFocus === 'function') {
       this.props.onFocus(this.state.isOpen);
     }
@@ -82,9 +79,9 @@ class Dropdown extends Component {
       });
       this.handleOpenStateEvents(isOpen);
     }
-  }
+  };
 
-  setValue (value, label) {
+  setValue = (value, label) => {
     let newState = {
       selected: parseValue(value, this.props.options) || {
         value,
@@ -95,15 +92,15 @@ class Dropdown extends Component {
     this.fireChangeEvent(newState);
     this.setState(newState);
     this.handleOpenStateEvents(false);
-  }
+  };
 
-  fireChangeEvent (newState) {
+  fireChangeEvent = newState => {
     if (newState.selected !== this.state.selected && this.props.onChange) {
       this.props.onChange(newState.selected);
     }
-  }
+  };
 
-  renderOption (option) {
+  renderOption = option => {
     let { value } = option;
     if (typeof value === 'undefined') {
       value = option.label || option;
@@ -123,9 +120,9 @@ class Dropdown extends Component {
         })}
       />
     );
-  }
+  };
 
-  buildMenu () {
+  buildMenu = () => {
     let { options, baseClassName } = this.props;
     let ops = options.map(option => {
       if (option.type === 'group') {
@@ -155,9 +152,9 @@ class Dropdown extends Component {
     ) : (
       <div className={`${baseClassName}-noresults`}>No options found</div>
     );
-  }
+  };
 
-  handleDocumentClick (event) {
+  handleDocumentClick = event => {
     if (this.mounted) {
       // eslint-disable-next-line react/no-find-dom-node
       if (!ReactDOM.findDOMNode(this).contains(event.target)) {
@@ -167,13 +164,13 @@ class Dropdown extends Component {
         }
       }
     }
-  }
+  };
 
-  isValueSelected () {
-    let { selected } = this.state;
+  isValueSelected = () => {
+    const { selected } = this.state;
 
     return Boolean(typeof selected === 'string' || selected.value !== '');
-  }
+  };
 
   render () {
     const {
@@ -230,8 +227,8 @@ class Dropdown extends Component {
       <div className={dropdownClass}>
         <div
           className={controlClass}
-          onMouseDown={this.handleMouseDown.bind(this)}
-          onTouchEnd={this.handleMouseDown.bind(this)}
+          onMouseDown={this.handleMouseDown}
+          onTouchEnd={this.handleMouseDown}
           aria-haspopup="listbox"
         >
           {value}
