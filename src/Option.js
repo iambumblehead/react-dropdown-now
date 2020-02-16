@@ -6,7 +6,8 @@ const Option = props => {
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = value === selected;
-  let optionClassName = `Dropdown-option ${className || ''}`;
+  import classNames from 'classnames';
+  const optionClassName = classNames('Dropdown-option', className, { 'is-selected': isSelected });
 
   optionClassName = `${optionClassName} ${isSelected ? 'is-selected' : ''}`;
 
