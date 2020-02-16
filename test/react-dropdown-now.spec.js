@@ -16,8 +16,7 @@ test('ReactDropdownNow, opens', t => {
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
-
-  t.true(/class="Dropdown-root is-open"/.test(component.html()));
+  t.true(component.find('.Dropdown-root').hasClass('is-open'));
   t.true(onOpen.calledOnce);
   component.unmount();
 });
@@ -46,6 +45,27 @@ test('ReactDropdownNow, calls onChange', t => {
   t.true(onOpen.calledOnce);
   t.true(onChange.calledOnce);
   t.true(onClose.calledOnce);
-  t.false(/class="Dropdown-root is-open"/.test(component.html()));
+  t.false(component.find('.Dropdown-root').hasClass('is-open'));
+  component.unmount();
+});
+
+test.only('ReactDropdownNow, uses and updates the selected value state', t => {
+  const onOpen = sinon.spy();
+  const component = mount(
+    <ReactDropdownNow
+      options={['one', 'two', 'three']}
+      onOpen={onOpen}
+      value={'one'}
+    />,
+  );
+
+  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
+  t.is(component.find('.Dropdown-option.is-selected').text(), 'one');
+  t.true(component.find('.Dropdown-root').hasClass('is-open'));
+  component.find('.Dropdown-option').at(2).simulate('mousedown', { button: 0 });
+  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
+  t.true(component.find('.Dropdown-root').hasClass('is-open'));
+  t.is(component.find('.Dropdown-option.is-selected').text(), 'two');
+
   component.unmount();
 });
