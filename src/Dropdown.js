@@ -253,6 +253,8 @@ class Dropdown extends Component {
       </div>
     ) : null;
 
+    const arrow = this.state.isOpen ? arrowOpen : arrowClosed;
+
     return (
       <div className={dropdownClass}>
         <div
@@ -263,15 +265,7 @@ class Dropdown extends Component {
         >
           {value}
           <div className={`${baseClassName}-arrow-wrapper`}>
-            {arrowOpen && arrowClosed ? (
-              this.state.isOpen ? (
-                arrowOpen
-              ) : (
-                arrowClosed
-              )
-            ) : (
-              <span className={arrowClass} />
-            )}
+            {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
           </div>
         </div>
         {menu}
