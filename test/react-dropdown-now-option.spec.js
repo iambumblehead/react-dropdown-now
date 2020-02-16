@@ -3,9 +3,7 @@ import React from 'react';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 
-import {
-  Option
-} from '../src/Dropdown';
+import Option from '../src/Option';
 
 test('ReactDropdownNow.option, renders a string option', t => {
   const component = mount(
