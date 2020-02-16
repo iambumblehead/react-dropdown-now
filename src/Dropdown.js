@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
-import { isValidLabelOrValue, getOptionLabel, getOptionValue } from './helpers';
+import { getOptionLabel, getOptionValue } from './helpers';
 
 const DEFAULT_PLACEHOLDER_STRING = 'Select...';
 
