@@ -7,7 +7,9 @@ const Option = props => {
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = value === selected;
-  const optionClassName = classNames('Dropdown-option', className, { 'is-selected': isSelected });
+  const optionClassName = classNames('Dropdown-option', className, {
+    'is-selected': isSelected
+  });
 
   return (
     <div
