@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 import Option from './Option';
-import { parseValue } from './helpers';
+import { parseValue, getOptionValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING } from './constants';
 
 class Dropdown extends Component {
@@ -100,27 +100,18 @@ class Dropdown extends Component {
     }
   };
 
-  renderOption = option => {
-    let { value } = option;
-    if (typeof value === 'undefined') {
-      value = option.label || option;
-    }
-
-    let label = option.label || option.value || option;
-
-    return (
-      <Option
-        option={option}
-        key={value}
-        selected={this.state.selected}
-        onSelect={() => this.setValue(value, label)}
-        className={classNames({
-          [`${this.props.baseClassName}-option`]: true,
-          [option.className]: !!option.className
-        })}
-      />
-    );
-  };
+  renderOption = option => (
+    <Option
+      option={option}
+      key={getOptionValue(option)}
+      selected={this.state.selected}
+      onSelect={(e, value, label) => this.setValue(value, label)}
+      className={classNames({
+        [`${this.props.baseClassName}-option`]: true,
+        [option.className]: !!option.className
+      })}
+    />
+  );
 
   buildMenu = () => {
     let { options, baseClassName } = this.props;
