@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
-import Option from './Option';
+import Menu from './Menu';
 import { parseValue } from './helpers';
-import { DEFAULT_PLACEHOLDER_STRING } from './constants';
+import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 class Dropdown extends Component {
   constructor (props) {
@@ -100,60 +100,6 @@ class Dropdown extends Component {
     }
   };
 
-  renderOption = option => {
-    let { value } = option;
-    if (typeof value === 'undefined') {
-      value = option.label || option;
-    }
-
-    let label = option.label || option.value || option;
-
-    return (
-      <Option
-        option={option}
-        key={value}
-        selected={this.state.selected}
-        onSelect={() => this.setValue(value, label)}
-        className={classNames({
-          [`${this.props.baseClassName}-option`]: true,
-          [option.className]: !!option.className
-        })}
-      />
-    );
-  };
-
-  buildMenu = () => {
-    let { options, baseClassName } = this.props;
-    let ops = options.map(option => {
-      if (option.type === 'group') {
-        let groupTitle = (
-          <div className={`${baseClassName}-title`}>{option.name}</div>
-        );
-        let tmpoptions = option.items.map(item => this.renderOption(item));
-
-        return (
-          <div
-            className={`${baseClassName}-group`}
-            key={option.name}
-            role="listbox"
-            tabIndex="-1"
-          >
-            {groupTitle}
-            {tmpoptions}
-          </div>
-        );
-      }
-
-      return this.renderOption(option);
-    });
-
-    return ops.length ? (
-      ops
-    ) : (
-      <div className={`${baseClassName}-noresults`}>No options found</div>
-    );
-  };
-
   handleDocumentClick = event => {
     if (this.mounted) {
       // eslint-disable-next-line react/no-find-dom-node
@@ -181,7 +127,9 @@ class Dropdown extends Component {
       arrowClassName,
       arrowClosed,
       arrowOpen,
-      className
+      className,
+      options,
+      noOptionsDisplay
     } = this.props;
 
     const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
@@ -216,9 +164,15 @@ class Dropdown extends Component {
 
     const value = <div className={placeholderClass}>{placeHolderValue}</div>;
     const menu = this.state.isOpen ? (
-      <div className={menuClass} aria-expanded="true">
-        {this.buildMenu()}
-      </div>
+      <Menu
+        expanded
+        className={menuClass}
+        selected={this.state.selected}
+        options={options}
+        baseClassName={baseClassName}
+        noOptionsDisplay={noOptionsDisplay}
+        onSelect={(e, value, label) => this.setValue(value, label)}
+      />
     ) : null;
 
     const arrow = this.state.isOpen ? arrowOpen : arrowClosed;
@@ -243,7 +197,7 @@ class Dropdown extends Component {
 }
 
 Dropdown.defaultProps = {
-  baseClassName: 'Dropdown',
+  ...BASE_DEFAULT_PROPS,
   onOpen: () => {},
   onClose: () => {}
 };
