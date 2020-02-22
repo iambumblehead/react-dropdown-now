@@ -10,10 +10,10 @@ test('ReactDropdownNow, opens', t => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={[ 'one', 'two', 'three' ]}
+      options={['one', 'two', 'three']}
       onOpen={onOpen}
-      value={'one'}
-    />
+      value="one"
+    />,
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -28,12 +28,12 @@ test('ReactDropdownNow, calls onChange', t => {
   const onChange = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={[ 'one', 'two', 'three' ]}
-      value={'one'}
+      options={['one', 'two', 'three']}
+      value="one"
       onOpen={onOpen}
       onClose={onClose}
       onChange={onChange}
-    />
+    />,
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -54,10 +54,10 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={[ 'one', 'two', 'three' ]}
+      options={['one', 'two', 'three']}
       onOpen={onOpen}
-      value={'one'}
-    />
+      value="one"
+    />,
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -67,7 +67,7 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
       .find(Menu)
       .find('.Dropdown-option.is-selected')
       .text(),
-    'one'
+    'one',
   );
   t.true(component.find('.Dropdown-root').hasClass('is-open'));
 
@@ -84,7 +84,7 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
       .find(Menu)
       .find('.Dropdown-option.is-selected')
       .text(),
-    'two'
+    'two',
   );
 
   component.unmount();
@@ -93,15 +93,15 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
 test('ReactDropdownNow, should close when external click', t => {
   const onAddEventListener = sinon.spy(document, 'addEventListener');
   const component = mount(
-    <ReactDropdownNow options={[ 'one', 'two', 'three' ]} />
+    <ReactDropdownNow options={['one', 'two', 'three']} />,
   );
 
   const docListener = onAddEventListener.getCalls().reduce(
     (prev, call) => ({
       ...prev,
-      [call.args[0]]: call.args[1]
+      [call.args[0]]: call.args[1],
     }),
-    {}
+    {},
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -114,7 +114,7 @@ test('ReactDropdownNow, should close when external click', t => {
 
 test('ReactDropdownNow, should render same open shut arrow class', t => {
   const component = mount(
-    <ReactDropdownNow options={[ 'one', 'two', 'three' ]} value={'one'} />
+    <ReactDropdownNow options={['one', 'two', 'three']} value="one" />,
   );
 
   t.true(component.exists('.Dropdown-arrow'));
@@ -123,15 +123,15 @@ test('ReactDropdownNow, should render same open shut arrow class', t => {
 });
 
 test('ReactDropdownNow, should render custom open shut arrow elems', t => {
-  const arrowClosedElem = <span className="arrow-closed"></span>;
-  const arrowOpenedElem = <span className="arrow-opened"></span>;
+  const arrowClosedElem = <span className="arrow-closed" />;
+  const arrowOpenedElem = <span className="arrow-opened" />;
   const component = mount(
     <ReactDropdownNow
-      options={[ 'one', 'two', 'three' ]}
-      value={'one'}
+      options={['one', 'two', 'three']}
+      value="one"
       arrowClosed={arrowClosedElem}
       arrowOpen={arrowOpenedElem}
-    />
+    />,
   );
 
   t.true(component.exists('.Dropdown-arrow-wrapper > .arrow-closed'));
@@ -144,10 +144,10 @@ test('ReactDropdownNow, should render custom open shut arrow elems', t => {
 test('ReactDropdownNow, should render custom open shut arrow classNames', t => {
   const component = mount(
     <ReactDropdownNow
-      options={[ 'one', 'two', 'three' ]}
-      value={'one'}
-      arrowClassName={'arrow-class'}
-    />
+      options={['one', 'two', 'three']}
+      value="one"
+      arrowClassName="arrow-class"
+    />,
   );
 
   t.true(component.exists('.Dropdown-arrow-wrapper > .arrow-class'));
@@ -167,13 +167,13 @@ test('ReactDropdownNow, should render custom option classNames', t => {
             {
               value: 'group item',
               label: 'group item',
-              className: 'group-item'
-            }
-          ]
-        }
+              className: 'group-item',
+            },
+          ],
+        },
       ]}
-      value={'one'}
-    />
+      value="one"
+    />,
   );
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
@@ -196,13 +196,13 @@ test('ReactDropdownNow, should render menuClassName', t => {
             {
               value: 'group item',
               label: 'group item',
-              className: 'group-item'
-            }
-          ]
-        }
+              className: 'group-item',
+            },
+          ],
+        },
       ]}
-      value={'one'}
-    />
+      value="one"
+    />,
   );
 
   t.false(component.exists('.Dropdown-menu.menu-class'));
@@ -223,18 +223,18 @@ test('ReactDropdownNow, should render placeholderClassName', t => {
             {
               value: 'group item',
               label: 'group item',
-              className: 'group-item'
-            }
-          ]
-        }
+              className: 'group-item',
+            },
+          ],
+        },
       ]}
-    />
+    />,
   );
 
   t.true(
     component.exists(
-      '.Dropdown-control > .Dropdown-placeholder.placeholder-class'
-    )
+      '.Dropdown-control > .Dropdown-placeholder.placeholder-class',
+    ),
   );
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
   component
@@ -243,8 +243,8 @@ test('ReactDropdownNow, should render placeholderClassName', t => {
     .simulate('mousedown', { button: 0 });
   t.true(
     component.exists(
-      '.Dropdown-control > .Dropdown-placeholder.placeholder-class.is-selected'
-    )
+      '.Dropdown-control > .Dropdown-placeholder.placeholder-class.is-selected',
+    ),
   );
 });
 
@@ -261,12 +261,12 @@ test('ReactDropdownNow, should render controlClassName', t => {
             {
               value: 'group item',
               label: 'group item',
-              className: 'group-item'
-            }
-          ]
-        }
+              className: 'group-item',
+            },
+          ],
+        },
       ]}
-    />
+    />,
   );
 
   t.true(component.exists('.Dropdown-root > .Dropdown-control.control-class'));
@@ -287,12 +287,12 @@ test('ReactDropdownNow, should render className', t => {
             {
               value: 'group item',
               label: 'group item',
-              className: 'group-item'
-            }
-          ]
-        }
+              className: 'group-item',
+            },
+          ],
+        },
       ]}
-    />
+    />,
   );
 
   t.true(component.exists('.Dropdown-root.root-class'));
