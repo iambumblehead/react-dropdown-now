@@ -7,7 +7,7 @@ import Option from '../src/Option';
 
 test('ReactDropdownNow.option, renders a string option', t => {
   const component = mount(
-    <Option option={'one'} />
+    <Option option="one" />
   );
 
   t.is(component.text(), 'one');
@@ -16,7 +16,7 @@ test('ReactDropdownNow.option, renders a string option', t => {
 
 test('ReactDropdownNow.option, renders a string option, selected', t => {
   const component = mount(
-    <Option option={'one'} selected={'one'} />
+    <Option option="one" selected="one" />
   );
 
   t.is(component.text(), 'one');
@@ -34,7 +34,7 @@ test('ReactDropdownNow.option, renders an object option', t => {
 
 test('ReactDropdownNow.option, renders an object option, selected', t => {
   const component = mount(
-    <Option option={{ label: 'label', value: 'value' }} selected={'value'} />
+    <Option option={{ label: 'label', value: 'value' }} selected="value" />
   );
 
   t.is(component.find('.Dropdown-option').text(), 'label');
@@ -44,7 +44,7 @@ test('ReactDropdownNow.option, renders an object option, selected', t => {
 test('ReactDropdownNow.option, emits onSelect event', t => {
   const onSelect = sinon.spy();
   const component = mount(
-    <Option option={'option'} onSelect={onSelect} />
+    <Option option="option" onSelect={onSelect} />
   );
 
   component

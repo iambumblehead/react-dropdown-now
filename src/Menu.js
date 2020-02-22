@@ -12,28 +12,33 @@ const Menu = ({
   onSelect,
   noOptionsDisplay,
   className,
-  expanded
+  expanded,
 }) => {
-  const renderOption = option => (
-    <Option
-      option={option}
-      key={getOptionValue(option)}
-      selected={selected}
-      onSelect={onSelect}
-      baseClassName={baseClassName}
-      className={classNames({
-        [`${baseClassName}-option`]: true,
-        [option.className]: !!option.className
-      })}
-    />
-  );
+  let tabIndex = -1;
+  const renderOption = option => {
+    tabIndex += 1;
+    return (
+      <Option
+        option={option}
+        key={getOptionValue(option)}
+        selected={selected}
+        onSelect={onSelect}
+        baseClassName={baseClassName}
+        tabIndex={tabIndex}
+        className={classNames({
+          [`${baseClassName}-option`]: true,
+          [option.className]: !!option.className,
+        })}
+      />
+    );
+  };
 
-  let ops = options.map(option => {
+  const ops = options.map(option => {
     if (option.type === 'group') {
-      let groupTitle = (
+      const groupTitle = (
         <div className={`${baseClassName}-title`}>{option.name}</div>
       );
-      let tmpoptions = option.items.map(item => renderOption(item));
+      const tmpOptions = option.items.map(item => renderOption(item));
 
       return (
         <div
@@ -43,7 +48,7 @@ const Menu = ({
           tabIndex="-1"
         >
           {groupTitle}
-          {tmpoptions}
+          {tmpOptions}
         </div>
       );
     }
@@ -67,7 +72,7 @@ const Menu = ({
 Menu.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   noOptionsDisplay: 'No options found',
-  expanded: false
+  expanded: false,
 };
 
 export default Menu;
