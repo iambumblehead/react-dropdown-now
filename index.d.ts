@@ -35,7 +35,11 @@ declare module 'react-dropdown-now' {
 
   export interface MenuProps {
     options: (Group | Option | string)[];
-    onSelect: (e: Event, value: string, label: StringOrReactNode) => void;
+    onSelect: (
+      e: React.SyntheticEvent,
+      value: string,
+      label: StringOrReactNode,
+    ) => void;
     className?: string;
     expanded?: boolean;
     selected?: string | Option;
