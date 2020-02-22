@@ -28,7 +28,7 @@ declare module 'react-dropdown-now' {
     onChange?: (arg: Option) => void;
     onFocus?: (arg: boolean) => void;
     onOpen?: () => void;
-    onClose?: () => void;
+    onClose?: (closedBySelection: boolean) => void;
     value?: Option | string;
     placeholder?: String;
   }
