@@ -90,28 +90,6 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
   component.unmount();
 });
 
-test('ReactDropdownNow, should close when external click', t => {
-  const onAddEventListener = sinon.spy(document, 'addEventListener');
-  const component = mount(
-    <ReactDropdownNow options={['one', 'two', 'three']} />,
-  );
-
-  const docListener = onAddEventListener.getCalls().reduce(
-    (prev, call) => ({
-      ...prev,
-      [call.args[0]]: call.args[1],
-    }),
-    {},
-  );
-
-  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
-  t.true(component.find('.Dropdown-root').hasClass('is-open'));
-  docListener.click.call(window, { target: document.createElement('span') });
-  component.update();
-  t.false(component.find('.Dropdown-root').hasClass('is-open'));
-  component.unmount();
-});
-
 test('ReactDropdownNow, should render same open shut arrow class', t => {
   const component = mount(
     <ReactDropdownNow options={['one', 'two', 'three']} value="one" />,
