@@ -1,65 +1,43 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 
 import Menu from './Menu';
+import { useOutsideClick } from './hooks/use-outside-click';
 import { parseValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
-class Dropdown extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: parseValue(props.value, props.options) || {
-        label:
-          typeof props.placeholder === 'undefined'
-            ? DEFAULT_PLACEHOLDER_STRING
-            : props.placeholder,
-        value: '',
-      },
-      isOpen: false,
-    };
-    this.mounted = true;
-  }
+function Dropdown({
+  placeholder,
+  options,
+  value,
+  disabled,
+  onOpen,
+  onClose,
+  onFocus,
+  onChange,
+  baseClassName,
+  controlClassName,
+  placeholderClassName,
+  menuClassName,
+  arrowClassName,
+  arrowClosed,
+  arrowOpen,
+  className,
+  noOptionsDisplay,
+}) {
+  const [selected, setSelected] = useState(
+    parseValue(value, options) || {
+      label:
+        typeof placeholder === 'undefined'
+          ? DEFAULT_PLACEHOLDER_STRING
+          : placeholder,
+      value: '',
+    },
+  );
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownNode = useRef();
 
-  componentDidMount() {
-    document.addEventListener('click', this.handleDocumentClick, false);
-    document.addEventListener('touchend', this.handleDocumentClick, false);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { selected: selectedState } = this.state;
-    const { value, options, placeholder } = this.props;
-    if (value !== prevProps.value) {
-      if (value) {
-        const selected = parseValue(value, options);
-        if (selected !== selectedState) {
-          // eslint-disable-next-line react/no-did-update-set-state
-          this.setState({ selected });
-        }
-      } else {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({
-          selected: {
-            label:
-              typeof placeholder === 'undefined'
-                ? DEFAULT_PLACEHOLDER_STRING
-                : placeholder,
-            value: '',
-          },
-        });
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-    document.removeEventListener('click', this.handleDocumentClick, false);
-    document.removeEventListener('touchend', this.handleDocumentClick, false);
-  }
-
-  handleOpenStateEvents = isOpen => {
-    const { onOpen, onClose } = this.props;
+  const handleOpenStateEvents = isOpen => {
     if (isOpen && typeof onOpen === 'function') {
       onOpen();
     }
@@ -69,9 +47,17 @@ class Dropdown extends Component {
     }
   };
 
-  handleMouseDown = event => {
-    const { onFocus, disabled } = this.props;
-    const { isOpen } = this.state;
+  useOutsideClick({
+    ref: dropdownNode,
+    handler: () => {
+      if (isOpen) {
+        setIsOpen(false);
+        handleOpenStateEvents(false);
+      }
+    },
+  });
+
+  const handleMouseDown = event => {
     if (typeof onFocus === 'function') {
       onFocus(isOpen);
     }
@@ -81,133 +67,95 @@ class Dropdown extends Component {
 
     if (!disabled) {
       const newIsOpen = !isOpen;
-      this.setState({
-        isOpen: newIsOpen,
-      });
-      this.handleOpenStateEvents(newIsOpen);
+      setIsOpen(newIsOpen);
+      handleOpenStateEvents(newIsOpen);
     }
   };
 
-  setValue = (value, label) => {
-    const { options } = this.props;
-    const newState = {
-      selected: parseValue(value, options) || {
-        value,
-        label,
-      },
-      isOpen: false,
+  const fireChangeEvent = newSelectedState => {
+    if (newSelectedState !== selected && onChange) {
+      onChange(newSelectedState);
+    }
+  };
+
+  const setValue = (value, label) => {
+    const newSelectedState = parseValue(value, options) || {
+      value,
+      label,
     };
-    this.fireChangeEvent(newState);
-    this.setState(newState);
-    this.handleOpenStateEvents(false);
+    fireChangeEvent(newSelectedState);
+    setSelected(newSelectedState);
+    setIsOpen(false);
+    handleOpenStateEvents(false);
   };
 
-  fireChangeEvent = newState => {
-    const { onChange } = this.props;
-    const { selected } = this.state;
-    if (newState.selected !== selected && onChange) {
-      onChange(newState.selected);
-    }
-  };
-
-  handleDocumentClick = event => {
-    const { isOpen } = this.state;
-    if (this.mounted) {
-      // eslint-disable-next-line react/no-find-dom-node
-      if (!ReactDOM.findDOMNode(this).contains(event.target)) {
-        if (isOpen) {
-          this.setState({ isOpen: false });
-          this.handleOpenStateEvents(false);
-        }
-      }
-    }
-  };
-
-  isValueSelected = () => {
-    const { selected } = this.state;
-
+  const isValueSelected = () => {
     return Boolean(typeof selected === 'string' || selected.value !== '');
   };
 
-  render() {
-    const { selected, isOpen } = this.state;
-    const {
-      baseClassName,
-      controlClassName,
-      placeholderClassName,
-      menuClassName,
-      arrowClassName,
-      arrowClosed,
-      arrowOpen,
-      className,
-      options,
-      disabled,
-      noOptionsDisplay,
-    } = this.props;
+  const disabledClass = disabled ? `${baseClassName}-disabled` : '';
+  const placeHolderValue =
+    typeof selected === 'string' ? selected : selected.label;
 
-    const disabledClass = disabled ? `${baseClassName}-disabled` : '';
-    const placeHolderValue =
-      typeof selected === 'string' ? selected : selected.label;
+  const dropdownClass = classNames({
+    [`${baseClassName}-root`]: true,
+    [className]: !!className,
+    'is-open': isOpen,
+  });
+  const controlClass = classNames({
+    [`${baseClassName}-control`]: true,
+    [controlClassName]: !!controlClassName,
+    [disabledClass]: !!disabledClass,
+  });
+  const placeholderClass = classNames({
+    [`${baseClassName}-placeholder`]: true,
+    [placeholderClassName]: !!placeholderClassName,
+    'is-selected': isValueSelected(),
+  });
+  const menuClass = classNames({
+    [`${baseClassName}-menu`]: true,
+    [menuClassName]: !!menuClassName,
+  });
+  const arrowClass = classNames({
+    [`${baseClassName}-arrow`]: true,
+    [arrowClassName]: !!arrowClassName,
+  });
 
-    const dropdownClass = classNames({
-      [`${baseClassName}-root`]: true,
-      [className]: !!className,
-      'is-open': isOpen,
-    });
-    const controlClass = classNames({
-      [`${baseClassName}-control`]: true,
-      [controlClassName]: !!controlClassName,
-      [disabledClass]: !!disabledClass,
-    });
-    const placeholderClass = classNames({
-      [`${baseClassName}-placeholder`]: true,
-      [placeholderClassName]: !!placeholderClassName,
-      'is-selected': this.isValueSelected(),
-    });
-    const menuClass = classNames({
-      [`${baseClassName}-menu`]: true,
-      [menuClassName]: !!menuClassName,
-    });
-    const arrowClass = classNames({
-      [`${baseClassName}-arrow`]: true,
-      [arrowClassName]: !!arrowClassName,
-    });
+  const valueDisplay = (
+    <div className={placeholderClass}>{placeHolderValue}</div>
+  );
 
-    const value = <div className={placeholderClass}>{placeHolderValue}</div>;
-    const menu = isOpen ? (
-      <Menu
-        expanded
-        className={menuClass}
-        selected={selected}
-        options={options}
-        baseClassName={baseClassName}
-        noOptionsDisplay={noOptionsDisplay}
-        onSelect={(e, selectedValue, label) =>
-          this.setValue(selectedValue, label)
-        }
-      />
-    ) : null;
+  const menu = isOpen ? (
+    <Menu
+      expanded
+      className={menuClass}
+      selected={selected}
+      options={options}
+      baseClassName={baseClassName}
+      noOptionsDisplay={noOptionsDisplay}
+      onSelect={(e, selectedValue, label) => setValue(selectedValue, label)}
+    />
+  ) : null;
 
-    const arrow = isOpen ? arrowOpen : arrowClosed;
+  const arrow = isOpen ? arrowOpen : arrowClosed;
 
-    return (
-      <div className={dropdownClass}>
-        <div
-          role="presentation"
-          className={controlClass}
-          onMouseDown={this.handleMouseDown}
-          onTouchEnd={this.handleMouseDown}
-          aria-haspopup="listbox"
-        >
-          {value}
-          <div className={`${baseClassName}-arrow-wrapper`}>
-            {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
-          </div>
+  return (
+    <div className={dropdownClass} ref={dropdownNode}>
+      <div
+        role="presentation"
+        className={controlClass}
+        onMouseDown={handleMouseDown}
+        onTouchEnd={handleMouseDown}
+        aria-haspopup="listbox"
+      >
+        {valueDisplay}
+        <div className={`${baseClassName}-arrow-wrapper`}>
+          {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
         </div>
-        {menu}
       </div>
-    );
-  }
+      {menu}
+    </div>
+  );
 }
 
 Dropdown.defaultProps = {
