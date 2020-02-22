@@ -37,12 +37,12 @@ function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownNode = useRef();
 
-  const handleOpenStateEvents = isOpen => {
-    if (isOpen && typeof onOpen === 'function') {
+  const handleOpenStateEvents = dropdownIsOpen => {
+    if (dropdownIsOpen && typeof onOpen === 'function') {
       onOpen();
     }
 
-    if (!isOpen && typeof onClose === 'function') {
+    if (!dropdownIsOpen && typeof onClose === 'function') {
       onClose();
     }
   };
@@ -78,10 +78,10 @@ function Dropdown({
     }
   };
 
-  const setValue = (value, label) => {
-    const newSelectedState = parseValue(value, options) || {
-      value,
-      label,
+  const setValue = (newValue, newLabel) => {
+    const newSelectedState = parseValue(newValue, options) || {
+      value: newValue,
+      label: newLabel,
     };
     fireChangeEvent(newSelectedState);
     setSelected(newSelectedState);
