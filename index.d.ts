@@ -10,6 +10,9 @@ declare module 'react-dropdown-now' {
     name: string;
     items: Option[];
   }
+
+  type StringOrReactNode = string | React.ReactNode;
+
   export interface ReactDropdownProps {
     options: (Group | Option | string)[];
     baseClassName?: string;
@@ -18,7 +21,7 @@ declare module 'react-dropdown-now' {
     placeholderClassName?: string;
     menuClassName?: string;
     arrowClassName?: string;
-    noOptionsDisplay?: string;
+    noOptionsDisplay?: StringOrReactNode;
     disabled?: boolean;
     arrowClosed?: React.ReactNode;
     arrowOpen?: React.ReactNode;
@@ -32,12 +35,12 @@ declare module 'react-dropdown-now' {
 
   export interface MenuProps {
     options: (Group | Option | string)[];
-    onSelect: (e: Event, value: string, label: React.ReactNode) => void;
+    onSelect: (e: Event, value: string, label: StringOrReactNode) => void;
     className?: string;
     expanded?: boolean;
-    selected?: string;
+    selected?: string | Option;
     baseClassName?: string;
-    noOptionsDisplay?: string;
+    noOptionsDisplay?: StringOrReactNode;
   }
 
   class ReactDropdown extends React.Component<ReactDropdownProps> {}
