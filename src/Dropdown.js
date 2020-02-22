@@ -7,7 +7,7 @@ import { parseValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 class Dropdown extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
     this.state = {
       selected: parseValue(props.value, props.options) || {
@@ -15,79 +15,87 @@ class Dropdown extends Component {
           typeof props.placeholder === 'undefined'
             ? DEFAULT_PLACEHOLDER_STRING
             : props.placeholder,
-        value: ''
+        value: '',
       },
-      isOpen: false
+      isOpen: false,
     };
     this.mounted = true;
   }
 
-  componentDidMount () {
+  componentDidMount() {
     document.addEventListener('click', this.handleDocumentClick, false);
     document.addEventListener('touchend', this.handleDocumentClick, false);
   }
 
-  componentDidUpdate (prevProps) {
-    if (this.props.value !== prevProps.value) {
-      if (this.props.value) {
-        let selected = parseValue(this.props.value, this.props.options);
-        if (selected !== this.state.selected) {
+  componentDidUpdate(prevProps) {
+    const { selected: selectedState } = this.state;
+    const { value, options, placeholder } = this.props;
+    if (value !== prevProps.value) {
+      if (value) {
+        const selected = parseValue(value, options);
+        if (selected !== selectedState) {
+          // eslint-disable-next-line react/no-did-update-set-state
           this.setState({ selected });
         }
       } else {
+        // eslint-disable-next-line react/no-did-update-set-state
         this.setState({
           selected: {
             label:
-              typeof this.props.placeholder === 'undefined'
+              typeof placeholder === 'undefined'
                 ? DEFAULT_PLACEHOLDER_STRING
-                : this.props.placeholder,
-            value: ''
-          }
+                : placeholder,
+            value: '',
+          },
         });
       }
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.mounted = false;
     document.removeEventListener('click', this.handleDocumentClick, false);
     document.removeEventListener('touchend', this.handleDocumentClick, false);
   }
 
   handleOpenStateEvents = isOpen => {
-    if (isOpen && typeof this.props.onOpen === 'function') {
-      this.props.onOpen();
+    const { onOpen, onClose } = this.props;
+    if (isOpen && typeof onOpen === 'function') {
+      onOpen();
     }
 
-    if (!isOpen && typeof this.props.onClose === 'function') {
-      this.props.onClose();
+    if (!isOpen && typeof onClose === 'function') {
+      onClose();
     }
   };
 
   handleMouseDown = event => {
-    if (this.props.onFocus && typeof this.props.onFocus === 'function') {
-      this.props.onFocus(this.state.isOpen);
+    const { onFocus, disabled } = this.props;
+    const { isOpen } = this.state;
+    if (typeof onFocus === 'function') {
+      onFocus(isOpen);
     }
     if (event.type === 'mousedown' && event.button !== 0) return;
     event.stopPropagation();
     event.preventDefault();
 
-    if (!this.props.disabled) {
-      const isOpen = !this.state.isOpen;
+    if (!disabled) {
+      const newIsOpen = !isOpen;
       this.setState({
-        isOpen
+        isOpen: newIsOpen,
       });
-      this.handleOpenStateEvents(isOpen);
+      this.handleOpenStateEvents(newIsOpen);
     }
   };
 
   setValue = (value, label) => {
-    let newState = {
-      selected: parseValue(value, this.props.options) || {
+    const { options } = this.props;
+    const newState = {
+      selected: parseValue(value, options) || {
         value,
-        label
+        label,
       },
-      isOpen: false
+      isOpen: false,
     };
     this.fireChangeEvent(newState);
     this.setState(newState);
@@ -95,16 +103,19 @@ class Dropdown extends Component {
   };
 
   fireChangeEvent = newState => {
-    if (newState.selected !== this.state.selected && this.props.onChange) {
-      this.props.onChange(newState.selected);
+    const { onChange } = this.props;
+    const { selected } = this.state;
+    if (newState.selected !== selected && onChange) {
+      onChange(newState.selected);
     }
   };
 
   handleDocumentClick = event => {
+    const { isOpen } = this.state;
     if (this.mounted) {
       // eslint-disable-next-line react/no-find-dom-node
       if (!ReactDOM.findDOMNode(this).contains(event.target)) {
-        if (this.state.isOpen) {
+        if (isOpen) {
           this.setState({ isOpen: false });
           this.handleOpenStateEvents(false);
         }
@@ -118,7 +129,8 @@ class Dropdown extends Component {
     return Boolean(typeof selected === 'string' || selected.value !== '');
   };
 
-  render () {
+  render() {
+    const { selected, isOpen } = this.state;
     const {
       baseClassName,
       controlClassName,
@@ -129,57 +141,59 @@ class Dropdown extends Component {
       arrowOpen,
       className,
       options,
-      noOptionsDisplay
+      disabled,
+      noOptionsDisplay,
     } = this.props;
 
-    const disabledClass = this.props.disabled ? 'Dropdown-disabled' : '';
+    const disabledClass = disabled ? `${baseClassName}-disabled` : '';
     const placeHolderValue =
-      typeof this.state.selected === 'string'
-        ? this.state.selected
-        : this.state.selected.label;
+      typeof selected === 'string' ? selected : selected.label;
 
     const dropdownClass = classNames({
       [`${baseClassName}-root`]: true,
       [className]: !!className,
-      'is-open': this.state.isOpen
+      'is-open': isOpen,
     });
     const controlClass = classNames({
       [`${baseClassName}-control`]: true,
       [controlClassName]: !!controlClassName,
-      [disabledClass]: !!disabledClass
+      [disabledClass]: !!disabledClass,
     });
     const placeholderClass = classNames({
       [`${baseClassName}-placeholder`]: true,
       [placeholderClassName]: !!placeholderClassName,
-      'is-selected': this.isValueSelected()
+      'is-selected': this.isValueSelected(),
     });
     const menuClass = classNames({
       [`${baseClassName}-menu`]: true,
-      [menuClassName]: !!menuClassName
+      [menuClassName]: !!menuClassName,
     });
     const arrowClass = classNames({
       [`${baseClassName}-arrow`]: true,
-      [arrowClassName]: !!arrowClassName
+      [arrowClassName]: !!arrowClassName,
     });
 
     const value = <div className={placeholderClass}>{placeHolderValue}</div>;
-    const menu = this.state.isOpen ? (
+    const menu = isOpen ? (
       <Menu
         expanded
         className={menuClass}
-        selected={this.state.selected}
+        selected={selected}
         options={options}
         baseClassName={baseClassName}
         noOptionsDisplay={noOptionsDisplay}
-        onSelect={(e, value, label) => this.setValue(value, label)}
+        onSelect={(e, selectedValue, label) =>
+          this.setValue(selectedValue, label)
+        }
       />
     ) : null;
 
-    const arrow = this.state.isOpen ? arrowOpen : arrowClosed;
+    const arrow = isOpen ? arrowOpen : arrowClosed;
 
     return (
       <div className={dropdownClass}>
         <div
+          role="presentation"
           className={controlClass}
           onMouseDown={this.handleMouseDown}
           onTouchEnd={this.handleMouseDown}
@@ -199,7 +213,7 @@ class Dropdown extends Component {
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   onOpen: () => {},
-  onClose: () => {}
+  onClose: () => {},
 };
 
 export default Dropdown;
