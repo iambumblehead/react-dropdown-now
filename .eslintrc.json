@@ -40,7 +40,6 @@
     "react/state-in-constructor": 0,
     "jsx-a11y/label-has-for": 0,
     "jsx-quotes": ["error", "prefer-double"],
-    "no-unused-vars": 0,
     "require-await": 0,
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
   },
