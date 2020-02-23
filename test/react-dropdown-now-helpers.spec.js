@@ -1,13 +1,13 @@
 import test from 'ava';
 
-import { parseValue } from '../src/helpers';
+import { parseOptionsValue } from '../src/helpers';
 
-test('parseValue("value", []), should return "value"', t => {
-  t.is(parseValue('value', []), 'value');
+test('parseOptionsValue("value", []), should return "value"', t => {
+  t.is(parseOptionsValue([], 'value'), 'value');
 });
 
-test('parseValue("value 2", […]), should return value 2 item', t => {
-  t.deepEqual(parseValue('value 2', [ {
+test('parseOptionsValue("value 2", […]), should return value 2 item', t => {
+  t.deepEqual(parseOptionsValue([ {
     type: 'group',
     items: [ {
       label: 'group label',
@@ -16,14 +16,14 @@ test('parseValue("value 2", […]), should return value 2 item', t => {
   }, {
     label: 'label 2',
     value: 'value 2'
-  } ]), {
+  } ], 'value 2'), {
     label: 'label 2',
     value: 'value 2'
   });
 });
 
-test('parseValue("group value", […]), should return group value item', t => {
-  t.deepEqual(parseValue('group value', [ {
+test('parseOptionsValue("group value", […]), should return group value item', t => {
+  t.deepEqual(parseOptionsValue([ {
     type: 'group',
     items: [ {
       label: 'group label',
@@ -32,14 +32,14 @@ test('parseValue("group value", […]), should return group value item', t => {
   }, {
     label: 'label 2',
     value: 'value 2'
-  } ]), {
+  } ], 'group value'), {
     label: 'group label',
     value: 'group value'
   });
 });
 
-test('parseValue("no value", […]), should return "no value"', t => {
-  t.deepEqual(parseValue('no value', [ {
+test('parseOptionsValue("no value", […]), should return "no value"', t => {
+  t.deepEqual(parseOptionsValue([ {
     type: 'group',
     items: [ {
       label: 'group label',
@@ -48,5 +48,5 @@ test('parseValue("no value", […]), should return "no value"', t => {
   }, {
     label: 'label 2',
     value: 'value 2'
-  } ]), 'no value');
+  } ], 'no value'), 'no value');
 });
