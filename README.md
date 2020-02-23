@@ -7,17 +7,16 @@
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 
 ```Javascript
-import Dropdown from 'react-dropdown-now';
+import DropdownNOW from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
 
-const options = ['one', 'two', 'three'];
-const defaultOption = options[0];
-
-<Dropdown
-  options={options}
-  onChange={this._onSelect}
-  value={defaultOption}
-  placeholder="Select an option" />;
+<DropdownNOW
+  placeholder="Select an option"
+  options={['one', 'two', 'three']}
+  value="one"
+  onChange={() => console.log('change!')}
+  onClose={() => console.log('close!')}
+  onOpen={() => console.log('open!')} />;
 ```
 
 **Flat Array options**
@@ -54,7 +53,7 @@ When using Object options you can add to each option a className string to furth
 **Disabled**
 
 ```JavaScript
-<Dropdown disabled option={options} value={defaultOption} />;
+<DropdownNOW disabled option={options} value={defaultOption} />;
 ```
 
 ---
@@ -66,7 +65,7 @@ When using Object options you can add to each option a className string to furth
 The `className` prop is passed down to the wrapper `div`, which also has the `Dropdown-root` class.
 
 ```JavaScript
-<Dropdown className='myClassName' />;
+<DropdownNOW className='myClassName' />;
 ```
 
 **controlClassName**
@@ -74,7 +73,7 @@ The `className` prop is passed down to the wrapper `div`, which also has the `Dr
 The `controlClassName` prop is passed down to the control `div`, which also has the `Dropdown-control` class.
 
 ```JavaScript
-<Dropdown controlClassName='myControlClassName' />;
+<DropdownNOW controlClassName='myControlClassName' />;
 ```
 
 **placeholderClassName**
@@ -82,7 +81,7 @@ The `controlClassName` prop is passed down to the control `div`, which also has 
 The `placeholderClassName` prop is passed down to the placeholder `div`, which also has the `Dropdown-placeholder` class.
 
 ```JavaScript
-<Dropdown placeholderClassName='myPlaceholderClassName' />;
+<DropdownNOW placeholderClassName='myPlaceholderClassName' />;
 ```
 
 **menuClassName**
@@ -90,7 +89,7 @@ The `placeholderClassName` prop is passed down to the placeholder `div`, which a
 The `menuClassName` prop is passed down to the menu `div` (the one that opens and closes and holds the options), which also has the `Dropdown-menu` class.
 
 ```JavaScript
-<Dropdown menuClassName='myMenuClassName' />;
+<DropdownNOW menuClassName='myMenuClassName' />;
 ```
 
 **arrowClassName**
@@ -98,7 +97,7 @@ The `menuClassName` prop is passed down to the menu `div` (the one that opens an
 The `arrowClassName` prop is passed down to the arrow `span` , which also has the `Dropdown-arrow` class.
 
 ```JavaScript
-<Dropdown arrowClassName='myArrowClassName' />;
+<DropdownNOW arrowClassName='myArrowClassName' />;
 ```
 
 **arrowClosed**, **arrowOpen**
@@ -106,19 +105,9 @@ The `arrowClassName` prop is passed down to the arrow `span` , which also has th
 The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the open/closed state arrows.
 
 ```JavaScript
-<Dropdown
+<DropdownNOW
   arrowClosed={<span className="arrow-closed" />}
   arrowOpen={<span className="arrow-open" />} />;
-```
-
-**onClose**, **onOpen**
-
-The `onClose` & `onOpen` props enable actions to be taken when the dropdown either opens/closes
-
-```JavaScript
-<Dropdown
-  onClose={() => { /** do something **/ }}
-  onOpen={() => { /** do something **/ }} />;
 ```
 
 More [examples in the docs folder.][2]
