@@ -25,24 +25,31 @@ export const getOptionValue = (option, value = option) => {
   return value;
 };
 
-export const parseValue = (value, options) => {
-  let option;
+export const parseOptionValue = (option, value, optionValue = null) => {
+  if (option.type === 'group') {
+    const match = option.items.filter(item => item.value === value);
+    if (match.length) {
+      return match[0];
+    }
+  } else if (
+    isValidLabelOrValue(option.value)
+      && getOptionValue(option) === value) {
+    return option;
+  }
 
+  return optionValue;
+};
+
+export const parseOptionsValue = (options, value) => {
   if (typeof value === 'string') {
-    for (let i = 0, num = options.length; i < num; i++) {
-      if (options[i].type === 'group') {
-        const match = options[i].items.filter(item => item.value === value);
-        if (match.length) {
-          [ option ] = match;
-        }
-      } else if (
-        typeof options[i].value !== 'undefined' &&
-        options[i].value === value
-      ) {
-        option = options[i];
+    for (let i = options.length, optionValue; i--;) {
+      optionValue = parseOptionValue(options[i], value);
+
+      if (optionValue !== null) {
+        return optionValue;
       }
     }
   }
 
-  return option || value;
+  return value;
 };
