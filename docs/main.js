@@ -5,12 +5,13 @@ import FlatArrayExample from './flatArrayExample';
 import ObjectArrayExample from './objectArrayExample';
 import ZeroValObjectArrayExample from './zeroValObjectArrayExample';
 import CustomArrowExample from './customArrowExample';
+import SelectionObjectArrayExample from './selectionObjectArrayExample';
 
 const reactDropdownNowUrl = '//github.com/iambumblehead/react-dropdown-now';
 const reactDropdownUrl = '//github.com/fraserxu/react-dropdown';
 
 class App extends Component {
-  render () {
+  render() {
     return (
       <div>
         <header>
@@ -18,22 +19,20 @@ class App extends Component {
             <a href={reactDropdownNowUrl}>React Dropdown Now</a>
           </h2>
         </header>
-        <section className='description'>
+        <section className="description">
           <p>
-            Simple Dropdown component for React,
-            forked from <a href={reactDropdownUrl}>react-dropdown</a>
+            Simple Dropdown component for React, forked from &nbsp;
+            <a href={reactDropdownUrl}>react-dropdown</a>
           </p>
-          <div className='code'>
-            <pre>
-              { '$ npm install react-dropdown --save' }
-            </pre>
+          <div className="code">
+            <pre>{'$ npm i --save react-dropdown-now'}</pre>
           </div>
         </section>
 
         <section>
           <h3>Examples: </h3>
           <h4>Usage: </h4>
-          <div className='code'>
+          <div className="code">
             <pre>
               {`
 <Dropdown
@@ -50,12 +49,13 @@ class App extends Component {
         <ObjectArrayExample />
         <ZeroValObjectArrayExample />
         <CustomArrowExample />
+        <SelectionObjectArrayExample />
 
         <section>
           <h3>License: MIT</h3>
         </section>
       </div>
-    )
+    );
   }
 }
 

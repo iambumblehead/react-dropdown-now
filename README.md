@@ -2,21 +2,34 @@
 
 [![NPM version][npm-image]][npm-url]
 [![Downloads][downloads-image]][downloads-url]
-![Build Status][build-image]
+[![Build Status][build-image]][repo-url]
 
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 
+> requires React >= 16.8
+
 ```Javascript
-import Dropdown from 'react-dropdown-now';
+import Dropdown, { Selection } from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
 
+// normal usage
 <Dropdown
   placeholder="Select an option"
   options={['one', 'two', 'three']}
   value="one"
-  onChange={() => console.log('change!')}
-  onClose={() => console.log('close!')}
-  onOpen={() => console.log('open!')} />;
+  onChange={(value) => console.log('change!', value)}
+  onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
+  onOpen={() => console.log('open!')}
+/>;
+
+// static selection
+<Selection
+  options={['one', 'two', 'three']}
+  value="one"
+  onChange={(value) => console.log('change!', value)}
+/>;
+
+
 ```
 
 **Flat Array options**
@@ -131,3 +144,4 @@ THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 [downloads-image]: http://img.shields.io/npm/dm/react-dropdown-now.svg?style=flat-square
 [downloads-url]: https://npmjs.org/package/react-dropdown-now
 [build-image]: https://github.com/iambumblehead/react-dropdown-now/workflows/test-component/badge.svg
+[repo-url]: https://github.com/iambumblehead/react-dropdown-now
