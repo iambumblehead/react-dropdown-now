@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 
-import Menu from './Menu';
-import Arrow from './Arrow';
+import Menu from './components/Menu';
+import Arrow from './components/Arrow';
 import { useOutsideClick } from './hooks/use-outside-click';
 import { parseOptionsValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
@@ -123,9 +123,8 @@ function Dropdown({
   );
 
   const menu = isOpen ? (
-    <div className={className} aria-expanded>
+    <div className={menuClass} aria-expanded="true">
       <Menu
-        className={menuClass}
         selected={selected}
         options={options}
         baseClassName={baseClassName}

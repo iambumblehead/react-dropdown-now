@@ -6,17 +6,30 @@
 
 The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 
+> requires React >= 16.8
+
 ```Javascript
-import Dropdown from 'react-dropdown-now';
+import Dropdown, { Selection } from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
 
+// normal usage
 <Dropdown
   placeholder="Select an option"
   options={['one', 'two', 'three']}
   value="one"
-  onChange={() => console.log('change!')}
-  onClose={() => console.log('close!')}
-  onOpen={() => console.log('open!')} />;
+  onChange={(value) => console.log('change!', value)}
+  onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
+  onOpen={() => console.log('open!')}
+/>;
+
+// use the Selection component with other components like popovers etc.
+<Selection
+  options={['one', 'two', 'three']}
+  value="one"
+  onChange={(value) => console.log('change!', value)}
+/>;
+
+
 ```
 
 **Flat Array options**
