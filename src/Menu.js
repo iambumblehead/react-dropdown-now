@@ -34,7 +34,6 @@ const Menu = ({
         baseClassName={baseClassName}
         tabIndex={tabIndex}
         className={classNames({
-          [`${baseClassName}-option`]: true,
           [option.className]: !!option.className,
         })}
       />
