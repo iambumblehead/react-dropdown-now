@@ -12,7 +12,7 @@ const OptionGroup = props => {
     onSelect,
     className,
     baseClassName,
-    getTabIndex,
+    startTabIndex,
   } = props;
 
   const groupTitle = (
@@ -34,7 +34,7 @@ const OptionGroup = props => {
           selected={selected}
           onSelect={onSelect}
           baseClassName={baseClassName}
-          tabIndex={getTabIndex()}
+          tabIndex={startTabIndex + i}
           className={classNames({
             [item.className]: !!item.className,
           })}

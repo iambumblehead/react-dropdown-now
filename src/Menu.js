@@ -5,7 +5,7 @@ import Option from './Option';
 import OptionGroup from './OptionGroup';
 import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
-
+/*
 const getTabIndexFunction = () => {
   let i = 0;
   return () => {
@@ -14,6 +14,18 @@ const getTabIndexFunction = () => {
     return i;
   };
 };
+*/
+const setNextTabIndexFunction = () => {
+  let startIndex = 0;
+
+  return ( nextStart = 1 ) => {
+    const index = startIndex;
+    
+    startIndex += nextStart;
+    
+    return index;
+  };
+}
 
 const Menu = ({
   selected,
@@ -23,7 +35,7 @@ const Menu = ({
   noOptionsDisplay,
   className
 }) => {
-  const getTabIndex = getTabIndexFunction();
+  const setNextTabIndex = setNextTabIndexFunction();
   
   if (options.length === 0) {
     return (
@@ -40,7 +52,7 @@ const Menu = ({
       selected={selected}
       className={className}
       onSelect={onSelect}
-      getTabIndex={getTabIndex}
+      startTabIndex={setNextTabIndex( option.items.length )}
     />
   ) : (
     <Option
@@ -48,6 +60,7 @@ const Menu = ({
       option={option}
       selected={selected}
       onSelect={onSelect}
+      tabIndex={setNextTabIndex()}
       className={classNames({
         [option.className]: !!option.className,
       })}      
