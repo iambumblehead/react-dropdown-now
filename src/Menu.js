@@ -23,14 +23,6 @@ const Menu = ({
       </div>
     );
   }
-
-  options.map(option => {
-    if (option.type === 'group') {
-      console.log( 'key', getOptionName(option) );
-    } else {
-      console.log( 'key', getOptionValue(option) );
-    }
-  });
   
   return options.map(option => option.type === 'group' ? (
     <OptionGroup
@@ -47,6 +39,9 @@ const Menu = ({
       selected={selected}
       className={className}
       onSelect={onSelect}
+      className={classNames({
+        [option.className]: !!option.className,
+      })}      
     />
   ));
 };
