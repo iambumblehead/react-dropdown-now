@@ -1,6 +1,1 @@
-module.exports = {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'header-max-length': [2, 'always', 70],
-  },
-};
+module.exports = require('./.github/actions/pr-lint/commitlint.config');
