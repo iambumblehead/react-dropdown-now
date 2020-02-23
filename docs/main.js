@@ -5,6 +5,7 @@ import FlatArrayExample from './flatArrayExample';
 import ObjectArrayExample from './objectArrayExample';
 import ZeroValObjectArrayExample from './zeroValObjectArrayExample';
 import CustomArrowExample from './customArrowExample';
+import SelectionObjectArrayExample from './selectionObjectArrayExample';
 
 const reactDropdownNowUrl = '//github.com/iambumblehead/react-dropdown-now';
 const reactDropdownUrl = '//github.com/fraserxu/react-dropdown';
@@ -24,7 +25,7 @@ class App extends Component {
             <a href={reactDropdownUrl}>react-dropdown</a>
           </p>
           <div className="code">
-            <pre>{'$ npm i --save react-dropdown'}</pre>
+            <pre>{'$ npm i --save react-dropdown-now'}</pre>
           </div>
         </section>
 
@@ -48,6 +49,7 @@ class App extends Component {
         <ObjectArrayExample />
         <ZeroValObjectArrayExample />
         <CustomArrowExample />
+        <SelectionObjectArrayExample />
 
         <section>
           <h3>License: MIT</h3>

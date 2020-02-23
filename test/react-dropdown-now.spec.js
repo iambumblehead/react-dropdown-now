@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import { mount } from 'enzyme';
 
 import ReactDropdownNow from '../src';
-import Menu from '../src/Menu';
+import Menu from '../src/components/Menu';
 
 test('ReactDropdownNow, opens', t => {
   const onOpen = sinon.spy();
