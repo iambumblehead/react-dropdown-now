@@ -1,0 +1,23 @@
+{
+  "name": "pr-lint-action",
+  "version": "0.0.1",
+  "description": "PR Lint for Github Actions",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "actions",
+    "pr",
+    "lint"
+  ],
+  "author": "Layton Whiteley",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.2.2",
+    "@actions/github": "^2.1.1",
+    "@commitlint/lint": "^8.3.5",
+    "@commitlint/load": "^8.3.5",
+    "lodash": "^4.17.15"
+  }
+}

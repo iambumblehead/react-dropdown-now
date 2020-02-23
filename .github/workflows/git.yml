@@ -1,6 +1,8 @@
 name: git-validate
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
 
 jobs:
   build:
@@ -15,9 +17,17 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: validate git
+    - name: install deps
       run: |
         npm ci
+      env:
+        CI: true
+
+    - name: validate git
+      run: |
         npm run lint:commits
       env:
         CI: true
+        
+    - name: validate pr title
+      uses: ./.github/actions/pr-lint
