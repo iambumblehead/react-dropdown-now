@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import { getOptionLabel, getOptionValue } from '../helpers';
 import { BASE_DEFAULT_PROPS } from '../constants';
 
+function isOptionSelected(currentValue, selection) {
+  return currentValue === getOptionValue(selection);
+}
+
 const Option = props => {
   const {
     option,
@@ -15,7 +19,7 @@ const Option = props => {
   } = props;
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
-  const isSelected = value === selected;
+  const isSelected = isOptionSelected(value, selected);
   const optionClassName = classNames(className, {
     [`${baseClassName}-option`]: true,
     'is-selected': isSelected,
