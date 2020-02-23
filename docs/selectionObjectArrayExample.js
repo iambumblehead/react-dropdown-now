@@ -16,12 +16,7 @@ class SelectionObjectArrayExample extends Component {
   }
 
   render() {
-    const {
-      toggleClassName,
-      togglePlaholderClassName,
-      toggleMenuClassName,
-      toggleOptionsClassName,
-    } = this.state;
+    const { toggleMenuClassName, toggleOptionsClassName } = this.state;
 
     const options = [
       { value: 'one', label: 'One' },
@@ -60,7 +55,7 @@ class SelectionObjectArrayExample extends Component {
 
     return (
       <section>
-        <h3>Static selection example </h3>
+        <h3>Using selection outside the dropdown</h3>
         <div className="buttons">
           <button
             onClick={() =>

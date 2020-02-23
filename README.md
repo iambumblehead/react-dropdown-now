@@ -22,7 +22,7 @@ import 'react-dropdown-now/style.css';
   onOpen={() => console.log('open!')}
 />;
 
-// static selection
+// use the Selection component with other components like popovers etc.
 <Selection
   options={['one', 'two', 'three']}
   value="one"
