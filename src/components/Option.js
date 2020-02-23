@@ -5,18 +5,20 @@ import { getOptionLabel, getOptionValue } from '../helpers';
 import { BASE_DEFAULT_PROPS } from '../constants';
 
 function isOptionSelected(currentValue, selection) {
+  if (!selection) {
+    return false;
+  }
   return currentValue === getOptionValue(selection);
 }
 
-const Option = props => {
-  const {
-    option,
-    selected,
-    onSelect,
-    className,
-    baseClassName,
-    tabIndex,
-  } = props;
+const Option = ({
+  option,
+  selected,
+  onSelect,
+  className,
+  baseClassName,
+  tabIndex,
+}) => {
   const value = getOptionValue(option);
   const label = getOptionLabel(option);
   const isSelected = isOptionSelected(value, selected);

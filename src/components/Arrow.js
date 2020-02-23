@@ -3,15 +3,13 @@ import classNames from 'classnames';
 
 import { BASE_DEFAULT_PROPS } from '../constants';
 
-const Arrow = props => {
-  const {
-    isOpen,
-    arrowClassName,
-    arrowClosed,
-    arrowOpen,
-    baseClassName,
-  } = props;
-
+const Arrow = ({
+  isOpen,
+  arrowClassName,
+  arrowClosed,
+  arrowOpen,
+  baseClassName,
+}) => {
   const arrowClass = classNames({
     [`${baseClassName}-arrow`]: true,
     [arrowClassName]: !!arrowClassName,
