@@ -126,15 +126,16 @@ function Dropdown({
   );
 
   const menu = isOpen ? (
-    <Menu
-      expanded
-      className={menuClass}
-      selected={selected}
-      options={options}
-      baseClassName={baseClassName}
-      noOptionsDisplay={noOptionsDisplay}
-      onSelect={(e, selectedValue, label) => setValue(selectedValue, label)}
-    />
+    <div className={className} aria-expanded>
+      <Menu
+        className={menuClass}
+        selected={selected}
+        options={options}
+        baseClassName={baseClassName}
+        noOptionsDisplay={noOptionsDisplay}
+        onSelect={(e, selectedValue, label) => setValue(selectedValue, label)}
+      />
+    </div>
   ) : null;
 
   const arrow = isOpen ? arrowOpen : arrowClosed;
