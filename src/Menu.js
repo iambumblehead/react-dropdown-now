@@ -11,10 +11,18 @@ const Menu = ({
   options,
   onSelect,
   noOptionsDisplay,
-  className,
-  expanded,
+  className
 }) => {
   let tabIndex = -1;
+
+  if (options.length === 0) {
+    return (
+      <div className={`${baseClassName}-noresults`}>
+        {noOptionsDisplay}
+      </div>
+    );
+  }
+
   const renderOption = option => {
     tabIndex += 1;
     return (
@@ -33,7 +41,7 @@ const Menu = ({
     );
   };
 
-  const ops = options.map(option => {
+  return options.map(option => {
     if (option.type === 'group') {
       const groupTitle = (
         <div className={`${baseClassName}-title`}>{option.name}</div>
@@ -55,24 +63,11 @@ const Menu = ({
 
     return renderOption(option);
   });
-
-  const display = ops.length ? (
-    ops
-  ) : (
-    <div className={`${baseClassName}-noresults`}>{noOptionsDisplay}</div>
-  );
-
-  return (
-    <div className={className} aria-expanded={expanded.toString()}>
-      {display}
-    </div>
-  );
 };
 
 Menu.defaultProps = {
   ...BASE_DEFAULT_PROPS,
-  noOptionsDisplay: 'No options found',
-  expanded: false,
+  noOptionsDisplay: 'No options found'
 };
 
 export default Menu;
