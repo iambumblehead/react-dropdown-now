@@ -41,7 +41,6 @@ declare module 'react-dropdown-now' {
       label: StringOrReactNode,
     ) => void;
     className?: string;
-    expanded?: boolean;
     selected?: string | Option;
     baseClassName?: string;
     noOptionsDisplay?: StringOrReactNode;
