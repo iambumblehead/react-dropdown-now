@@ -1,6 +1,8 @@
 name: git-validate
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, edited, reopened]
 
 jobs:
   build:
@@ -8,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Dump GitHub context
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+      
     - uses: actions/checkout@v1
 
     - name: setup node 12.x
@@ -15,9 +23,20 @@ jobs:
       with:
         node-version: '12.x'
 
-    - name: validate git
+    - name: install deps
       run: |
         npm ci
+      env:
+        CI: true
+
+    - name: validate git
+      run: |
         npm run lint:commits
+      env:
+        CI: true
+        
+    - name: validate pr title
+      run: |
+        node ./scripts/lint-message.js --message "${{ github.payload.pull_request.title }}"
       env:
         CI: true

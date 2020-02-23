@@ -58,6 +58,8 @@
     "@babel/register": "^7.8.3",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
+    "@commitlint/lint": "^8.3.5",
+    "@commitlint/load": "^8.3.5",
     "ava": "^3.3.0",
     "babel-eslint": "^10.0.3",
     "babelify": "^10.0.0",
@@ -78,7 +80,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "sinon": "^9.0.0",
-    "watchify": "^3.11.1"
+    "watchify": "^3.11.1",
+    "yargs": "^15.1.0"
   },
   "typings": "./index.d.ts",
   "scripts": {
