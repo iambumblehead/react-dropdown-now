@@ -42,7 +42,8 @@
     "jsx-quotes": ["error", "prefer-double"],
     "require-await": 0,
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
-    "comma-dangle": ["error", "only-multiline"]
+    "comma-dangle": ["error", "only-multiline"],
+    "no-trailing-spaces": "error"
   },
   "overrides": [
     {
