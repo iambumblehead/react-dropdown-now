@@ -14,8 +14,6 @@ const Menu = ({
   noOptionsDisplay,
   className
 }) => {
-  let tabIndex = -1;
-
   if (options.length === 0) {
     return (
       <div className={`${baseClassName}-noresults`}>
@@ -37,7 +35,6 @@ const Menu = ({
       key={getOptionValue(option)}
       option={option}
       selected={selected}
-      className={className}
       onSelect={onSelect}
       className={classNames({
         [option.className]: !!option.className,
