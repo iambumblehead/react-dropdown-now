@@ -10,14 +10,13 @@ The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 import Dropdown from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
 
-const options = ['one', 'two', 'three'];
-const defaultOption = options[0];
-
 <Dropdown
-  options={options}
-  onChange={this._onSelect}
-  value={defaultOption}
-  placeholder="Select an option" />;
+  placeholder="Select an option"
+  options={['one', 'two', 'three']}
+  value="one"
+  onChange={() => console.log('change!')}
+  onClose={() => console.log('close!')}
+  onOpen={() => console.log('open!')} />;
 ```
 
 **Flat Array options**
@@ -109,16 +108,6 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
 <Dropdown
   arrowClosed={<span className="arrow-closed" />}
   arrowOpen={<span className="arrow-open" />} />;
-```
-
-**onClose**, **onOpen**
-
-The `onClose` & `onOpen` props enable actions to be taken when the dropdown either opens/closes
-
-```JavaScript
-<Dropdown
-  onClose={() => { /** do something **/ }}
-  onOpen={() => { /** do something **/ }} />;
 ```
 
 More [examples in the docs folder.][2]
