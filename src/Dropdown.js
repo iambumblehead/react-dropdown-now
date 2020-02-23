@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import classNames from 'classnames';
 
 import Menu from './Menu';
+import Arrow from './Arrow';
 import { useOutsideClick } from './hooks/use-outside-click';
 import { parseOptionsValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
@@ -116,10 +117,6 @@ function Dropdown({
     [`${baseClassName}-menu`]: true,
     [menuClassName]: !!menuClassName,
   });
-  const arrowClass = classNames({
-    [`${baseClassName}-arrow`]: true,
-    [arrowClassName]: !!arrowClassName,
-  });
 
   const valueDisplay = (
     <div className={placeholderClass}>{placeHolderValue}</div>
@@ -138,8 +135,6 @@ function Dropdown({
     </div>
   ) : null;
 
-  const arrow = isOpen ? arrowOpen : arrowClosed;
-
   return (
     <div className={dropdownClass} ref={dropdownNode}>
       <div
@@ -150,9 +145,13 @@ function Dropdown({
         aria-haspopup="listbox"
       >
         {valueDisplay}
-        <div className={`${baseClassName}-arrow-wrapper`}>
-          {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
-        </div>
+        <Arrow
+          isOpen={isOpen}
+          baseClassName={baseClassName}
+          arrowClassName={arrowClassName}
+          arrowClosed={arrowClosed}
+          arrowOpen={arrowOpen}
+        />
       </div>
       {menu}
     </div>
