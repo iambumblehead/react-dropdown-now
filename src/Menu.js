@@ -5,16 +5,7 @@ import Option from './Option';
 import OptionGroup from './OptionGroup';
 import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
-/*
-const getTabIndexFunction = () => {
-  let i = 0;
-  return () => {
-    i += 1;
 
-    return i;
-  };
-};
-*/
 const setNextTabIndexFunction = () => {
   let startIndex = 0;
 
@@ -25,7 +16,7 @@ const setNextTabIndexFunction = () => {
     
     return index;
   };
-}
+};
 
 const Menu = ({
   selected,
