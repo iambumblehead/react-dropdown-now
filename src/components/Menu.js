@@ -24,7 +24,6 @@ const Menu = ({
   options,
   onSelect,
   noOptionsDisplay,
-  className,
 }) => {
   const setNextTabIndex = setNextTabIndexFunction();
 
@@ -40,7 +39,6 @@ const Menu = ({
         key={getOptionName(option)}
         option={option}
         selected={selected}
-        className={className}
         onSelect={onSelect}
         startTabIndex={setNextTabIndex(option.items.length)}
       />

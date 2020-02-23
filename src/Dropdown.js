@@ -123,9 +123,8 @@ function Dropdown({
   );
 
   const menu = isOpen ? (
-    <div className={className} aria-expanded>
+    <div className={menuClass} aria-expanded="true">
       <Menu
-        className={menuClass}
         selected={selected}
         options={options}
         baseClassName={baseClassName}
