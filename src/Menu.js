@@ -6,6 +6,15 @@ import OptionGroup from './OptionGroup';
 import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
 
+const getTabIndex = (() => {
+  let i = 0;
+  return () => {
+    i += 1;
+
+    return i;
+  };
+})();
+
 const Menu = ({
   selected,
   baseClassName,
@@ -29,6 +38,7 @@ const Menu = ({
       selected={selected}
       className={className}
       onSelect={onSelect}
+      getTabIndex={getTabIndex}
     />
   ) : (
     <Option
