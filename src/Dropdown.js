@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Menu from './Menu';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { parseValue } from './helpers';
+import { parseOptionsValue } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 function Dropdown({
@@ -26,7 +26,7 @@ function Dropdown({
   noOptionsDisplay,
 }) {
   const [selected, setSelected] = useState(
-    parseValue(value, options) || {
+    parseOptionsValue(options, value) || {
       label:
         typeof placeholder === 'undefined'
           ? DEFAULT_PLACEHOLDER_STRING
@@ -79,7 +79,7 @@ function Dropdown({
   };
 
   const setValue = (newValue, newLabel) => {
-    const newSelectedState = parseValue(newValue, options) || {
+    const newSelectedState = parseOptionsValue(options, newValue) || {
       value: newValue,
       label: newLabel,
     };
