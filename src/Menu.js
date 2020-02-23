@@ -2,7 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Option from './Option';
-import { getOptionValue } from './helpers';
+import OptionGroup from './OptionGroup';
+import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
 
 const Menu = ({
@@ -23,45 +24,31 @@ const Menu = ({
     );
   }
 
-  const renderOption = option => {
-    tabIndex += 1;
-    return (
-      <Option
-        option={option}
-        key={getOptionValue(option)}
-        selected={selected}
-        onSelect={onSelect}
-        baseClassName={baseClassName}
-        tabIndex={tabIndex}
-        className={classNames({
-          [option.className]: !!option.className,
-        })}
-      />
-    );
-  };
-
-  return options.map(option => {
+  options.map(option => {
     if (option.type === 'group') {
-      const groupTitle = (
-        <div className={`${baseClassName}-title`}>{option.name}</div>
-      );
-      const tmpOptions = option.items.map(item => renderOption(item));
-
-      return (
-        <div
-          className={`${baseClassName}-group`}
-          key={option.name}
-          role="listbox"
-          tabIndex="-1"
-        >
-          {groupTitle}
-          {tmpOptions}
-        </div>
-      );
+      console.log( 'key', getOptionName(option) );
+    } else {
+      console.log( 'key', getOptionValue(option) );
     }
-
-    return renderOption(option);
   });
+  
+  return options.map(option => option.type === 'group' ? (
+    <OptionGroup
+      key={getOptionName(option)}
+      option={option}
+      selected={selected}
+      className={className}
+      onSelect={onSelect}
+    />
+  ) : (
+    <Option
+      key={getOptionValue(option)}
+      option={option}
+      selected={selected}
+      className={className}
+      onSelect={onSelect}
+    />
+  ));
 };
 
 Menu.defaultProps = {
