@@ -41,7 +41,8 @@
     "jsx-a11y/label-has-for": 0,
     "jsx-quotes": ["error", "prefer-double"],
     "require-await": 0,
-    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }]
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
+    "comma-dangle": ["error", "only-multiline"]
   },
   "overrides": [
     {
