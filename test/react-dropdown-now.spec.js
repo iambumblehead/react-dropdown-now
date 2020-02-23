@@ -84,7 +84,7 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
       .find(Menu)
       .find('.Dropdown-option.is-selected')
       .text(),
-    'two',
+    'three',
   );
 
   component.unmount();
@@ -158,7 +158,7 @@ test('ReactDropdownNow, should render custom option classNames', t => {
   const menu = component.find(Menu);
 
   t.true(menu.exists('.Dropdown-option.item'));
-  t.true(menu.exists('.Dropdown-group > .Dropdown-option.group-item'));
+  t.true(menu.exists('.Dropdown-group > .group-item'));
 });
 
 test('ReactDropdownNow, should render menuClassName', t => {
@@ -217,7 +217,7 @@ test('ReactDropdownNow, should render placeholderClassName', t => {
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
   component
     .find('.Dropdown-option')
-    .at(2)
+    .at(1)
     .simulate('mousedown', { button: 0 });
   t.true(
     component.exists(
