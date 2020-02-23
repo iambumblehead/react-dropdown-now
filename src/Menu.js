@@ -6,14 +6,14 @@ import OptionGroup from './OptionGroup';
 import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
 
-const getTabIndex = (() => {
+const getTabIndexFunction = () => {
   let i = 0;
   return () => {
     i += 1;
 
     return i;
   };
-})();
+};
 
 const Menu = ({
   selected,
@@ -23,6 +23,8 @@ const Menu = ({
   noOptionsDisplay,
   className
 }) => {
+  const getTabIndex = getTabIndexFunction();
+  
   if (options.length === 0) {
     return (
       <div className={`${baseClassName}-noresults`}>
