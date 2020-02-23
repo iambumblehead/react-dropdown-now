@@ -1,6 +1,8 @@
 export const isValidLabelOrValue = value =>
   /string|boolean|number/.test(typeof value);
 
+export const getOptionName = option => option.name;
+
 export const getOptionLabel = (option, label = option) => {
   if (isValidLabelOrValue(option.label)) {
     return option.label;

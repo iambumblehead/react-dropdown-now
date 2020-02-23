@@ -2,8 +2,21 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Option from './Option';
-import { getOptionValue } from './helpers';
+import OptionGroup from './OptionGroup';
+import { getOptionValue, getOptionName } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
+
+const setNextTabIndexFunction = () => {
+  let startIndex = 0;
+
+  return ( nextStart = 1 ) => {
+    const index = startIndex;
+    
+    startIndex += nextStart;
+    
+    return index;
+  };
+};
 
 const Menu = ({
   selected,
@@ -13,8 +26,8 @@ const Menu = ({
   noOptionsDisplay,
   className
 }) => {
-  let tabIndex = -1;
-
+  const setNextTabIndex = setNextTabIndexFunction();
+  
   if (options.length === 0) {
     return (
       <div className={`${baseClassName}-noresults`}>
@@ -22,46 +35,28 @@ const Menu = ({
       </div>
     );
   }
-
-  const renderOption = option => {
-    tabIndex += 1;
-    return (
-      <Option
-        option={option}
-        key={getOptionValue(option)}
-        selected={selected}
-        onSelect={onSelect}
-        baseClassName={baseClassName}
-        tabIndex={tabIndex}
-        className={classNames({
-          [option.className]: !!option.className,
-        })}
-      />
-    );
-  };
-
-  return options.map(option => {
-    if (option.type === 'group') {
-      const groupTitle = (
-        <div className={`${baseClassName}-title`}>{option.name}</div>
-      );
-      const tmpOptions = option.items.map(item => renderOption(item));
-
-      return (
-        <div
-          className={`${baseClassName}-group`}
-          key={option.name}
-          role="listbox"
-          tabIndex="-1"
-        >
-          {groupTitle}
-          {tmpOptions}
-        </div>
-      );
-    }
-
-    return renderOption(option);
-  });
+  
+  return options.map(option => option.type === 'group' ? (
+    <OptionGroup
+      key={getOptionName(option)}
+      option={option}
+      selected={selected}
+      className={className}
+      onSelect={onSelect}
+      startTabIndex={setNextTabIndex( option.items.length )}
+    />
+  ) : (
+    <Option
+      key={getOptionValue(option)}
+      option={option}
+      selected={selected}
+      onSelect={onSelect}
+      tabIndex={setNextTabIndex()}
+      className={classNames({
+        [option.className]: !!option.className,
+      })}      
+    />
+  ));
 };
 
 Menu.defaultProps = {
