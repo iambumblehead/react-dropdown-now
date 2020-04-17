@@ -2,6 +2,7 @@ declare module 'react-dropdown-now' {
   import * as React from 'react';
   export interface Option {
     label: React.ReactNode;
+    view: React.ReactNode;
     value: string;
     className?: string;
   }

@@ -6,7 +6,7 @@ import { mount } from 'enzyme';
 import ReactDropdownNow from '../src';
 import Menu from '../src/components/Menu';
 
-test('ReactDropdownNow, opens', t => {
+test('ReactDropdownNow, opens', (t) => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
@@ -22,7 +22,7 @@ test('ReactDropdownNow, opens', t => {
   component.unmount();
 });
 
-test('ReactDropdownNow, calls onChange', t => {
+test('ReactDropdownNow, calls onChange', (t) => {
   const onOpen = sinon.spy();
   const onClose = sinon.spy();
   const onChange = sinon.spy();
@@ -38,10 +38,7 @@ test('ReactDropdownNow, calls onChange', t => {
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
 
-  component
-    .find('.Dropdown-option')
-    .at(2)
-    .simulate('mousedown', { button: 0 });
+  component.find('.Dropdown-option').at(2).simulate('mousedown', { button: 0 });
 
   t.true(onOpen.calledOnce);
   t.true(onChange.calledOnce);
@@ -50,7 +47,7 @@ test('ReactDropdownNow, calls onChange', t => {
   component.unmount();
 });
 
-test('ReactDropdownNow, uses and updates the selected value state', t => {
+test('ReactDropdownNow, uses and updates the selected value state', (t) => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
@@ -62,13 +59,7 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
 
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
 
-  t.is(
-    component
-      .find(Menu)
-      .find('.Dropdown-option.is-selected')
-      .text(),
-    'one',
-  );
+  t.is(component.find(Menu).find('.Dropdown-option.is-selected').text(), 'one');
   t.true(component.find('.Dropdown-root').hasClass('is-open'));
 
   component
@@ -80,17 +71,14 @@ test('ReactDropdownNow, uses and updates the selected value state', t => {
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
   t.true(component.find('.Dropdown-root').hasClass('is-open'));
   t.is(
-    component
-      .find(Menu)
-      .find('.Dropdown-option.is-selected')
-      .text(),
+    component.find(Menu).find('.Dropdown-option.is-selected').text(),
     'three',
   );
 
   component.unmount();
 });
 
-test('ReactDropdownNow, should render same open shut arrow class', t => {
+test('ReactDropdownNow, should render same open shut arrow class', (t) => {
   const component = mount(
     <ReactDropdownNow options={['one', 'two', 'three']} value="one" />,
   );
@@ -100,7 +88,7 @@ test('ReactDropdownNow, should render same open shut arrow class', t => {
   t.true(component.exists('.Dropdown-arrow'));
 });
 
-test('ReactDropdownNow, should render custom open shut arrow elems', t => {
+test('ReactDropdownNow, should render custom open shut arrow elems', (t) => {
   const arrowClosedElem = <span className="arrow-closed" />;
   const arrowOpenedElem = <span className="arrow-opened" />;
   const component = mount(
@@ -119,7 +107,7 @@ test('ReactDropdownNow, should render custom open shut arrow elems', t => {
   t.true(component.exists('.Dropdown-arrow-wrapper > .arrow-opened'));
 });
 
-test('ReactDropdownNow, should render custom open shut arrow classNames', t => {
+test('ReactDropdownNow, should render custom open shut arrow classNames', (t) => {
   const component = mount(
     <ReactDropdownNow
       options={['one', 'two', 'three']}
@@ -133,7 +121,7 @@ test('ReactDropdownNow, should render custom open shut arrow classNames', t => {
   t.true(component.exists('.Dropdown-arrow-wrapper > .arrow-class'));
 });
 
-test('ReactDropdownNow, should render custom option classNames', t => {
+test('ReactDropdownNow, should render custom option classNames', (t) => {
   const component = mount(
     <ReactDropdownNow
       options={[
@@ -161,7 +149,7 @@ test('ReactDropdownNow, should render custom option classNames', t => {
   t.true(menu.exists('.Dropdown-group > .group-item'));
 });
 
-test('ReactDropdownNow, should render menuClassName', t => {
+test('ReactDropdownNow, should render menuClassName', (t) => {
   const component = mount(
     <ReactDropdownNow
       menuClassName="menu-class"
@@ -188,7 +176,7 @@ test('ReactDropdownNow, should render menuClassName', t => {
   t.true(component.exists('.Dropdown-menu.menu-class'));
 });
 
-test('ReactDropdownNow, should render placeholderClassName', t => {
+test('ReactDropdownNow, should render placeholderClassName', (t) => {
   const component = mount(
     <ReactDropdownNow
       placeholderClassName="placeholder-class"
@@ -215,10 +203,7 @@ test('ReactDropdownNow, should render placeholderClassName', t => {
     ),
   );
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
-  component
-    .find('.Dropdown-option')
-    .at(1)
-    .simulate('mousedown', { button: 0 });
+  component.find('.Dropdown-option').at(1).simulate('mousedown', { button: 0 });
   t.true(
     component.exists(
       '.Dropdown-control > .Dropdown-placeholder.placeholder-class.is-selected',
@@ -226,7 +211,7 @@ test('ReactDropdownNow, should render placeholderClassName', t => {
   );
 });
 
-test('ReactDropdownNow, should render controlClassName', t => {
+test('ReactDropdownNow, should render controlClassName', (t) => {
   const component = mount(
     <ReactDropdownNow
       controlClassName="control-class"
@@ -252,7 +237,7 @@ test('ReactDropdownNow, should render controlClassName', t => {
   t.true(component.exists('.Dropdown-root > .Dropdown-control.control-class'));
 });
 
-test('ReactDropdownNow, should render className', t => {
+test('ReactDropdownNow, should render className', (t) => {
   const component = mount(
     <ReactDropdownNow
       className="root-class"
@@ -276,4 +261,36 @@ test('ReactDropdownNow, should render className', t => {
   t.true(component.exists('.Dropdown-root.root-class'));
   component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
   t.true(component.exists('.Dropdown-root.root-class'));
+});
+
+test('ReactDropdownNow, uses label property even when view is set', (t) => {
+  const component = mount(
+    <ReactDropdownNow
+      className="root-class"
+      options={[
+        {
+          label: 'label',
+          value: 'value',
+          view: <span className="tester">test</span>,
+        },
+        { value: 'item', label: 'item', className: 'item' },
+        {
+          type: 'group',
+          name: 'group',
+          items: [
+            {
+              value: 'group item',
+              label: 'group item',
+              className: 'group-item',
+            },
+          ],
+        },
+      ]}
+    />,
+  );
+
+  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
+
+  t.true(component.exists('.Dropdown-option .tester'));
+  t.false(component.exists('.Dropdown-control .tester'));
 });

@@ -44,7 +44,7 @@ const options = [
 
 ```JavaScript
 const options = [
-  { value: 'one', label: 'One' },
+  { value: 'one', label: 'One', view: <span>One</span> },
   { value: 'two', label: 'Two', className: 'myOptionClassName' },
   {
    type: 'group', name: 'group1', items: [
@@ -61,7 +61,10 @@ const options = [
 ];
 ```
 
-When using Object options you can add to each option a className string to further customize the dropdown, e.g. adding icons to options
+When using Object options you can add to each option:
+
+- a `className` string to further customize the dropdown, e.g. adding icons to options
+- a `view` node to render an isolated view in the dropdown options list which is different from what could be seen in the dropdown control (selected value)
 
 **Disabled**
 

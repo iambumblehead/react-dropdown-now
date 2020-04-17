@@ -5,21 +5,21 @@ import { mount } from 'enzyme';
 
 import Option from '../src/components/Option';
 
-test('ReactDropdownNow.option, renders a string option', t => {
+test('ReactDropdownNow.option, renders a string option', (t) => {
   const component = mount(<Option option="one" />);
 
   t.is(component.text(), 'one');
   t.false(component.find('.Dropdown-option').hasClass('is-selected'));
 });
 
-test('ReactDropdownNow.option, renders a string option, selected', t => {
+test('ReactDropdownNow.option, renders a string option, selected', (t) => {
   const component = mount(<Option option="one" selected="one" />);
 
   t.is(component.text(), 'one');
   t.true(component.find('.Dropdown-option').hasClass('is-selected'));
 });
 
-test('ReactDropdownNow.option, renders an object option', t => {
+test('ReactDropdownNow.option, renders an object option', (t) => {
   const component = mount(
     <Option option={{ label: 'label', value: 'value' }} />,
   );
@@ -28,7 +28,7 @@ test('ReactDropdownNow.option, renders an object option', t => {
   t.false(component.find('.Dropdown-option').hasClass('is-selected'));
 });
 
-test('ReactDropdownNow.option, renders an object option, selected', t => {
+test('ReactDropdownNow.option, renders an object option, selected', (t) => {
   const component = mount(
     <Option option={{ label: 'label', value: 'value' }} selected="value" />,
   );
@@ -37,7 +37,7 @@ test('ReactDropdownNow.option, renders an object option, selected', t => {
   t.true(component.find('.Dropdown-option').hasClass('is-selected'));
 });
 
-test('ReactDropdownNow.option, emits onSelect event', t => {
+test('ReactDropdownNow.option, emits onSelect event', (t) => {
   const onSelect = sinon.spy();
   const component = mount(<Option option="option" onSelect={onSelect} />);
 
@@ -50,4 +50,18 @@ test('ReactDropdownNow.option, emits onSelect event', t => {
   t.is(event.type, 'mousedown');
   t.is(value, 'option');
   t.is(label, 'option');
+});
+
+test('ReactDropdownNow.option, uses view property when set', (t) => {
+  const component = mount(
+    <Option
+      option={{
+        label: 'label',
+        value: 'value',
+        view: <span className="tester">test</span>,
+      }}
+    />,
+  );
+
+  t.is(component.find('.Dropdown-option').text(), 'test');
 });
