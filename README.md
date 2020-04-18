@@ -76,45 +76,17 @@ When using Object options you can add to each option:
 
 ### Customizing
 
-**className**
+#### Styling with classnames
 
-The `className` prop is passed down to the wrapper `div`, which also has the `Dropdown-root` class.
+| Classname                                                 | Targets                                                    |
+| :-------------------------------------------------------- | :--------------------------------------------------------- |
+| `Dropdown-root` <br/> prop: `className`                   | main wrapper div                                           |
+| `Dropdown-control` <br/> prop: `controlClassName`         | the dropdown control                                       |
+| `Dropdown-placeholder` <br/> prop: `placeholderClassName` | styles the placeholder / selected item in dropdown control |
+| `Dropdown-menu` <br/> prop: `menuClassName`               | container for the dropdown options                         |
+| `Dropdown-arrow` <br/> prop: `arrowClassName`             | dropdown arrow indicator                                   |
 
-```JavaScript
-<Dropdown className='myClassName' />;
-```
-
-**controlClassName**
-
-The `controlClassName` prop is passed down to the control `div`, which also has the `Dropdown-control` class.
-
-```JavaScript
-<Dropdown controlClassName='myControlClassName' />;
-```
-
-**placeholderClassName**
-
-The `placeholderClassName` prop is passed down to the placeholder `div`, which also has the `Dropdown-placeholder` class.
-
-```JavaScript
-<Dropdown placeholderClassName='myPlaceholderClassName' />;
-```
-
-**menuClassName**
-
-The `menuClassName` prop is passed down to the menu `div` (the one that opens and closes and holds the options), which also has the `Dropdown-menu` class.
-
-```JavaScript
-<Dropdown menuClassName='myMenuClassName' />;
-```
-
-**arrowClassName**
-
-The `arrowClassName` prop is passed down to the arrow `span` , which also has the `Dropdown-arrow` class.
-
-```JavaScript
-<Dropdown arrowClassName='myArrowClassName' />;
-```
+#### Using custom arrows
 
 **arrowClosed**, **arrowOpen**
 

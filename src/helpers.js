@@ -1,10 +1,12 @@
 export const isValidLabelOrValue = (value) =>
   /string|boolean|number/.test(typeof value);
 
+export const isNullOrUndefined = (value) => /null|undefined/.test(typeof value);
+
 export const getOptionName = (option) => option.name;
 
 export const getOptionLabel = (option, label = option) => {
-  if (!option) {
+  if (isNullOrUndefined(option)) {
     return option;
   }
 
