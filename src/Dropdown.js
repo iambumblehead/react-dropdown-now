@@ -25,6 +25,7 @@ function Dropdown({
   arrowOpen,
   className,
   noOptionsDisplay,
+  innerRef,
 }) {
   const [selected, setSelected] = useState(
     parseOptionsValue(options, value) || {
@@ -58,7 +59,7 @@ function Dropdown({
     },
   });
 
-  const handleMouseDown = event => {
+  const handleMouseDown = (event) => {
     if (typeof onFocus === 'function') {
       onFocus(isOpen);
     }
@@ -73,7 +74,7 @@ function Dropdown({
     }
   };
 
-  const fireChangeEvent = newSelectedState => {
+  const fireChangeEvent = (newSelectedState) => {
     if (newSelectedState !== selected && onChange) {
       onChange(newSelectedState);
     }
@@ -138,6 +139,7 @@ function Dropdown({
     <div className={dropdownClass} ref={dropdownNode}>
       <div
         role="presentation"
+        ref={innerRef}
         className={controlClass}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
