@@ -2,6 +2,8 @@ name: git-validate
 
 on:
   pull_request:
+    branches-ignore:
+      - master
     types: [opened, synchronize, edited, reopened]
 
 jobs:
