@@ -1,9 +1,17 @@
-export const isValidLabelOrValue = value =>
+export const isValidLabelOrValue = (value) =>
   /string|boolean|number/.test(typeof value);
 
-export const getOptionName = option => option.name;
+export const getOptionName = (option) => option.name;
 
 export const getOptionLabel = (option, label = option) => {
+  if (!option) {
+    return option;
+  }
+
+  if (option.view) {
+    return option.view;
+  }
+
   if (isValidLabelOrValue(option.label)) {
     return option.label;
   }
@@ -29,13 +37,14 @@ export const getOptionValue = (option, value = option) => {
 
 export const parseOptionValue = (option, value, optionValue = null) => {
   if (option.type === 'group') {
-    const match = option.items.filter(item => item.value === value);
+    const match = option.items.filter((item) => item.value === value);
     if (match.length) {
       return match[0];
     }
   } else if (
-    isValidLabelOrValue(option.value)
-      && getOptionValue(option) === value) {
+    isValidLabelOrValue(option.value) &&
+    getOptionValue(option) === value
+  ) {
     return option;
   }
 
@@ -44,7 +53,7 @@ export const parseOptionValue = (option, value, optionValue = null) => {
 
 export const parseOptionsValue = (options, value) => {
   if (typeof value === 'string') {
-    for (let i = options.length, optionValue; i--;) {
+    for (let i = options.length, optionValue; i--; ) {
       optionValue = parseOptionValue(options[i], value);
 
       if (optionValue !== null) {
