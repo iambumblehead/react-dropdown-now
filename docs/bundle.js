@@ -30399,7 +30399,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.parseOptionsValue = exports.parseOptionValue = exports.getOptionValue = exports.getOptionLabel = exports.getOptionName = exports.isValidLabelOrValue = void 0;
+exports.parseOptionsValue = exports.parseOptionValue = exports.getOptionValue = exports.getOptionLabel = exports.getOptionName = exports.isNullOrUndefined = exports.isValidLabelOrValue = void 0;
 
 var _typeof2 = _interopRequireDefault(require("@babel/runtime/helpers/typeof"));
 
@@ -30408,6 +30408,12 @@ var isValidLabelOrValue = function isValidLabelOrValue(value) {
 };
 
 exports.isValidLabelOrValue = isValidLabelOrValue;
+
+var isNullOrUndefined = function isNullOrUndefined(value) {
+  return /null|undefined/.test((0, _typeof2["default"])(value));
+};
+
+exports.isNullOrUndefined = isNullOrUndefined;
 
 var getOptionName = function getOptionName(option) {
   return option.name;
@@ -30418,7 +30424,7 @@ exports.getOptionName = getOptionName;
 var getOptionLabel = function getOptionLabel(option) {
   var label = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : option;
 
-  if (!option) {
+  if (isNullOrUndefined(option)) {
     return option;
   }
 
