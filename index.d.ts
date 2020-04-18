@@ -32,6 +32,7 @@ declare module 'react-dropdown-now' {
     onClose?: (closedBySelection: boolean) => void;
     value?: Option | string;
     placeholder?: String;
+    innerRef: React.Ref;
   }
 
   export interface SelectionProps {
