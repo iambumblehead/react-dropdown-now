@@ -5,7 +5,7 @@ declare module 'react-dropdown-now' {
     LABEL,
   }
   export interface Option {
-    value: string;
+    value: any;
     label: React.ReactNode;
     view?: React.ReactNode;
     id?: string;
@@ -46,7 +46,7 @@ declare module 'react-dropdown-now' {
     onOpen?: () => void;
     onClose?: (closedBySelection: boolean) => void;
     placeholder?: String;
-    innerRef: React.Ref;
+    innerRef?: React.Ref;
   }
 
   class ReactDropdown extends React.Component<ReactDropdownProps> {}
