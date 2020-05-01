@@ -1,15 +1,17 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import classNames from 'classnames';
+import get from 'lodash/get';
 
 import Menu from './components/Menu';
 import Arrow from './components/Arrow';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { parseOptionsValue } from './helpers';
+import { prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 function Dropdown({
   placeholder,
-  options,
+  options: originalOptions,
+  matcher,
   value,
   disabled,
   onOpen,
@@ -27,14 +29,11 @@ function Dropdown({
   noOptionsDisplay,
   innerRef,
 }) {
+  const options = useMemo(() => prepareOptions(originalOptions), [
+    originalOptions,
+  ]);
   const [selected, setSelected] = useState(
-    parseOptionsValue(options, value) || {
-      label:
-        typeof placeholder === 'undefined'
-          ? DEFAULT_PLACEHOLDER_STRING
-          : placeholder,
-      value: '',
-    },
+    findSelected(options, value, matcher),
   );
   const [isOpen, setIsOpen] = useState(false);
   const dropdownNode = useRef();
@@ -74,30 +73,29 @@ function Dropdown({
     }
   };
 
-  const fireChangeEvent = (newSelectedState) => {
-    if (newSelectedState !== selected && onChange) {
-      onChange(newSelectedState);
+  const fireChangeEvent = (newSelectedState, e) => {
+    if (newSelectedState.id !== get(selected, 'id') && onChange) {
+      onChange(newSelectedState.option, e);
     }
   };
 
-  const setValue = (newValue, newLabel) => {
-    const newSelectedState = parseOptionsValue(options, newValue) || {
-      value: newValue,
-      label: newLabel,
-    };
-    fireChangeEvent(newSelectedState);
-    setSelected(newSelectedState);
+  const setValue = (newValue, e) => {
+    fireChangeEvent(newValue, e);
+    setSelected(newValue);
     setIsOpen(false);
     handleOpenStateEvents(false, true);
   };
 
   const isValueSelected = () => {
-    return Boolean(typeof selected === 'string' || selected.value !== '');
+    return !!selected;
   };
 
   const disabledClass = disabled ? `${baseClassName}-disabled` : '';
-  const placeHolderValue =
-    typeof selected === 'string' ? selected : selected.label;
+  const placeHolderValue = get(
+    selected,
+    'option.label',
+    placeholder || DEFAULT_PLACEHOLDER_STRING,
+  );
 
   const dropdownClass = classNames({
     [`${baseClassName}-root`]: true,
@@ -130,7 +128,7 @@ function Dropdown({
         options={options}
         baseClassName={baseClassName}
         noOptionsDisplay={noOptionsDisplay}
-        onSelect={(e, selectedValue, label) => setValue(selectedValue, label)}
+        onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
     </div>
   ) : null;
@@ -161,6 +159,7 @@ function Dropdown({
 
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
+  matcher: defaultMatcher,
   onOpen: () => {},
   onClose: () => {},
 };

@@ -26,7 +26,6 @@ class SelectionObjectArrayExample extends Component {
         className: toggleOptionsClassName && 'my-custom-class',
       },
       {
-        type: 'group',
         name: 'group1',
         items: [
           {
@@ -38,7 +37,6 @@ class SelectionObjectArrayExample extends Component {
         ],
       },
       {
-        type: 'group',
         name: 'group2',
         items: [
           { value: 'five', label: 'Five' },
@@ -95,7 +93,8 @@ const options = [
     toggleOptionsClassName ? ", classNames 'my-custom-class'" : ''
   } },
   {
-    type: 'group', name: 'group1', items: [
+    name: 'group1', 
+    items: [
       { value: 'three', label: 'Three' },
       { value: 'four', label: 'Four'${
         toggleOptionsClassName ? ", className: 'my-custom-class'" : ''
@@ -103,7 +102,8 @@ const options = [
     ]
   },
   {
-    type: 'group', name: 'group2', items: [
+    name: 'group2', 
+    items: [
       { value: 'five', label: 'Five' },
       { value: 'six', label: 'Six' }
     ]

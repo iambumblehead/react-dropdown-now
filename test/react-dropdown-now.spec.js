@@ -294,3 +294,107 @@ test('ReactDropdownNow, uses label property even when view is set', (t) => {
   t.true(component.exists('.Dropdown-option .tester'));
   t.false(component.exists('.Dropdown-control .tester'));
 });
+
+test('ReactDropdownNow, should match selected when object option passed to value prop', (t) => {
+  const component = mount(
+    <ReactDropdownNow
+      value={{ value: 'item 1' }}
+      options={[
+        {
+          value: 'item 1',
+          label: 'label with item 1',
+          className: 'item',
+        },
+        {
+          type: 'group',
+          name: 'group',
+          items: [
+            {
+              value: 'group item',
+              label: 'group item',
+              className: 'group-item',
+            },
+          ],
+        },
+      ]}
+    />,
+  );
+
+  t.deepEqual(
+    component.find('.Dropdown-placeholder').text(),
+    'label with item 1',
+  );
+});
+
+test('ReactDropdownNow, should match selected value to top level id with custom matcher', (t) => {
+  const component = mount(
+    <ReactDropdownNow
+      value="custom-id"
+      matcher={(item, val) => {
+        // item => { id, option: {id, value, label} }
+        return item.id === val;
+      }}
+      options={[
+        {
+          id: 'custom-id',
+          value: 'item',
+          label: 'item with custom id',
+          className: 'item',
+        },
+        {
+          type: 'group',
+          name: 'group',
+          items: [
+            {
+              value: 'group item',
+              label: 'group item',
+              className: 'group-item',
+            },
+          ],
+        },
+      ]}
+    />,
+  );
+
+  t.deepEqual(
+    component.find('.Dropdown-placeholder').text(),
+    'item with custom id',
+  );
+});
+
+test('ReactDropdownNow, should match selected value (inside a group) to top level id with custom matcher', (t) => {
+  const component = mount(
+    <ReactDropdownNow
+      value="custom-id-2"
+      matcher={(item, val) => {
+        // item => { id, option: {id, value, label} }
+        return item.id === val;
+      }}
+      options={[
+        {
+          id: 'custom-id',
+          value: 'item',
+          label: 'item with custom id',
+          className: 'item',
+        },
+        {
+          type: 'group',
+          name: 'group',
+          items: [
+            {
+              id: 'custom-id-2',
+              value: 'group item',
+              label: 'label with custom-id-2',
+              className: 'group-item',
+            },
+          ],
+        },
+      ]}
+    />,
+  );
+
+  t.deepEqual(
+    component.find('.Dropdown-placeholder').text(),
+    'label with custom-id-2',
+  );
+});
