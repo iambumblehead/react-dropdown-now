@@ -1,52 +1,241 @@
 import test from 'ava';
 
-import { parseOptionsValue } from '../src/helpers';
+import { parseOptionsValue, prepareOptions } from '../src/helpers';
+import { ITEM_TYPE } from '../src/constants';
 
-test('parseOptionsValue("value", []), should return "value"', t => {
+test('parseOptionsValue("value", []), should return "value"', (t) => {
   t.is(parseOptionsValue([], 'value'), 'value');
 });
 
-test('parseOptionsValue("value 2", […]), should return value 2 item', t => {
-  t.deepEqual(parseOptionsValue([ {
-    type: 'group',
-    items: [ {
-      label: 'group label',
-      value: 'group value'
-    } ]
-  }, {
-    label: 'label 2',
-    value: 'value 2'
-  } ], 'value 2'), {
-    label: 'label 2',
-    value: 'value 2'
-  });
+test('parseOptionsValue("value 2", […]), should return value 2 item', (t) => {
+  t.deepEqual(
+    parseOptionsValue(
+      [
+        {
+          type: 'group',
+          items: [
+            {
+              label: 'group label',
+              value: 'group value',
+            },
+          ],
+        },
+        {
+          label: 'label 2',
+          value: 'value 2',
+        },
+      ],
+      'value 2',
+    ),
+    {
+      label: 'label 2',
+      value: 'value 2',
+    },
+  );
 });
 
-test('parseOptionsValue("group value", […]), should return group value item', t => {
-  t.deepEqual(parseOptionsValue([ {
-    type: 'group',
-    items: [ {
+test('parseOptionsValue("group value", […]), should return group value item', (t) => {
+  t.deepEqual(
+    parseOptionsValue(
+      [
+        {
+          type: 'group',
+          items: [
+            {
+              label: 'group label',
+              value: 'group value',
+            },
+          ],
+        },
+        {
+          label: 'label 2',
+          value: 'value 2',
+        },
+      ],
+      'group value',
+    ),
+    {
       label: 'group label',
-      value: 'group value'
-    } ]
-  }, {
-    label: 'label 2',
-    value: 'value 2'
-  } ], 'group value'), {
-    label: 'group label',
-    value: 'group value'
-  });
+      value: 'group value',
+    },
+  );
 });
 
-test('parseOptionsValue("no value", […]), should return "no value"', t => {
-  t.deepEqual(parseOptionsValue([ {
-    type: 'group',
-    items: [ {
-      label: 'group label',
-      value: 'group value'
-    } ]
-  }, {
-    label: 'label 2',
-    value: 'value 2'
-  } ], 'no value'), 'no value');
+test('parseOptionsValue("no value", […]), should return "no value"', (t) => {
+  t.deepEqual(
+    parseOptionsValue(
+      [
+        {
+          type: 'group',
+          items: [
+            {
+              label: 'group label',
+              value: 'group value',
+            },
+          ],
+        },
+        {
+          label: 'label 2',
+          value: 'value 2',
+        },
+      ],
+      'no value',
+    ),
+    'no value',
+  );
+});
+
+test('prepareOptions([…]), should return flat list of render items', (t) => {
+  const input = [
+    {
+      label: 'label 1',
+      value: 'value 1',
+    },
+    {
+      items: [
+        {
+          label: 'group label',
+          value: 'group value',
+        },
+        {
+          label: 'group label 2',
+          value: 'group value 2',
+        },
+      ],
+    },
+    {
+      label: 'label 2',
+      value: 'value 2',
+      id: 'custom-id-1',
+      view: 'custom-view',
+      className: 'custom-class',
+    },
+    {
+      name: 'group with name',
+      items: [
+        {
+          label: 'group label',
+          value: 0,
+          id: 'custom-id-2',
+        },
+        {
+          label: 'group label 2',
+          value: 1,
+          id: 'custom-id-3',
+        },
+      ],
+    },
+    // non-object options
+    'option-as-string',
+    1000,
+
+    // invalid types (should not be included)
+    /regex-type/,
+    [1, 2, 3], // will not parse, may as well use object syntax instead
+    true,
+    false,
+    undefined,
+    null,
+  ];
+
+  const expected = [
+    {
+      type: ITEM_TYPE.OPTION,
+      id: 'value 1',
+      index: 0,
+      option: {
+        label: 'label 1',
+        value: 'value 1',
+        id: 'value 1',
+      },
+    },
+    [
+      {
+        type: ITEM_TYPE.LABEL,
+        label: undefined,
+      },
+      {
+        type: ITEM_TYPE.OPTION,
+        id: 'group value',
+        index: 1,
+        option: {
+          label: 'group label',
+          value: 'group value',
+          id: 'group value',
+        },
+      },
+      {
+        type: ITEM_TYPE.OPTION,
+        id: 'group value 2',
+        index: 2,
+        option: {
+          label: 'group label 2',
+          value: 'group value 2',
+          id: 'group value 2',
+        },
+      },
+    ],
+    {
+      type: ITEM_TYPE.OPTION,
+      id: 'custom-id-1',
+      index: 3,
+      option: {
+        label: 'label 2',
+        value: 'value 2',
+        id: 'custom-id-1',
+        view: 'custom-view',
+        className: 'custom-class',
+      },
+    },
+
+    // second group
+    [
+      {
+        type: ITEM_TYPE.LABEL,
+        label: 'group with name',
+      },
+      {
+        type: ITEM_TYPE.OPTION,
+        id: 'custom-id-2',
+        index: 4,
+        option: {
+          label: 'group label',
+          value: 0,
+          id: 'custom-id-2',
+        },
+      },
+      {
+        type: ITEM_TYPE.OPTION,
+        id: 'custom-id-3',
+        index: 5,
+        option: {
+          label: 'group label 2',
+          value: 1,
+          id: 'custom-id-3',
+        },
+      },
+    ],
+    {
+      type: ITEM_TYPE.OPTION,
+      id: 'option-as-string',
+      index: 6,
+      option: {
+        label: 'option-as-string',
+        value: 'option-as-string',
+        id: 'option-as-string',
+      },
+    },
+    {
+      type: ITEM_TYPE.OPTION,
+      id: 1000,
+      index: 7,
+      option: {
+        label: 1000,
+        value: 1000,
+        id: 1000,
+      },
+    },
+  ];
+
+  t.deepEqual(prepareOptions(input), expected);
 });
