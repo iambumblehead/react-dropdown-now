@@ -1,22 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
+import get from 'lodash/get';
 
 import Option from './Option';
 import OptionGroup from './OptionGroup';
-import { getOptionValue, getOptionName } from '../helpers';
-import { BASE_DEFAULT_PROPS } from '../constants';
-
-const setNextTabIndexFunction = () => {
-  let startIndex = 0;
-
-  return (nextStart = 1) => {
-    const index = startIndex;
-
-    startIndex += nextStart;
-
-    return index;
-  };
-};
+import { BASE_DEFAULT_PROPS, ITEM_TYPE } from '../constants';
 
 const Menu = ({
   selected,
@@ -25,36 +13,42 @@ const Menu = ({
   onSelect,
   noOptionsDisplay,
 }) => {
-  const setNextTabIndex = setNextTabIndexFunction();
-
   if (options.length === 0) {
     return (
       <div className={`${baseClassName}-noresults`}>{noOptionsDisplay}</div>
     );
   }
 
-  return options.map(option =>
-    option.type === 'group' ? (
-      <OptionGroup
-        key={getOptionName(option)}
-        option={option}
-        selected={selected}
-        onSelect={onSelect}
-        startTabIndex={setNextTabIndex(option.items.length)}
-      />
-    ) : (
-      <Option
-        key={getOptionValue(option)}
-        option={option}
-        selected={selected}
-        onSelect={onSelect}
-        tabIndex={setNextTabIndex()}
-        className={classNames({
-          [option.className]: !!option.className,
-        })}
-      />
-    ),
-  );
+  return options.map((item, i) => {
+    if (Array.isArray(item)) {
+      return (
+        <OptionGroup
+          key={get(item, '[0].label', i)}
+          option={item}
+          selected={selected}
+          onSelect={onSelect}
+        />
+      );
+    }
+
+    if (item.type === ITEM_TYPE.OPTION) {
+      const isSelected = get(selected, 'id') === item.id;
+      return (
+        <Option
+          key={item.id}
+          option={item}
+          selected={isSelected}
+          onSelect={onSelect}
+          tabIndex={item.index}
+          className={classNames({
+            [item.option.className]: !!item.option.className,
+          })}
+        />
+      );
+    }
+
+    return null;
+  });
 };
 
 Menu.defaultProps = {

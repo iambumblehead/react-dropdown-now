@@ -28,8 +28,6 @@ import 'react-dropdown-now/style.css';
   value="one"
   onChange={(value) => console.log('change!', value)}
 />;
-
-
 ```
 
 **Flat Array options**
@@ -44,16 +42,18 @@ const options = [
 
 ```JavaScript
 const options = [
-  { value: 'one', label: 'One', view: <span>One</span> },
+  { id: 'one', value: 'one', label: 'One', view: <span>One</span> },
   { value: 'two', label: 'Two', className: 'myOptionClassName' },
   {
-   type: 'group', name: 'group1', items: [
+   name: 'group1',
+   items: [
      { value: 'three', label: 'Three', className: 'myOptionClassName' },
      { value: 'four', label: 'Four' }
    ]
   },
   {
-   type: 'group', name: 'group2', items: [
+    name: 'group2',
+    items: [
      { value: 'five', label: 'Five' },
      { value: 'six', label: 'Six' }
    ]
@@ -65,11 +65,32 @@ When using Object options you can add to each option:
 
 - a `className` string to further customize the dropdown, e.g. adding icons to options
 - a `view` node to render an isolated view in the dropdown options list which is different from what could be seen in the dropdown control (selected value)
+- an `id` string can be used to give an id to each option. Must be unique; even when mixing grouped options with single options. Useful for when `option.value` is not a `string` or `number`. Can be used with a custom matcher to determine the selected option.
 
 **Disabled**
 
-```JavaScript
-<Dropdown disabled option={options} value={defaultOption} />;
+```js
+<Dropdown disabled option={options} value={defaultOption} />
+```
+
+**matcher**
+
+The default matcher will use the value prop to match against values within the options array.
+
+custom matcher example:
+
+```js
+const value = 'custom-id';
+const options = [{ id: 'custom-id', value: 1, label: 'awesome' }];
+
+<Dropdown
+  option={options}
+  value={value}
+  matcher={(item, val) => {
+    // item => { id, option: {id, value, label} }
+    return item.id === val;
+  }}
+/>;
 ```
 
 ---
@@ -100,20 +121,20 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
 
 More [examples in the docs folder.][2]
 
-[0]: https://github.com/fraserxu/react-dropdown/issues/183
-[1]: https://iambumblehead.github.io/react-dropdown-now/
-[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
+### Migration
+
+#### v2 => v3
+
+- `onChange` always returns an object with aleast `{value, label}`
+- `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
 
 ### License
 
-(The MIT License)
+**MIT**
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+[0]: https://github.com/fraserxu/react-dropdown/issues/183
+[1]: https://iambumblehead.github.io/react-dropdown-now/
+[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
 [npm-image]: https://img.shields.io/npm/v/react-dropdown-now.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-dropdown-now
 [downloads-image]: http://img.shields.io/npm/dm/react-dropdown-now.svg?style=flat-square

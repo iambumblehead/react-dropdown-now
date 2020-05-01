@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
+import get from 'lodash/get';
 
 import Option from './Option';
-import { getOptionValue } from '../helpers';
-import { BASE_DEFAULT_PROPS } from '../constants';
+import { BASE_DEFAULT_PROPS, ITEM_TYPE } from '../constants';
 
 const OptionGroup = ({
   option,
@@ -11,33 +11,38 @@ const OptionGroup = ({
   onSelect,
   className,
   baseClassName,
-  startTabIndex,
 }) => {
-  const groupTitle = (
-    <div className={`${baseClassName}-title`}>{option.name}</div>
-  );
-
   return (
     <div
       className={classNames(`${baseClassName}-group`, className)}
-      key={option.name}
       role="listbox"
       tabIndex="-1"
     >
-      {groupTitle}
-      {option.items.map((item, i) => (
-        <Option
-          option={item}
-          key={getOptionValue(item)}
-          selected={selected}
-          onSelect={onSelect}
-          baseClassName={baseClassName}
-          tabIndex={startTabIndex + i}
-          className={classNames({
-            [item.className]: !!item.className,
-          })}
-        />
-      ))}
+      {option.map((item) => {
+        if (item.type === ITEM_TYPE.LABEL && item.label) {
+          return (
+            <div key={item.label} className={`${baseClassName}-title`}>
+              {item.label}
+            </div>
+          );
+        }
+        if (item.type === ITEM_TYPE.OPTION) {
+          const isSelected = get(selected, 'id') === item.id;
+          return (
+            <Option
+              key={item.id}
+              option={item}
+              selected={isSelected}
+              onSelect={onSelect}
+              tabIndex={item.index}
+              className={classNames({
+                [item.option.className]: !!item.option.className,
+              })}
+            />
+          );
+        }
+        return null;
+      })}
     </div>
   );
 };

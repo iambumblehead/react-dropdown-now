@@ -1,51 +1,57 @@
 declare module 'react-dropdown-now' {
   import * as React from 'react';
   export interface Option {
+    value: any;
     label: React.ReactNode;
-    view: React.ReactNode;
-    value: string;
+    view?: React.ReactNode;
+    id?: string;
     className?: string;
   }
   export interface Group {
-    type: 'group';
     name: string;
     items: Option[];
   }
 
-  type StringOrReactNode = string | React.ReactNode;
+  export enum RenderType {
+    OPTION,
+    LABEL,
+  }
+  export interface RenderItem {
+    option: Option;
+    id: string;
+    index: number;
+    type: RenderType;
+  }
 
-  export interface ReactDropdownProps {
-    options: (Group | Option | string)[];
-    baseClassName?: string;
+  export type Value = Option | string | number;
+
+  export interface SelectionProps {
+    disabled?: boolean;
+    value?: Value;
+    options: (Group | Option | string | number)[];
+    onChange?: (arg: Option, event: React.SyntheticEvent) => void;
+    matcher?: (item: RenderItem, value: Value) => void;
     className?: string;
+    baseClassName?: string;
+    noOptionsDisplay?: React.ReactNode;
+  }
+
+  export interface ReactDropdownProps extends SelectionProps {
     controlClassName?: string;
     placeholderClassName?: string;
     menuClassName?: string;
     arrowClassName?: string;
-    noOptionsDisplay?: StringOrReactNode;
-    disabled?: boolean;
     arrowClosed?: React.ReactNode;
     arrowOpen?: React.ReactNode;
-    onChange?: (arg: Option) => void;
     onFocus?: (arg: boolean) => void;
     onOpen?: () => void;
     onClose?: (closedBySelection: boolean) => void;
-    value?: Option | string;
     placeholder?: String;
-    innerRef: React.Ref;
-  }
-
-  export interface SelectionProps {
-    disabled?: boolean;
-    value?: Option | string;
-    options: (Group | Option | string)[];
-    onChange?: (arg: Option) => void;
-    className?: string;
-    baseClassName?: string;
-    noOptionsDisplay?: StringOrReactNode;
+    innerRef?: React.Ref;
   }
 
   class ReactDropdown extends React.Component<ReactDropdownProps> {}
+  export class ReactSelection extends React.Component<SelectionProps> {}
 
   export default ReactDropdown;
 }

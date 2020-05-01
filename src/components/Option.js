@@ -1,32 +1,22 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { getOptionLabel, getOptionValue } from '../helpers';
+import { getOptionDisplay } from '../helpers';
 import { BASE_DEFAULT_PROPS } from '../constants';
 
-function isOptionSelected(currentValue, selection) {
-  if (!selection) {
-    return false;
-  }
-  return currentValue === getOptionValue(selection);
-}
-
 const Option = ({
-  option,
+  option: item,
   selected,
   onSelect,
   className,
   baseClassName,
   tabIndex,
 }) => {
-  const value = getOptionValue(option);
-  const label = getOptionLabel(option);
-  const isSelected = isOptionSelected(value, selected);
-  const optionClassName = classNames(className, {
-    [`${baseClassName}-option`]: true,
-    'is-selected': isSelected,
+  const label = getOptionDisplay(item.option);
+  const optionClassName = classNames(className, `${baseClassName}-option`, {
+    'is-selected': selected,
   });
-  const handleSelect = e => onSelect(e, value, label);
+  const handleSelect = (e) => onSelect(e, item);
 
   return (
     <div
@@ -35,7 +25,7 @@ const Option = ({
       onMouseDown={handleSelect}
       onClick={handleSelect}
       role="option"
-      aria-selected={String(isSelected)}
+      aria-selected={String(selected)}
       tabIndex={tabIndex}
     >
       {label}
