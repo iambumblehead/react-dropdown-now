@@ -9,9 +9,7 @@ export const isValidLabelOrValue = (value) =>
 
 export const isNullOrUndefined = (value) => /null|undefined/.test(typeof value);
 
-export const getOptionName = (option) => option.name;
-
-export const getOptionLabel = (option, label = option) => {
+export const getOptionDisplay = (option, label = option) => {
   if (isNullOrUndefined(option)) {
     return option;
   }
@@ -29,48 +27,6 @@ export const getOptionLabel = (option, label = option) => {
   }
 
   return label;
-};
-
-export const getOptionValue = (option, value = option) => {
-  if (isValidLabelOrValue(option.value)) {
-    return option.value;
-  }
-
-  if (isValidLabelOrValue(option.label)) {
-    return option.label;
-  }
-
-  return value;
-};
-
-export const parseOptionValue = (option, value, optionValue = null) => {
-  if (option.type === 'group') {
-    const match = option.items.filter((item) => item.value === value);
-    if (match.length) {
-      return match[0];
-    }
-  } else if (
-    isValidLabelOrValue(option.value) &&
-    getOptionValue(option) === value
-  ) {
-    return option;
-  }
-
-  return optionValue;
-};
-
-export const parseOptionsValue = (options, value) => {
-  if (typeof value === 'string') {
-    for (let i = options.length, optionValue; i--; ) {
-      optionValue = parseOptionValue(options[i], value);
-
-      if (optionValue !== null) {
-        return optionValue;
-      }
-    }
-  }
-
-  return value;
 };
 
 const isGroup = (option) => {
@@ -92,8 +48,8 @@ const prepareOption = (option, index) => {
 };
 
 const prepareGroup = (option, startIndex = 0) => {
-  const options = option.items.map((option, index) =>
-    prepareOption(option, startIndex + index),
+  const options = option.items.map((opt, index) =>
+    prepareOption(opt, startIndex + index),
   );
   return [{ label: option.name, type: ITEM_TYPE.LABEL }, ...options];
 };
@@ -140,6 +96,6 @@ export const findSelected = (options, value, matcher) => {
   return filteredItems.find((option) => matcher(option, value));
 };
 
-export const defaultMatcher = (item, v) => {
-  return item.option.value === v;
+export const defaultMatcher = (item, value) => {
+  return item.option.value === value;
 };

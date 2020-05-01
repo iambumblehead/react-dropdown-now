@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { getOptionLabel } from '../helpers';
+import { getOptionDisplay } from '../helpers';
 import { BASE_DEFAULT_PROPS } from '../constants';
 
 const Option = ({
@@ -12,7 +12,7 @@ const Option = ({
   baseClassName,
   tabIndex,
 }) => {
-  const label = getOptionLabel(item.option);
+  const label = getOptionDisplay(item.option);
   const optionClassName = classNames(className, `${baseClassName}-option`, {
     'is-selected': selected,
   });
