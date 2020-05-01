@@ -64,7 +64,6 @@ test('prepareOptions([…]), should return flat list of render items', (t) => {
       option: {
         label: 'label 1',
         value: 'value 1',
-        id: 'value 1',
       },
     },
     [
@@ -79,7 +78,6 @@ test('prepareOptions([…]), should return flat list of render items', (t) => {
         option: {
           label: 'group label',
           value: 'group value',
-          id: 'group value',
         },
       },
       {
@@ -89,7 +87,6 @@ test('prepareOptions([…]), should return flat list of render items', (t) => {
         option: {
           label: 'group label 2',
           value: 'group value 2',
-          id: 'group value 2',
         },
       },
     ],
@@ -140,7 +137,6 @@ test('prepareOptions([…]), should return flat list of render items', (t) => {
       option: {
         label: 'option-as-string',
         value: 'option-as-string',
-        id: 'option-as-string',
       },
     },
     {
@@ -150,7 +146,6 @@ test('prepareOptions([…]), should return flat list of render items', (t) => {
       option: {
         label: 1000,
         value: 1000,
-        id: 1000,
       },
     },
   ];

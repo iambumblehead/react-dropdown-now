@@ -125,7 +125,7 @@ More [examples in the docs folder.][2]
 
 #### v2 => v3
 
-- `onChange` always returns an object with aleast `{value, label, id}`
+- `onChange` always returns an object with aleast `{value, label}`
 - `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
 
 ### License

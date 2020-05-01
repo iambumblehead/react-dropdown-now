@@ -41,7 +41,6 @@ const prepareOption = (option, index) => {
     type: ITEM_TYPE.OPTION,
     option: {
       ...opt,
-      id: opt.id || opt.value,
       label: opt.label || opt.value,
     },
   };
