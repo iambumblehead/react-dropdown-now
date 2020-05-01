@@ -23,7 +23,7 @@ declare module 'react-dropdown-now' {
   }
 
   type StringOrReactNode = string | React.ReactNode;
-  type Value = Option | string;
+  type Value = Option | string | number;
 
   export interface ReactDropdownProps {
     options: (Group | Option | string | number)[];

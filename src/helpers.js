@@ -96,6 +96,7 @@ export const findSelected = (options, value, matcher) => {
   return filteredItems.find((option) => matcher(option, value));
 };
 
-export const defaultMatcher = (item, value) => {
-  return item.option.value === value;
+export const defaultMatcher = (item, option) => {
+  const { value } = item.option;
+  return value === option || value === get(option, 'value');
 };
