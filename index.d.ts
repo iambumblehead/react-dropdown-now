@@ -1,9 +1,5 @@
 declare module 'react-dropdown-now' {
   import * as React from 'react';
-  export enum RenderType {
-    OPTION,
-    LABEL,
-  }
   export interface Option {
     value: any;
     label: React.ReactNode;
@@ -11,15 +7,20 @@ declare module 'react-dropdown-now' {
     id?: string;
     className?: string;
   }
-  export interface MatchItem {
+  export interface Group {
+    name: string;
+    items: Option[];
+  }
+
+  export enum RenderType {
+    OPTION,
+    LABEL,
+  }
+  export interface RenderItem {
     option: Option;
     id: string;
     index: number;
     type: RenderType;
-  }
-  export interface Group {
-    name: string;
-    items: Option[];
   }
 
   export type Value = Option | string | number;
@@ -29,7 +30,7 @@ declare module 'react-dropdown-now' {
     value?: Value;
     options: (Group | Option | string | number)[];
     onChange?: (arg: Option, event: React.SyntheticEvent) => void;
-    matcher?: (item: MatchItem, value: Value) => void;
+    matcher?: (item: RenderItem, value: Value) => void;
     className?: string;
     baseClassName?: string;
     noOptionsDisplay?: React.ReactNode;

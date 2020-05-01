@@ -65,7 +65,7 @@ When using Object options you can add to each option:
 
 - a `className` string to further customize the dropdown, e.g. adding icons to options
 - a `view` node to render an isolated view in the dropdown options list which is different from what could be seen in the dropdown control (selected value)
-- an `id` string can be used to give an id to each option. Must be unique; even when mixing grouped options with single options. Useful for when `option.value` is not a `string` or `number`. Can be used with a custom matcher can be defined to determine the selected option.
+- an `id` string can be used to give an id to each option. Must be unique; even when mixing grouped options with single options. Useful for when `option.value` is not a `string` or `number`. Can be used with a custom matcher to determine the selected option.
 
 **Disabled**
 
