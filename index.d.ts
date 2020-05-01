@@ -52,12 +52,14 @@ declare module 'react-dropdown-now' {
     value?: Option | string;
     options: (Group | Option | string)[];
     onChange?: (arg: Option) => void;
+    matcher?: (item: MatchItem, value: Value) => void;
     className?: string;
     baseClassName?: string;
     noOptionsDisplay?: StringOrReactNode;
   }
 
   class ReactDropdown extends React.Component<ReactDropdownProps> {}
+  export class ReactSelection extends React.Component<SelectionProps> {}
 
   export default ReactDropdown;
 }
