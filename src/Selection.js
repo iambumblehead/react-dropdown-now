@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import classNames from 'classnames';
+import get from 'lodash/get';
 
 import Menu from './components/Menu';
-import { parseOptionsValue } from './helpers';
+import { prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
 
 function Selection({
-  options,
+  options: originalOptions,
+  matcher,
   value,
   disabled,
   onChange,
@@ -14,24 +16,25 @@ function Selection({
   className,
   noOptionsDisplay,
 }) {
-  const [selected, setSelected] = useState(parseOptionsValue(options, value));
+  const options = useMemo(() => prepareOptions(originalOptions), [
+    originalOptions,
+  ]);
+  const [selected, setSelected] = useState(
+    findSelected(options, value, matcher),
+  );
 
-  const fireChangeEvent = newSelectedState => {
-    if (newSelectedState !== selected && onChange) {
-      onChange(newSelectedState);
+  const fireChangeEvent = (newSelectedState, e) => {
+    if (newSelectedState.id !== get(selected, 'id') && onChange) {
+      onChange(newSelectedState.option, e);
     }
   };
 
-  const setValue = (newValue, newLabel) => {
+  const setValue = (newValue, e) => {
     if (disabled) {
       return null;
     }
-    const newSelectedState = parseOptionsValue(options, newValue) || {
-      value: newValue,
-      label: newLabel,
-    };
-    fireChangeEvent(newSelectedState);
-    return setSelected(newSelectedState);
+    setSelected(newValue);
+    return fireChangeEvent(newValue, e);
   };
 
   const menuClass = classNames('Selection-menu', {
@@ -47,7 +50,7 @@ function Selection({
         options={options}
         baseClassName={baseClassName}
         noOptionsDisplay={noOptionsDisplay}
-        onSelect={(e, selectedValue, label) => setValue(selectedValue, label)}
+        onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
     </div>
   );
@@ -56,6 +59,7 @@ function Selection({
 Selection.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   onChange: () => {},
+  matcher: defaultMatcher,
 };
 
 export default Selection;

@@ -5,13 +5,13 @@ import get from 'lodash/get';
 import Menu from './components/Menu';
 import Arrow from './components/Arrow';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { prepareOptions, findSelected } from './helpers';
+import { prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 function Dropdown({
   placeholder,
   options: originalOptions,
-  matcher: providedMatcher,
+  matcher,
   value,
   disabled,
   onOpen,
@@ -29,15 +29,9 @@ function Dropdown({
   noOptionsDisplay,
   innerRef,
 }) {
-  const matcher =
-    providedMatcher ||
-    ((item, v) => {
-      return item.option.value === v;
-    });
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
   ]);
-
   const [selected, setSelected] = useState(
     findSelected(options, value, matcher),
   );
@@ -80,7 +74,7 @@ function Dropdown({
   };
 
   const fireChangeEvent = (newSelectedState, e) => {
-    if (newSelectedState !== selected && onChange) {
+    if (newSelectedState.id !== get(selected, 'id') && onChange) {
       onChange(newSelectedState.option, e);
     }
   };
@@ -165,6 +159,7 @@ function Dropdown({
 
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
+  matcher: defaultMatcher,
   onOpen: () => {},
   onClose: () => {},
 };
