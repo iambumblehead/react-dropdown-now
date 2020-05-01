@@ -22,40 +22,31 @@ declare module 'react-dropdown-now' {
     items: Option[];
   }
 
-  type StringOrReactNode = string | React.ReactNode;
-  type Value = Option | string | number;
+  export type Value = Option | string | number;
 
-  export interface ReactDropdownProps {
+  export interface SelectionProps {
+    disabled?: boolean;
+    value?: Value;
     options: (Group | Option | string | number)[];
-    baseClassName?: string;
+    onChange?: (arg: Option, event: React.SyntheticEvent) => void;
+    matcher?: (item: MatchItem, value: Value) => void;
     className?: string;
+    baseClassName?: string;
+    noOptionsDisplay?: React.ReactNode;
+  }
+
+  export interface ReactDropdownProps extends SelectionProps {
     controlClassName?: string;
     placeholderClassName?: string;
     menuClassName?: string;
     arrowClassName?: string;
-    noOptionsDisplay?: StringOrReactNode;
-    disabled?: boolean;
     arrowClosed?: React.ReactNode;
     arrowOpen?: React.ReactNode;
-    onChange?: (arg: Option, event: React.SyntheticEvent) => void;
     onFocus?: (arg: boolean) => void;
     onOpen?: () => void;
     onClose?: (closedBySelection: boolean) => void;
-    matcher?: (item: MatchItem, value: Value) => void;
-    value?: Value;
     placeholder?: String;
     innerRef: React.Ref;
-  }
-
-  export interface SelectionProps {
-    disabled?: boolean;
-    value?: Option | string;
-    options: (Group | Option | string)[];
-    onChange?: (arg: Option) => void;
-    matcher?: (item: MatchItem, value: Value) => void;
-    className?: string;
-    baseClassName?: string;
-    noOptionsDisplay?: StringOrReactNode;
   }
 
   class ReactDropdown extends React.Component<ReactDropdownProps> {}
