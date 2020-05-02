@@ -44,6 +44,23 @@ test('ReactDropdownNow.option, renders an object option, selected', (t) => {
   t.true(component.find('.Dropdown-option').hasClass('is-selected'));
 });
 
+test('ReactDropdownNow.option, renders label with ReactNode', (t) => {
+  const component = mount(
+    <Option
+      option={{
+        option: {
+          label: <span className="test-label">label</span>,
+          value: 'value',
+        },
+      }}
+      selected="value"
+    />,
+  );
+
+  t.is(component.find('.Dropdown-option .test-label').text(), 'label');
+  t.true(component.find('.Dropdown-option').hasClass('is-selected'));
+});
+
 test('ReactDropdownNow.option, emits onSelect event', (t) => {
   const onSelect = sinon.spy();
   const component = mount(
