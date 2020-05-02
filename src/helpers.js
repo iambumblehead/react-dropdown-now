@@ -1,32 +1,25 @@
+import { isValidElement } from 'react';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 import flatten from 'lodash/flatten';
 import { ITEM_TYPE, OPTION_PROPS } from './constants';
 
-export const isValidLabelOrValue = (value) =>
-  /string|boolean|number/.test(typeof value);
-
 export const isNullOrUndefined = (value) => /null|undefined/.test(typeof value);
+export const isValidNonObjectOption = (value) =>
+  /string|number/.test(typeof value);
+export const isValidDisplayElement = (value) => {
+  return isValidElement(value) || isValidNonObjectOption(value);
+};
 
-export const getOptionDisplay = (option, label = option) => {
+export const getOptionDisplay = (option) => {
   if (isNullOrUndefined(option)) {
     return option;
   }
 
-  if (option.view) {
-    return option.view;
-  }
-
-  if (isValidLabelOrValue(option.label)) {
-    return option.label;
-  }
-
-  if (isValidLabelOrValue(option.value)) {
-    return option.value;
-  }
-
-  return label;
+  return [option.view, option.label, option.value].find((item) =>
+    isValidDisplayElement(item),
+  );
 };
 
 const isGroup = (option) => {
@@ -52,9 +45,6 @@ const prepareGroup = (option, startIndex = 0) => {
   );
   return [{ label: option.name, type: ITEM_TYPE.LABEL }, ...options];
 };
-
-export const isValidNonObjectOption = (value) =>
-  /string|number/.test(typeof value);
 
 export const prepareOptions = (options) => {
   if (!Array.isArray(options)) {
