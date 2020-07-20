@@ -6,6 +6,7 @@ import ObjectArrayExample from './objectArrayExample';
 import ZeroValObjectArrayExample from './zeroValObjectArrayExample';
 import CustomArrowExample from './customArrowExample';
 import SelectionObjectArrayExample from './selectionObjectArrayExample';
+import ControlledExample from './controlledExample';
 
 const reactDropdownNowUrl = '//github.com/iambumblehead/react-dropdown-now';
 const reactDropdownUrl = '//github.com/fraserxu/react-dropdown';
@@ -50,6 +51,7 @@ class App extends Component {
         <ZeroValObjectArrayExample />
         <CustomArrowExample />
         <SelectionObjectArrayExample />
+        <ControlledExample />
 
         <section>
           <h3>License: MIT</h3>
