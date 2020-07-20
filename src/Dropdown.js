@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
