@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
@@ -85,6 +85,14 @@ function Dropdown({
     setIsOpen(false);
     handleOpenStateEvents(false, true);
   };
+
+  const updateValue = useCallback((val) => {
+    const newValue = findSelected(options, val, matcher);
+    fireChangeEvent(newValue);
+    setSelected(newValue);
+  }, [options, matcher]);
+
+  useEffect(() => updateValue(value), [value]);
 
   const isValueSelected = () => {
     return !!selected;
