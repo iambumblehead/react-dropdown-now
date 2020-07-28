@@ -18,6 +18,7 @@ function Dropdown({
   onClose,
   onFocus,
   onChange,
+  onSelect,
   baseClassName,
   controlClassName,
   placeholderClassName,
@@ -74,6 +75,9 @@ function Dropdown({
   };
 
   const fireChangeEvent = (newSelectedState, e) => {
+    if (onSelect) {
+      onSelect(newSelectedState.option, e);
+    }
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
       onChange(newSelectedState.option, e);
     }
