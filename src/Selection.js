@@ -8,6 +8,7 @@ import { BASE_DEFAULT_PROPS } from './constants';
 
 function Selection({
   options: originalOptions,
+  onSelect,
   matcher,
   value,
   disabled,
@@ -24,6 +25,9 @@ function Selection({
   );
 
   const fireChangeEvent = (newSelectedState, e) => {
+    if (onSelect) {
+      onSelect(newSelectedState.option, e);
+    }
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
       onChange(newSelectedState.option, e);
     }
