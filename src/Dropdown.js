@@ -141,7 +141,6 @@ function Dropdown({
         className={controlClass}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
-        aria-haspopup="listbox"
       >
         {valueDisplay}
         <Arrow
