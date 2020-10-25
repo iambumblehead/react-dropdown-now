@@ -20,6 +20,7 @@ const Option = ({
 
   return (
     <div
+      data-testid="dropdown-option"
       className={optionClassName.trim()}
       onKeyDown={handleSelect}
       onMouseDown={handleSelect}

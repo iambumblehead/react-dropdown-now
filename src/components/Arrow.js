@@ -18,7 +18,7 @@ const Arrow = ({
   const arrow = isOpen ? arrowOpen : arrowClosed;
 
   return (
-    <div className={`${baseClassName}-arrow-wrapper`}>
+    <div data-testid="dropdown-arrow" className={`${baseClassName}-arrow-wrapper`}>
       {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
     </div>
   );
