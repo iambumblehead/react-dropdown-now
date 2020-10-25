@@ -20,8 +20,8 @@ function Dropdown({
   onChange,
   onSelect,
   baseClassName,
-  controlClassName,
-  placeholderClassName,
+  // controlClassName,
+  // placeholderClassName,
   menuClassName,
   arrowClassName,
   arrowClosed,
@@ -112,18 +112,18 @@ function Dropdown({
   );
 
   const dropdownClass = classNames({
-    [`${baseClassName}-root`]: true,
+    [baseClassName]: true,
     [className]: !!className,
     'is-open': isOpen,
   });
   const controlClass = classNames({
     [`${baseClassName}-control`]: true,
-    [controlClassName]: !!controlClassName,
-    [disabledClass]: !!disabledClass,
+    // [controlClassName]: !!controlClassName,
+    // [disabledClass]: !!disabledClass,
   });
   const placeholderClass = classNames({
-    [`${baseClassName}-placeholder`]: true,
-    [placeholderClassName]: !!placeholderClassName,
+    [`${baseClassName}-control-placeholder`]: true,
+    // [placeholderClassName]: !!placeholderClassName,
     'is-selected': isValueSelected(),
   });
   const menuClass = classNames({
@@ -160,7 +160,7 @@ function Dropdown({
         {valueDisplay}
         <Arrow
           isOpen={isOpen}
-          baseClassName={baseClassName}
+          baseClassName={controlClass}
           arrowClassName={arrowClassName}
           arrowClosed={arrowClosed}
           arrowOpen={arrowOpen}

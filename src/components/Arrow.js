@@ -1,31 +1,23 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { BASE_DEFAULT_PROPS } from '../constants';
-
 const Arrow = ({
   isOpen,
-  arrowClassName,
   arrowClosed,
   arrowOpen,
   baseClassName,
 }) => {
   const arrowClass = classNames({
-    [`${baseClassName}-arrow`]: true,
-    [arrowClassName]: !!arrowClassName,
+    [`${baseClassName}-arrow`]: true
   });
 
   const arrow = isOpen ? arrowOpen : arrowClosed;
 
   return (
-    <div data-testid="dropdown-arrow" className={`${baseClassName}-arrow-wrapper`}>
-      {arrowOpen && arrowClosed ? arrow : <span className={arrowClass} />}
+    <div data-testid="dropdown-arrow" className={arrowClass}>
+      {arrowOpen && arrowClosed ? arrow : <span className={`${arrowClass}-icon`} />}
     </div>
   );
-};
-
-Arrow.defaultProps = {
-  ...BASE_DEFAULT_PROPS,
 };
 
 export default Arrow;
