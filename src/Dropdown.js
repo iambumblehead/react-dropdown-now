@@ -132,11 +132,11 @@ function Dropdown({
   });
 
   const valueDisplay = (
-    <div className={placeholderClass}>{placeHolderValue}</div>
+    <div data-testid="dropdown-placeholder" className={placeholderClass}>{placeHolderValue}</div>
   );
 
   const menu = isOpen ? (
-    <div className={menuClass} aria-expanded="true">
+    <div data-testid="dropdown-menu" className={menuClass} aria-expanded="true">
       <Menu
         selected={selected}
         options={options}
@@ -148,10 +148,11 @@ function Dropdown({
   ) : null;
 
   return (
-    <div className={dropdownClass} ref={dropdownNode}>
+    <div data-testid="dropdown-root" className={dropdownClass} ref={dropdownNode}>
       <div
         role="presentation"
         ref={innerRef}
+        data-testid="dropdown-control"
         className={controlClass}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}

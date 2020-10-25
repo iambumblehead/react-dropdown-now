@@ -3,7 +3,9 @@
 .babelrc
 .jshintrc
 .eslintrc.json
+.jest
 express.js
 test
 docs
 src
+__tests__
