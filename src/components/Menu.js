@@ -25,6 +25,7 @@ const Menu = ({
         <OptionGroup
           key={get(item, '[0].label', i)}
           option={item}
+          baseClassName={`${baseClassName}-menu`}
           selected={selected}
           onSelect={onSelect}
         />
@@ -40,6 +41,7 @@ const Menu = ({
           selected={isSelected}
           onSelect={onSelect}
           tabIndex={item.index}
+          baseClassName={`${baseClassName}-menu`}
           className={classNames({
             [item.option.className]: !!item.option.className,
           })}

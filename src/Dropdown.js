@@ -20,8 +20,6 @@ function Dropdown({
   onChange,
   onSelect,
   baseClassName,
-  // controlClassName,
-  // placeholderClassName,
   menuClassName,
   arrowClassName,
   arrowClosed,
@@ -104,7 +102,7 @@ function Dropdown({
     return !!selected;
   };
 
-  const disabledClass = disabled ? `${baseClassName}-disabled` : '';
+  // const disabledClass = disabled ? `${baseClassName}-disabled` : '';
   const placeHolderValue = get(
     selected,
     'option.label',
@@ -118,6 +116,7 @@ function Dropdown({
   });
   const controlClass = classNames({
     [`${baseClassName}-control`]: true,
+    'is-disabled': disabled
     // [controlClassName]: !!controlClassName,
     // [disabledClass]: !!disabledClass,
   });
