@@ -6,6 +6,76 @@ import { mount } from 'enzyme';
 import ReactDropdownNow from '../src';
 import Menu from '../src/components/Menu';
 
+test('ReactDropdownNow, classnames closed', (t) => {
+  const onOpen = sinon.spy();
+  const component = mount(
+    <ReactDropdownNow
+      options={['one', 'two', 'three']}
+      onOpen={onOpen}
+      value="one"
+    />,
+  );
+
+  t.is(
+    component.html(),
+    `<div class="Dropdown-root">
+       <div role="presentation" class="Dropdown-control">
+         <div class="Dropdown-placeholder is-selected">one</div>
+         <div class="Dropdown-arrow-wrapper">
+           <span class="Dropdown-arrow"></span>
+         </div>
+       </div>
+     </div>`
+      .replace(/(\/n|\s*)(?=<)/gi, '')
+  );
+
+  component.unmount();
+});
+
+test('ReactDropdownNow, classnames opened', (t) => {
+  const onOpen = sinon.spy();
+  const component = mount(
+    <ReactDropdownNow
+      options={['one', 'two', 'three', {
+        name: 'group1',
+        items: [
+          { value: 'four', label: 'Four', className: 'myOptionClassName' },
+          { value: 'five', label: 'Five' }
+        ]
+      }]}
+      onOpen={onOpen}
+      value="one"
+    />,
+  );
+
+  component.find('.Dropdown-control').simulate('mousedown', { button: 0 });
+
+  t.is(
+    component.html(),
+    `<div class="Dropdown-root is-open">
+       <div role="presentation" class="Dropdown-control">
+         <div class="Dropdown-placeholder is-selected">one</div>
+         <div class="Dropdown-arrow-wrapper">
+           <span class="Dropdown-arrow"></span>
+         </div>
+       </div>
+       <div class="Dropdown-menu" aria-expanded="true">
+         <div class="Dropdown-option is-selected" role="option" aria-selected="true" tabindex="0">one</div>
+         <div class="Dropdown-option" role="option" aria-selected="false" tabindex="1">two</div>
+         <div class="Dropdown-option" role="option" aria-selected="false" tabindex="2">three</div>
+         <div class="Dropdown-group" role="listbox" tabindex="-1">
+           <div class="Dropdown-title">group1</div>
+           <div class="myOptionClassName Dropdown-option" role="option" aria-selected="false" tabindex="3">Four</div>
+           <div class="Dropdown-option" role="option" aria-selected="false" tabindex="4">Five</div>
+         </div>
+       </div>
+     </div>`
+      .replace(/(\/n|\s*)(?=<)/gi, '')
+  );
+
+  component.unmount();
+});
+
 test('ReactDropdownNow, opens', (t) => {
   const onOpen = sinon.spy();
   const component = mount(
