@@ -82,7 +82,7 @@
   },
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "babel src --out-dir dist",
+    "build": "babel src --out-dir dist --ignore \"**/__tests__\"",
     "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
     "start": "node express & npm run watch",
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
