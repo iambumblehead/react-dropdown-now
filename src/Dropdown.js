@@ -114,7 +114,7 @@ function Dropdown({
   const menu = isOpen ? (
     <div
       className={classNames({
-        [`${baseClassName}-menu`]: true,
+        [`${baseClassName}-drop`]: true,
         ...stateClassNames,
       })}
       aria-expanded="true"
@@ -123,7 +123,7 @@ function Dropdown({
         selected={selected}
         options={options}
         stateClassNames={{ [className]: !!className }}
-        baseClassName={baseClassName}
+        baseClassName={`${baseClassName}-drop`}
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
