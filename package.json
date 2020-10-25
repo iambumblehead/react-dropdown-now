@@ -60,15 +60,11 @@
     "@commitlint/config-conventional": "^11.0.0",
     "@testing-library/jest-dom": "^5.11.5",
     "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "ava": "^3.13.0",
     "babel-eslint": "^10.1.0",
     "babelify": "^10.0.0",
     "browser-env": "^3.3.0",
     "browserify": "^17.0.0",
     "browserify-hmr": "^0.4.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^7.12.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.14.0",
@@ -81,7 +77,6 @@
     "jest": "^26.6.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "sinon": "^9.2.0",
     "watchify": "^3.11.1",
     "yargs": "^16.1.0"
   },
@@ -91,26 +86,18 @@
     "watch": "watchify docs/main.js -p browserify-hmr -o docs/bundle.js -dv",
     "start": "node express & npm run watch",
     "browserify": "./node_modules/browserify/bin/cmd.js docs/main.js -o docs/bundle.js",
-    "lint": "eslint src test",
-    "lint:fix": "eslint src test --fix",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "lint:commits": "commitlint --from origin/develop --to HEAD",
     "jest": "jest --config=./.jest/jest.config.js",
     "jest:watch": "npm run jest -- --watch",
-    "unit-test": "NODE_ENV=test ava --verbose",
+    "unit-test": "NODE_ENV=test npm run jest",
     "test": "npm run lint && npm run unit-test",
     "prepublishOnly": "npm run build",
     "publish": "git push origin --tags && git push origin",
     "release:patch": "npm version patch && npm publish --access public",
     "release:minor": "npm version minor && npm publish --access public",
     "release:major": "npm version major && npm publish --access public"
-  },
-  "ava": {
-    "require": [
-      "./test/setup.js"
-    ],
-    "files": [
-      "./test/*.spec.js"
-    ]
   },
   "husky": {
     "hooks": {
