@@ -151,13 +151,13 @@ function Dropdown({
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
       >
-      <div
-         data-testid="dropdown-placeholder"
-         className={classNames({
-          [`${baseClassName}-control-placeholder`]: true,
-          'is-selected': !!selected,
-          ...stateClassNames,
-        })}
+        <div
+          data-testid="dropdown-placeholder"
+          className={classNames({
+            [`${baseClassName}-control-placeholder`]: true,
+            'is-selected': !!selected,
+            ...stateClassNames,
+          })}
         >
           {placeHolderValue}
         </div>
