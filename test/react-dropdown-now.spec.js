@@ -36,7 +36,13 @@ test('ReactDropdownNow, classnames opened', (t) => {
   const onOpen = sinon.spy();
   const component = mount(
     <ReactDropdownNow
-      options={['one', 'two', 'three']}
+      options={['one', 'two', 'three', {
+        name: 'group1',
+        items: [
+          { value: 'four', label: 'Four', className: 'myOptionClassName' },
+          { value: 'five', label: 'Five' }
+        ]
+      }]}
       onOpen={onOpen}
       value="one"
     />,
@@ -57,6 +63,11 @@ test('ReactDropdownNow, classnames opened', (t) => {
          <div class="Dropdown-option is-selected" role="option" aria-selected="true" tabindex="0">one</div>
          <div class="Dropdown-option" role="option" aria-selected="false" tabindex="1">two</div>
          <div class="Dropdown-option" role="option" aria-selected="false" tabindex="2">three</div>
+         <div class="Dropdown-group" role="listbox" tabindex="-1">
+           <div class="Dropdown-title">group1</div>
+           <div class="myOptionClassName Dropdown-option" role="option" aria-selected="false" tabindex="3">Four</div>
+           <div class="Dropdown-option" role="option" aria-selected="false" tabindex="4">Five</div>
+         </div>
        </div>
      </div>`
       .replace(/(\/n|\s*)(?=<)/gi, '')
