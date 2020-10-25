@@ -15,6 +15,7 @@ import 'react-dropdown-now/style.css';
 // normal usage
 <Dropdown
   placeholder="Select an option"
+  className="my-className"
   options={['one', 'two', 'three']}
   value="one"
   onChange={(value) => console.log('change!', value)}
@@ -97,16 +98,6 @@ const options = [{ id: 'custom-id', value: 1, label: 'awesome' }];
 ---
 
 ### Customizing
-
-#### Styling with classnames
-
-| Classname                                                 | Targets                                                    |
-| :-------------------------------------------------------- | :--------------------------------------------------------- |
-| `Dropdown-root` <br/> prop: `className`                   | main wrapper div                                           |
-| `Dropdown-control` <br/> prop: `controlClassName`         | the dropdown control                                       |
-| `Dropdown-placeholder` <br/> prop: `placeholderClassName` | styles the placeholder / selected item in dropdown control |
-| `Dropdown-menu` <br/> prop: `menuClassName`               | container for the dropdown options                         |
-| `Dropdown-arrow` <br/> prop: `arrowClassName`             | dropdown arrow indicator                                   |
 
 #### Using custom arrows
 
