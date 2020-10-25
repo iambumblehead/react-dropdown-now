@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import ReactDropdownNow from '..';
+import ReactDropdownNow, { Selection } from '..';
 import { queryByAttr } from '../../.jest/utils';
 
 describe('Dropdown', () => {
@@ -16,14 +16,43 @@ describe('Dropdown', () => {
     );
 
     expect(container.innerHTML).toBe(
-      `<div data-testid="dropdown-root" class="Dropdown-root">
-         <div role="presentation" data-testid="dropdown-control" class="Dropdown-control">
-           <div data-testid="dropdown-placeholder" class="Dropdown-placeholder is-selected">one</div>
-           <div data-testid="dropdown-arrow" class="Dropdown-arrow-wrapper">
-             <span class="Dropdown-arrow"></span>
-           </div>
-         </div>
-       </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
+     `<div data-testid="dropdown-root" class="rdn">
+        <div data-testid="dropdown-control" role="presentation" class="rdn-control">
+          <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected">one</div>
+          <div data-testid="dropdown-arrow" class="rdn-control-arrow">
+            <span class="rdn-control-arrow-icon"></span>
+          </div>
+        </div>
+      </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
+    );
+
+    unmount();
+  });
+
+  it('should have classnames disabled', () => {
+    const onOpen = jest.fn();
+    const { getByTestId, container, unmount } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        disabled
+        onOpen={onOpen}
+        value="one"
+      />,
+    );
+
+    const dropdownControl = getByTestId('dropdown-control');
+
+    fireEvent.mouseDown(dropdownControl);
+
+    expect(container.innerHTML).toBe(
+     `<div data-testid="dropdown-root" class="rdn is-disabled">
+        <div data-testid="dropdown-control" role="presentation" class="rdn-control is-disabled">
+          <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected is-disabled">one</div>
+          <div data-testid="dropdown-arrow" class="rdn-control-arrow is-disabled">
+            <span class="rdn-control-arrow-icon is-disabled"></span>
+          </div>
+        </div>
+      </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
     );
 
     unmount();
@@ -55,24 +84,45 @@ describe('Dropdown', () => {
     fireEvent.mouseDown(dropdownControl);
 
     expect(container.innerHTML).toBe(
-      `<div data-testid="dropdown-root" class="Dropdown-root is-open">
-           <div role="presentation" data-testid="dropdown-control" class="Dropdown-control">
-             <div data-testid="dropdown-placeholder" class="Dropdown-placeholder is-selected">one</div>
-             <div data-testid="dropdown-arrow" class="Dropdown-arrow-wrapper">
-               <span class="Dropdown-arrow"></span>
-             </div>
-           </div>
-           <div data-testid="dropdown-menu" class="Dropdown-menu" aria-expanded="true">
-             <div data-testid="dropdown-option" class="Dropdown-option is-selected" role="option" aria-selected="true" tabindex="0">one</div>
-             <div data-testid="dropdown-option" class="Dropdown-option" role="option" aria-selected="false" tabindex="1">two</div>
-             <div data-testid="dropdown-option" class="Dropdown-option" role="option" aria-selected="false" tabindex="2">three</div>
-             <div class="Dropdown-group" role="listbox" tabindex="-1">
-               <div class="Dropdown-title">group1</div>
-               <div data-testid="dropdown-option" class="myOptionClassName Dropdown-option" role="option" aria-selected="false" tabindex="3">Four</div>
-               <div data-testid="dropdown-option" class="Dropdown-option" role="option" aria-selected="false" tabindex="4">Five</div>
-             </div>
-           </div>
-         </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
+      `<div data-testid="dropdown-root" class="rdn is-open">
+        <div data-testid="dropdown-control" role="presentation" class="rdn-control is-open">
+          <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected is-open">one</div>
+          <div data-testid="dropdown-arrow" class="rdn-control-arrow is-open">
+          <span class="rdn-control-arrow-icon is-open"></span>
+        </div>
+      </div>
+      <div data-testid="dropdown-menu" class="rdn-drop is-open" aria-expanded="true">
+        <div data-testid="dropdown-option" class="rdn-drop-menu-option is-selected" role="option" aria-selected="true" tabindex="0">one</div>
+        <div data-testid="dropdown-option" class="rdn-drop-menu-option" role="option" aria-selected="false" tabindex="1">two</div>
+        <div data-testid="dropdown-option" class="rdn-drop-menu-option" role="option" aria-selected="false" tabindex="2">three</div>
+        <div class="rdn-drop-menu-group" role="listbox" tabindex="-1">
+          <div class="rdn-drop-menu-group-title">group1</div>
+          <div data-testid="dropdown-option" class="myOptionClassName rdn-drop-menu-group-option" role="option" aria-selected="false" tabindex="3">Four</div>
+          <div data-testid="dropdown-option" class="rdn-drop-menu-group-option" role="option" aria-selected="false" tabindex="4">Five</div>
+        </div>
+      </div>
+     </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
+    );
+
+    unmount();
+  });
+
+  it('should have selection classnames closed', () => {
+    const onOpen = jest.fn();
+    const { container, unmount } = render(
+      <Selection
+        options={['one', 'two', 'three']}
+        onOpen={onOpen}
+        value="one"
+      />,
+    );
+
+    expect(container.innerHTML).toBe(
+      `<div class="rdn-selection">
+        <div data-testid="dropdown-option" class="rdn-selection-menu-option is-selected" role="option" aria-selected="true" tabindex="0">one</div>
+        <div data-testid="dropdown-option" class="rdn-selection-menu-option" role="option" aria-selected="false" tabindex="1">two</div>
+        <div data-testid="dropdown-option" class="rdn-selection-menu-option" role="option" aria-selected="false" tabindex="2">three</div>
+      </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
     );
 
     unmount();
@@ -199,30 +249,6 @@ describe('Dropdown', () => {
     ).toBe(true);
   });
 
-  it('should render custom open shut arrow classNames', () => {
-    const { getByTestId } = render(
-      <ReactDropdownNow
-        options={['one', 'two', 'three']}
-        value="one"
-        arrowClassName="arrow-class"
-      />,
-    );
-
-    const dropdownControl = getByTestId('dropdown-control');
-
-    expect(
-      getByTestId('dropdown-arrow').firstChild.classList.contains(
-        'arrow-class',
-      ),
-    ).toBe(true);
-    fireEvent.mouseDown(dropdownControl);
-    expect(
-      getByTestId('dropdown-arrow').firstChild.classList.contains(
-        'arrow-class',
-      ),
-    ).toBe(true);
-  });
-
   test('should render custom option classNames', () => {
     const { getByTestId, getAllByTestId } = render(
       <ReactDropdownNow
@@ -257,10 +283,10 @@ describe('Dropdown', () => {
     ).toBe(true);
   });
 
-  it('should render menuClassName', () => {
+  it('should render with className attribue', () => {
     const { getByTestId, queryByTestId } = render(
       <ReactDropdownNow
-        menuClassName="menu-class"
+        className="menu-class"
         options={[
           { value: 'item', label: 'item', className: 'item' },
           {
@@ -283,72 +309,8 @@ describe('Dropdown', () => {
     expect(queryByTestId('dropdown-menu')).not.toBeInTheDocument();
     fireEvent.mouseDown(dropdownControl);
     expect(getByTestId('dropdown-menu')).toBeInTheDocument();
-  });
-
-  it('should render placeholderClassName', () => {
-    const { getByTestId, getAllByTestId } = render(
-      <ReactDropdownNow
-        placeholderClassName="placeholder-class"
-        options={[
-          { value: 'item', label: 'item', className: 'item' },
-          {
-            type: 'group',
-            name: 'group',
-            items: [
-              {
-                value: 'group item',
-                label: 'group item',
-                className: 'group-item',
-              },
-            ],
-          },
-        ]}
-      />,
-    );
-
-    const dropdownControl = getByTestId('dropdown-control');
-
-    expect(getByTestId('dropdown-placeholder')).toBeInTheDocument();
-    fireEvent.mouseDown(dropdownControl);
-
-    const dropdownOptions = getAllByTestId('dropdown-option');
-
-    fireEvent.mouseDown(dropdownOptions[1]);
-
     expect(
-      getByTestId('dropdown-placeholder').classList.contains('is-selected'),
-    ).toBe(true);
-  });
-
-  it('should render controlClassName', () => {
-    const { getByTestId } = render(
-      <ReactDropdownNow
-        controlClassName="control-class"
-        options={[
-          { value: 'item', label: 'item', className: 'item' },
-          {
-            type: 'group',
-            name: 'group',
-            items: [
-              {
-                value: 'group item',
-                label: 'group item',
-                className: 'group-item',
-              },
-            ],
-          },
-        ]}
-      />,
-    );
-
-    const dropdownControl = getByTestId('dropdown-control');
-
-    expect(
-      getByTestId('dropdown-control').classList.contains('control-class'),
-    ).toBe(true);
-    fireEvent.mouseDown(dropdownControl);
-    expect(
-      getByTestId('dropdown-control').classList.contains('control-class'),
+      getByTestId('dropdown-placeholder').classList.contains('menu-class'),
     ).toBe(true);
   });
 
@@ -523,5 +485,6 @@ describe('Dropdown', () => {
       expect(getByTestId('dropdown-placeholder').textContent).toBe(
         'label with custom-id-2',
       );
+
     });
 });

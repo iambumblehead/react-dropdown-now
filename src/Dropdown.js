@@ -113,6 +113,7 @@ function Dropdown({
 
   const menu = isOpen ? (
     <div
+      data-testid="dropdown-menu"
       className={classNames({
         [`${baseClassName}-drop`]: true,
         ...stateClassNames,
@@ -150,7 +151,9 @@ function Dropdown({
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
       >
-        <div className={classNames({
+      <div
+         data-testid="dropdown-placeholder"
+         className={classNames({
           [`${baseClassName}-control-placeholder`]: true,
           'is-selected': !!selected,
           ...stateClassNames,
