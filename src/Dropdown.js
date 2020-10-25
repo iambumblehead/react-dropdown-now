@@ -97,7 +97,6 @@ function Dropdown({
 
   useEffect(() => updateValue(value), [value]);
 
-  // const disabledClass = disabled ? `${baseClassName}-disabled` : '';
   const placeHolderValue = get(
     selected,
     'option.label',
