@@ -20,7 +20,6 @@ function Dropdown({
   onChange,
   onSelect,
   baseClassName,
-  menuClassName,
   arrowClassName,
   arrowClosed,
   arrowOpen,
@@ -98,10 +97,6 @@ function Dropdown({
 
   useEffect(() => updateValue(value), [value]);
 
-  const isValueSelected = () => {
-    return !!selected;
-  };
-
   // const disabledClass = disabled ? `${baseClassName}-disabled` : '';
   const placeHolderValue = get(
     selected,
@@ -109,36 +104,25 @@ function Dropdown({
     placeholder || DEFAULT_PLACEHOLDER_STRING,
   );
 
-  const dropdownClass = classNames({
-    [baseClassName]: true,
+  const stateClassNames = {
     [className]: !!className,
-    'is-open': isOpen,
-  });
-  const controlClass = classNames({
-    [`${baseClassName}-control`]: true,
-    'is-disabled': disabled
-    // [controlClassName]: !!controlClassName,
-    // [disabledClass]: !!disabledClass,
-  });
-  const placeholderClass = classNames({
-    [`${baseClassName}-control-placeholder`]: true,
-    // [placeholderClassName]: !!placeholderClassName,
-    'is-selected': isValueSelected(),
-  });
-  const menuClass = classNames({
-    [`${baseClassName}-menu`]: true,
-    [menuClassName]: !!menuClassName,
-  });
-
-  const valueDisplay = (
-    <div data-testid="dropdown-placeholder" className={placeholderClass}>{placeHolderValue}</div>
-  );
+    'is-disabled': disabled,
+    'is-empty': !options.length,
+    'is-open': isOpen
+  };
 
   const menu = isOpen ? (
-    <div data-testid="dropdown-menu" className={menuClass} aria-expanded="true">
+    <div
+      className={classNames({
+        [`${baseClassName}-menu`]: true,
+        ...stateClassNames,
+      })}
+      aria-expanded="true"
+    >
       <Menu
         selected={selected}
         options={options}
+        stateClassNames={{ [className]: !!className }}
         baseClassName={baseClassName}
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
@@ -147,19 +131,37 @@ function Dropdown({
   ) : null;
 
   return (
-    <div data-testid="dropdown-root" className={dropdownClass} ref={dropdownNode}>
+    <div
+      data-testid="dropdown-root"
+      className={classNames({
+        [baseClassName]: true,
+        ...stateClassNames,
+      })}
+      ref={dropdownNode}
+    >
       <div
+        data-testid="dropdown-control"
         role="presentation"
         ref={innerRef}
-        data-testid="dropdown-control"
-        className={controlClass}
+        className={classNames({
+          [`${baseClassName}-control`]: true,
+          ...stateClassNames,
+        })}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
       >
-        {valueDisplay}
+        <div className={classNames({
+          [`${baseClassName}-control-placeholder`]: true,
+          'is-selected': !!selected,
+          ...stateClassNames,
+        })}
+        >
+          {placeHolderValue}
+        </div>
         <Arrow
           isOpen={isOpen}
-          baseClassName={controlClass}
+          baseClassName={`${baseClassName}-control`}
+          stateClassNames={stateClassNames}
           arrowClassName={arrowClassName}
           arrowClosed={arrowClosed}
           arrowOpen={arrowOpen}

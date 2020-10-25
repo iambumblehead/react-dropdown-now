@@ -6,16 +6,23 @@ const Arrow = ({
   arrowClosed,
   arrowOpen,
   baseClassName,
+  stateClassNames
 }) => {
   const arrowClass = classNames({
-    [`${baseClassName}-arrow`]: true
+    [`${baseClassName}-arrow`]: true,
+    ...stateClassNames
+  });
+
+  const arrowIconClass = classNames({
+    [`${baseClassName}-arrow-icon`]: true,
+    ...stateClassNames
   });
 
   const arrow = isOpen ? arrowOpen : arrowClosed;
 
   return (
     <div data-testid="dropdown-arrow" className={arrowClass}>
-      {arrowOpen && arrowClosed ? arrow : <span className={`${arrowClass}-icon`} />}
+      {arrowOpen && arrowClosed ? arrow : <span className={arrowIconClass} />}
     </div>
   );
 };
