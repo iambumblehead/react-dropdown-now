@@ -13,9 +13,10 @@ const Menu = ({
   onSelect,
   noOptionsDisplay,
 }) => {
+
   if (options.length === 0) {
     return (
-      <div className={`${baseClassName}-noresults`}>{noOptionsDisplay}</div>
+      <div className={`${baseClassName}-menu-noresults`}>{noOptionsDisplay}</div>
     );
   }
 
