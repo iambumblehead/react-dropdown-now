@@ -7,7 +7,8 @@
     "react-hooks"
   ],
   "env": {
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "settings": {
     "react": { "version": "detect" }
@@ -48,7 +49,8 @@
   "overrides": [
     {
       "files": [
-        "test/**/*.js"
+        "test/**/*.js",
+        "**/__tests__/**/*.js"
       ],
       "rules": {
         "import/no-extraneous-dependencies": 0,
