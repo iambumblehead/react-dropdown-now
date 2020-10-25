@@ -120,6 +120,12 @@ More [examples in the docs folder.][2]
 - `onChange` always returns an object with aleast `{value, label}`
 - `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
 
+#### v3 => v4
+
+- removed configurable classNames `placeholderClassName`, `arrowClassName`, `menuClassName` and `controlClassName`
+- [changed classNames][10] to use className prefixing. stylesheets targeting the v3 component will need to be updated
+
+
 ### License
 
 **MIT**
@@ -127,6 +133,7 @@ More [examples in the docs folder.][2]
 [0]: https://github.com/fraserxu/react-dropdown/issues/183
 [1]: https://iambumblehead.github.io/react-dropdown-now/
 [2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
+[10]: https://github.com/iambumblehead/react-dropdown-now/pull/71/files#diff-96444c2208ab41b33ce225669e78e3b3426b43216f64e4c34398d6c0d50918e9
 [npm-image]: https://img.shields.io/npm/v/react-dropdown-now.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-dropdown-now
 [downloads-image]: http://img.shields.io/npm/dm/react-dropdown-now.svg?style=flat-square
