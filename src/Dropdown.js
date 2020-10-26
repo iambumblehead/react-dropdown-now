@@ -174,8 +174,9 @@ function Dropdown({
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   matcher: defaultMatcher,
-  onOpen: () => {},
-  onClose: () => {},
+  onOpen: () => undefined,
+  onClose: () => undefined,
 };
+
 
 export default Dropdown;
