@@ -95,7 +95,7 @@
     "release:major": "npm version major && npm publish --access public",
     "start": "npm run storybook",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -o docs"
   },
   "husky": {
     "hooks": {
