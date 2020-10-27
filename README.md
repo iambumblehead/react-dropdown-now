@@ -115,15 +115,15 @@ More [examples in the docs folder.][2]
 
 ### Migration
 
-#### v2 => v3
-
-- `onChange` always returns an object with aleast `{value, label}`
-- `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
-
 #### v3 => v4
 
 - removed configurable classNames `placeholderClassName`, `arrowClassName`, `menuClassName` and `controlClassName`
 - [changed classNames][10] to use className prefixing. stylesheets targeting the v3 component will need to be updated
+
+#### v2 => v3
+
+- `onChange` always returns an object with aleast `{value, label}`
+- `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
 
 
 ### License
