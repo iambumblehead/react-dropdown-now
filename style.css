@@ -20,7 +20,16 @@
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
-.rdn-arrow-icon {
+.rdn-control-icon {
+  display: block;
+  height: 0;
+  margin-top: -6px;
+  position: absolute;
+  right: 10px;
+  top: 14px;
+}
+
+.rdn-control-arrow-icon {
   border-color: #999 transparent transparent;
   border-style: solid;
   border-width: 5px 5px 0;
@@ -34,11 +43,10 @@
   width: 0;
 }
 
-.rdn-arrow-icon.is-open {
+.rdn-control-arrow-icon.is-open {
   border-color: transparent transparent #999;
   border-width: 0 5px 5px;
 }
-
 
 .rdn-drop,
 .rdn-selection {
