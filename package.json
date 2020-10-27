@@ -80,7 +80,7 @@
   },
   "typings": "./index.d.ts",
   "scripts": {
-    "build": "babel src --out-dir dist --ignore \"**/__tests__\"",
+    "build": "babel src --out-dir dist --ignore \"**/__tests__,**/stories,**/*.stories.js\"",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "lint:commits": "commitlint --from origin/develop --to HEAD",
