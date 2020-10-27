@@ -37,10 +37,6 @@ declare module 'react-dropdown-now' {
   }
 
   export interface ReactDropdownProps extends SelectionProps {
-    controlClassName?: string;
-    placeholderClassName?: string;
-    menuClassName?: string;
-    arrowClassName?: string;
     arrowClosed?: React.ReactNode;
     arrowOpen?: React.ReactNode;
     onFocus?: (arg: boolean) => void;
