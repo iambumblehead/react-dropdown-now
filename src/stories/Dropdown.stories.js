@@ -11,13 +11,7 @@ export default {
   argTypes: {
     className: {
       control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
-    placeholderClassName: {
-      control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
-    menuClassName: {
-      control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
+    }
   },
 };
 
