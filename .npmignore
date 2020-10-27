@@ -9,3 +9,5 @@ test
 docs
 src
 __tests__
+src/**/stories
+src/**/*.stories.js
