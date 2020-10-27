@@ -20,7 +20,6 @@ function Dropdown({
   onChange,
   onSelect,
   baseClassName,
-  arrowClassName,
   arrowClosed,
   arrowOpen,
   className,
