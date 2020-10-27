@@ -62,7 +62,7 @@ function Selection({
 
 Selection.defaultProps = {
   ...BASE_DEFAULT_PROPS,
-  onChange: () => {},
+  onChange: () => undefined,
   matcher: defaultMatcher,
 };
 
