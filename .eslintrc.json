@@ -58,6 +58,14 @@
         "require-await": "error",
         "global-require": 0
       }
+    },
+    {
+      "files": [
+        "**/*.stories.js"
+      ],
+      "rules": {
+        "no-console": 0
+      }
     }
   ]
 }
