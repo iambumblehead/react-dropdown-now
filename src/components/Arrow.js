@@ -5,19 +5,10 @@ const Arrow = ({
   isOpen,
   arrowClosed,
   arrowOpen,
-  baseClassName,
   stateClassNames
 }) => {
-  const arrowClass = classNames({
-    [`${baseClassName}-arrow`]: true,
-    ...stateClassNames
-  });
-
-  const arrowIconClass = classNames({
-    [`${baseClassName}-arrow-icon`]: true,
-    ...stateClassNames
-  });
-
+  const arrowClass = classNames( 'rdn-control-arrow', stateClassNames );
+  const arrowIconClass = classNames( 'rdn-control-arrow-icon', stateClassNames );
   const arrow = isOpen ? arrowOpen : arrowClosed;
 
   return (

@@ -162,9 +162,7 @@ function Dropdown({
         </div>
         <Arrow
           isOpen={isOpen}
-          baseClassName={`${baseClassName}-control`}
           stateClassNames={stateClassNames}
-          arrowClassName={arrowClassName}
           arrowClosed={arrowClosed}
           arrowOpen={arrowOpen}
         />
