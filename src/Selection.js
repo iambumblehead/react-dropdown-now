@@ -41,10 +41,10 @@ function Selection({
     return fireChangeEvent(newValue, e);
   };
 
-  const menuClass = classNames('Selection-menu', {
+  const menuClass = classNames(`${baseClassName}-selection`, {
     [className]: !!className,
-    [`${baseClassName}-menu`]: true,
-    [`${baseClassName}-disabled`]: disabled,
+    'is-disabled': disabled,
+    'is-empty': !options.length
   });
 
   return (
@@ -52,7 +52,8 @@ function Selection({
       <Menu
         selected={selected}
         options={options}
-        baseClassName={baseClassName}
+        stateClassNames={{ [className]: !!className }}
+        baseClassName={`${baseClassName}-selection`}
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />

@@ -21,7 +21,7 @@ const OptionGroup = ({
       {option.map((item) => {
         if (item.type === ITEM_TYPE.LABEL && item.label) {
           return (
-            <div key={item.label} className={`${baseClassName}-title`}>
+            <div key={item.label} className={`${baseClassName}-group-title`}>
               {item.label}
             </div>
           );
@@ -35,6 +35,7 @@ const OptionGroup = ({
               selected={isSelected}
               onSelect={onSelect}
               tabIndex={item.index}
+              baseClassName={`${baseClassName}-group`}
               className={classNames({
                 [item.option.className]: !!item.option.className,
               })}

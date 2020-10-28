@@ -4,18 +4,31 @@ import get from 'lodash/get';
 
 import Option from './Option';
 import OptionGroup from './OptionGroup';
-import { BASE_DEFAULT_PROPS, ITEM_TYPE } from '../constants';
+import {
+  DEFAULT_OPTIONS_EMPTY_STRING,
+  BASE_DEFAULT_PROPS,
+  ITEM_TYPE
+} from '../constants';
 
 const Menu = ({
   selected,
   baseClassName,
+  stateClassNames,
   options,
   onSelect,
-  noOptionsDisplay,
+  noOptionsDisplay = DEFAULT_OPTIONS_EMPTY_STRING,
 }) => {
+
   if (options.length === 0) {
     return (
-      <div className={`${baseClassName}-noresults`}>{noOptionsDisplay}</div>
+      <div
+        className={classNames({
+          [`${baseClassName}-menu-noresults`]: true,
+          ...stateClassNames,
+        })}
+      >
+        {noOptionsDisplay}
+      </div>
     );
   }
 
@@ -25,6 +38,7 @@ const Menu = ({
         <OptionGroup
           key={get(item, '[0].label', i)}
           option={item}
+          baseClassName={`${baseClassName}-menu`}
           selected={selected}
           onSelect={onSelect}
         />
@@ -40,6 +54,7 @@ const Menu = ({
           selected={isSelected}
           onSelect={onSelect}
           tabIndex={item.index}
+          baseClassName={`${baseClassName}-menu`}
           className={classNames({
             [item.option.className]: !!item.option.className,
           })}
@@ -52,8 +67,7 @@ const Menu = ({
 };
 
 Menu.defaultProps = {
-  ...BASE_DEFAULT_PROPS,
-  noOptionsDisplay: 'No options found',
+  ...BASE_DEFAULT_PROPS
 };
 
 export default Menu;
