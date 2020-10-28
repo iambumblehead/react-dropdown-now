@@ -99,6 +99,15 @@ const options = [{ id: 'custom-id', value: 1, label: 'awesome' }];
 
 ### Customizing
 
+| Classname                 | Targets                                         |
+| :------------------------ | :---------------------------------------------- |
+| `rdn`                     | main wrapper div                                |
+| `rdn-control`             | dropdown control                                |
+| `rdn-control-arrow`       | dropdown arrow indicator                        |
+| `rdn-control-placeholder` | placeholder / selected item in dropdown control |
+| `rdn-drop`                | container for dropdown options                  |
+
+
 #### Using custom arrows
 
 **arrowClosed**, **arrowOpen**
