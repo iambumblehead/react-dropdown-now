@@ -1,7 +1,8 @@
 export const DEFAULT_PLACEHOLDER_STRING = 'Select...';
+export const DEFAULT_OPTIONS_EMPTY_STRING = 'No options found';
 
 export const BASE_DEFAULT_PROPS = {
-  baseClassName: 'Dropdown',
+  baseClassName: 'rdn',
 };
 
 export const ITEM_TYPE = {

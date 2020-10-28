@@ -11,13 +11,7 @@ export default {
   argTypes: {
     className: {
       control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
-    placeholderClassName: {
-      control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
-    menuClassName: {
-      control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    },
+    }
   },
 };
 
@@ -79,8 +73,8 @@ zeroValObjectArrayExample.args = {
 };
 
 export const customArrowExample = Template.bind({});
-const arrowClosed = <span className="arrow-closed">X</span>;
-const arrowOpen = <span className="arrow-closed">V</span>;
+const arrowClosed = <span className="arrow-closed rdn-control-icon">X</span>;
+const arrowOpen = <span className="arrow-opened rdn-control-icon">V</span>;
 
 customArrowExample.args = {
   ...FlatArrayExample.args,
