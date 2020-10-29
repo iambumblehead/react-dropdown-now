@@ -3,7 +3,11 @@
 .babelrc
 .jshintrc
 .eslintrc.json
+.jest
 express.js
 test
 docs
 src
+__tests__
+src/**/stories
+src/**/*.stories.js

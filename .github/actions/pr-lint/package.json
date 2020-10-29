@@ -14,10 +14,10 @@
   "author": "Layton Whiteley",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "@commitlint/lint": "^9.1.1",
-    "@commitlint/load": "^9.1.1",
-    "lodash": "^4.17.19"
+    "@commitlint/lint": "^11.0.0",
+    "@commitlint/load": "^11.0.0",
+    "lodash": "^4.17.20"
   }
 }

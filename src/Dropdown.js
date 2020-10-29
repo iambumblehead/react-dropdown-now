@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
@@ -18,11 +18,8 @@ function Dropdown({
   onClose,
   onFocus,
   onChange,
+  onSelect,
   baseClassName,
-  controlClassName,
-  placeholderClassName,
-  menuClassName,
-  arrowClassName,
   arrowClosed,
   arrowOpen,
   className,
@@ -74,6 +71,9 @@ function Dropdown({
   };
 
   const fireChangeEvent = (newSelectedState, e) => {
+    if (onSelect) {
+      onSelect(newSelectedState.option, e);
+    }
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
       onChange(newSelectedState.option, e);
     }
@@ -86,47 +86,43 @@ function Dropdown({
     handleOpenStateEvents(false, true);
   };
 
-  const isValueSelected = () => {
-    return !!selected;
-  };
+  const updateValue = useCallback((val) => {
+    const newValue = findSelected(options, val, matcher);
+    if (newValue) {
+      fireChangeEvent(newValue);
+      setSelected(newValue);
+    }
+  }, [options, matcher]);
 
-  const disabledClass = disabled ? `${baseClassName}-disabled` : '';
+  useEffect(() => updateValue(value), [value]);
+
   const placeHolderValue = get(
     selected,
     'option.label',
     placeholder || DEFAULT_PLACEHOLDER_STRING,
   );
 
-  const dropdownClass = classNames({
-    [`${baseClassName}-root`]: true,
+  const stateClassNames = {
     [className]: !!className,
-    'is-open': isOpen,
-  });
-  const controlClass = classNames({
-    [`${baseClassName}-control`]: true,
-    [controlClassName]: !!controlClassName,
-    [disabledClass]: !!disabledClass,
-  });
-  const placeholderClass = classNames({
-    [`${baseClassName}-placeholder`]: true,
-    [placeholderClassName]: !!placeholderClassName,
-    'is-selected': isValueSelected(),
-  });
-  const menuClass = classNames({
-    [`${baseClassName}-menu`]: true,
-    [menuClassName]: !!menuClassName,
-  });
-
-  const valueDisplay = (
-    <div className={placeholderClass}>{placeHolderValue}</div>
-  );
+    'is-disabled': disabled,
+    'is-empty': !options.length,
+    'is-open': isOpen
+  };
 
   const menu = isOpen ? (
-    <div className={menuClass} aria-expanded="true">
+    <div
+      data-testid="dropdown-menu"
+      className={classNames({
+        [`${baseClassName}-drop`]: true,
+        ...stateClassNames,
+      })}
+      aria-expanded="true"
+    >
       <Menu
         selected={selected}
         options={options}
-        baseClassName={baseClassName}
+        stateClassNames={{ [className]: !!className }}
+        baseClassName={`${baseClassName}-drop`}
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
@@ -134,20 +130,38 @@ function Dropdown({
   ) : null;
 
   return (
-    <div className={dropdownClass} ref={dropdownNode}>
+    <div
+      data-testid="dropdown-root"
+      className={classNames({
+        [baseClassName]: true,
+        ...stateClassNames,
+      })}
+      ref={dropdownNode}
+    >
       <div
+        data-testid="dropdown-control"
         role="presentation"
         ref={innerRef}
-        className={controlClass}
+        className={classNames({
+          [`${baseClassName}-control`]: true,
+          ...stateClassNames,
+        })}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
-        aria-haspopup="listbox"
       >
-        {valueDisplay}
+        <div
+          data-testid="dropdown-placeholder"
+          className={classNames({
+            [`${baseClassName}-control-placeholder`]: true,
+            'is-selected': !!selected,
+            ...stateClassNames,
+          })}
+        >
+          {placeHolderValue}
+        </div>
         <Arrow
           isOpen={isOpen}
-          baseClassName={baseClassName}
-          arrowClassName={arrowClassName}
+          stateClassNames={stateClassNames}
           arrowClosed={arrowClosed}
           arrowOpen={arrowOpen}
         />
@@ -160,8 +174,9 @@ function Dropdown({
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   matcher: defaultMatcher,
-  onOpen: () => {},
-  onClose: () => {},
+  onOpen: () => undefined,
+  onClose: () => undefined,
 };
+
 
 export default Dropdown;
