@@ -25,11 +25,11 @@ jobs:
       env:
         CI: true
 
-    - name: validate git
-      run: |
-        npm run lint:commits
-      env:
-        CI: true
+    # - name: validate git
+    #   run: |
+    #     npm run lint:commits
+    #   env:
+    #     CI: true
         
     # - name: validate pr title
     #   uses: ./.github/actions/pr-lint
