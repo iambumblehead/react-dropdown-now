@@ -31,5 +31,5 @@ jobs:
       env:
         CI: true
         
-    - name: validate pr title
-      uses: ./.github/actions/pr-lint
+    # - name: validate pr title
+    #   uses: ./.github/actions/pr-lint
