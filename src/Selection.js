@@ -8,10 +8,7 @@ import { BASE_DEFAULT_PROPS } from './constants';
 
 function Selection({
   options: originalOptions,
-<<<<<<< HEAD
-=======
   onSelect,
->>>>>>> develop
   matcher,
   value,
   disabled,
@@ -28,12 +25,9 @@ function Selection({
   );
 
   const fireChangeEvent = (newSelectedState, e) => {
-<<<<<<< HEAD
-=======
     if (onSelect) {
       onSelect(newSelectedState.option, e);
     }
->>>>>>> develop
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
       onChange(newSelectedState.option, e);
     }
@@ -47,17 +41,10 @@ function Selection({
     return fireChangeEvent(newValue, e);
   };
 
-<<<<<<< HEAD
-  const menuClass = classNames('Selection-menu', {
-    [className]: !!className,
-    [`${baseClassName}-menu`]: true,
-    [`${baseClassName}-disabled`]: disabled,
-=======
   const menuClass = classNames(`${baseClassName}-selection`, {
     [className]: !!className,
     'is-disabled': disabled,
     'is-empty': !options.length
->>>>>>> develop
   });
 
   return (
@@ -65,12 +52,8 @@ function Selection({
       <Menu
         selected={selected}
         options={options}
-<<<<<<< HEAD
-        baseClassName={baseClassName}
-=======
         stateClassNames={{ [className]: !!className }}
         baseClassName={`${baseClassName}-selection`}
->>>>>>> develop
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
@@ -80,11 +63,7 @@ function Selection({
 
 Selection.defaultProps = {
   ...BASE_DEFAULT_PROPS,
-<<<<<<< HEAD
-  onChange: () => {},
-=======
   onChange: () => undefined,
->>>>>>> develop
   matcher: defaultMatcher,
 };
 
