@@ -6,7 +6,7 @@ on:
        - v*
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
@@ -24,8 +24,15 @@ jobs:
       env:
         CI: true
 
-    - name: deploy docs
+    - name: Build docs
       run: |
-        npm run deploy
+        npm run build-storybook
       env:
         CI: true
+        
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        publish_branch: gh-pages
