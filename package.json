@@ -85,7 +85,7 @@
     "build": "babel src --out-dir dist --ignore \"**/__tests__,**/stories,**/*.stories.js\"",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "lint:commits": "commitlint --from origin/develop --to HEAD",
+    "lint:commits": "commitlint --from origin/master --to HEAD",
     "jest": "jest --config=./.jest/jest.config.js",
     "jest:watch": "npm run jest -- --watch",
     "unit-test": "NODE_ENV=test npm run jest",
