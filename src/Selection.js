@@ -16,6 +16,7 @@ function Selection({
   baseClassName,
   className,
   noOptionsDisplay,
+  menu: MenuContainer
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
@@ -48,7 +49,7 @@ function Selection({
   });
 
   return (
-    <div className={menuClass}>
+    <MenuContainer className={menuClass}>
       <Menu
         selected={selected}
         options={options}
@@ -57,7 +58,7 @@ function Selection({
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
-    </div>
+    </MenuContainer>
   );
 }
 
@@ -65,6 +66,7 @@ Selection.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   onChange: () => undefined,
   matcher: defaultMatcher,
+  menu: 'div'
 };
 
 export default Selection;

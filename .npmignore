@@ -1,7 +1,6 @@
 .jshintrc
 .travis.yml
 .babelrc
-.jshintrc
 .eslintrc.json
 .jest
 express.js
@@ -11,3 +10,4 @@ src
 __tests__
 src/**/stories
 src/**/*.stories.js
+coverage
