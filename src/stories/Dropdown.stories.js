@@ -1,17 +1,20 @@
 import React from 'react';
 import get from 'lodash/get';
+import classNames from 'classnames';
+import { Scrollbars } from 'react-custom-scrollbars';
+
 import '../../style.css';
 import './assets/custom.css';
 
 import Dropdown from '../Dropdown';
 
 export default {
-  title: 'Example/Dropdown',
+  title: 'Examples/Dropdown',
   component: Dropdown,
   argTypes: {
     className: {
       control: { type: 'select', options: ['clear', 'my-custom-class'] },
-    }
+    },
   },
 };
 
@@ -81,4 +84,25 @@ customArrowExample.args = {
   arrowClosed,
   arrowOpen,
   options: ['one', 'two', 'three'],
+};
+
+export const CustomMenuContainer = Template.bind({});
+const MenuContainer = ({ className, ...props }) => {
+  return (
+    <Scrollbars
+      {...props}
+      className={classNames(className)}
+      autoHeight
+      autoHeightMin={0}
+      autoHeightMax={200}
+      onUpdate={(values) =>
+        console.log(`scrolled update:`,values)
+      }
+    />
+  );
+}
+CustomMenuContainer.args = {
+  ...FlatArrayExample.args,
+  options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  menu: MenuContainer
 };

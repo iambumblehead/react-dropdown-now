@@ -6,7 +6,7 @@ import './assets/custom.css';
 import Selection from '../Selection';
 
 export default {
-  title: 'Example/Selection',
+  title: 'Examples/Selection',
   component: Selection,
   argTypes: {
     className: {

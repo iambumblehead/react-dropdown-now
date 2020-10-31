@@ -25,6 +25,7 @@ function Dropdown({
   className,
   noOptionsDisplay,
   innerRef,
+  menu: MenuContainer
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
@@ -110,7 +111,7 @@ function Dropdown({
   };
 
   const menu = isOpen ? (
-    <div
+    <MenuContainer
       data-testid="dropdown-menu"
       className={classNames({
         [`${baseClassName}-drop`]: true,
@@ -126,7 +127,7 @@ function Dropdown({
         noOptionsDisplay={noOptionsDisplay}
         onSelect={(e, selectedValue) => setValue(selectedValue, e)}
       />
-    </div>
+    </MenuContainer>
   ) : null;
 
   return (
@@ -176,6 +177,7 @@ Dropdown.defaultProps = {
   matcher: defaultMatcher,
   onOpen: () => undefined,
   onClose: () => undefined,
+  menu: 'div'
 };
 
 
