@@ -3,11 +3,11 @@ name: git-validate
 on:
   pull_request:
     branches-ignore:
-      - master
+      - gh-pages
     types: [opened, synchronize, edited, reopened]
 
 jobs:
-  build:
+  validate-git:
 
     runs-on: ubuntu-latest
 
