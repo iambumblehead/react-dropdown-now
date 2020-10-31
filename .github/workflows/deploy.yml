@@ -20,6 +20,8 @@ jobs:
 
     - name: install deps
       run: |
+        git config --global user.name "chris (deploy pipline)"
+        git config --global user.email "chris@bumblehead.com"
         npm ci
       env:
         CI: true
