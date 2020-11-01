@@ -25,7 +25,8 @@ function Dropdown({
   className,
   noOptionsDisplay,
   innerRef,
-  menu: MenuContainer
+  menu: MenuContainer,
+  isClearable = true
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
@@ -89,7 +90,7 @@ function Dropdown({
 
   const updateValue = useCallback((val) => {
     const newValue = findSelected(options, val, matcher);
-    if (val === undefined) {
+    if (val === undefined && isClearable) {
       setSelected(val);
     }
 

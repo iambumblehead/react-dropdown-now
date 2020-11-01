@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import get from 'lodash/get';
 import classNames from 'classnames';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -23,7 +23,26 @@ const defaultMatcher = (item, option) => {
   return value === option || value === get(option, 'value');
 };
 
-const Template = (args) => <Dropdown {...args} />;
+const Template = (args) => {
+  const [ internalArgs, setArgs ] = useState(args);
+
+  return (
+    <div>
+      <Dropdown
+        {...internalArgs}
+        onChange={option => {
+          setArgs({ ...internalArgs, value: option.value });
+          args.onChange(option);
+        }}
+      />
+      <button
+        type="button"
+        onClick={() => setArgs({ ...internalArgs, value: undefined })}
+      >
+        Clear
+      </button>
+    </div>);
+};
 
 export const FlatArrayExample = Template.bind({});
 FlatArrayExample.args = {
@@ -31,6 +50,7 @@ FlatArrayExample.args = {
   onChange: (option) => {
     console.log('You selected ', option.label);
   },
+  isClearable: true,
   matcher: defaultMatcher,
   onClose: () => undefined,
   onOpen: () => undefined,
