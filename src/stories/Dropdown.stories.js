@@ -106,3 +106,19 @@ CustomMenuContainer.args = {
   options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   menu: MenuContainer
 };
+
+export const DisabledOptionExample = Template.bind({});
+DisabledOptionExample.args = {
+  ...FlatArrayExample.args,
+  options: [
+    { value: 0, label: 'Cant Touch this!', disabled: true },
+    { value: 1, label: 'One' },
+    {
+      name: 'group test',
+      items: [
+        { value: 'five', label: 'Not this either', disabled: true  },
+        { value: 'six', label: 'Six' },
+      ],
+    },
+  ],
+};

@@ -9,4 +9,4 @@ export const ITEM_TYPE = {
   LABEL: 'LABEL',
   OPTION: 'OPTION',
 };
-export const OPTION_PROPS = ['view', 'label', 'value', 'className', 'id'];
+export const OPTION_PROPS = ['view', 'label', 'value', 'className', 'id', 'disabled'];

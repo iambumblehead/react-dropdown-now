@@ -13,10 +13,20 @@ const Option = ({
   tabIndex,
 }) => {
   const label = getOptionDisplay(item.option);
+  const isDisabled = item.option.disabled;
   const optionClassName = classNames(className, `${baseClassName}-option`, {
     'is-selected': selected,
+    'is-disabled-option': !!isDisabled,
   });
-  const handleSelect = (e) => onSelect(e, item);
+
+  const handleSelect = (e) => {
+    if (isDisabled) {
+      e.stopPropagation();
+      return e.preventDefault();
+    }
+
+    return onSelect(e, item);
+  };
 
   return (
     <div
