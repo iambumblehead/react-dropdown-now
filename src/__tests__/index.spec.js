@@ -466,4 +466,27 @@ describe('Dropdown', () => {
       );
 
     });
+
+    it('should clear dropdown value', () => {
+      const onOpen = jest.fn();
+      const { unmount, getByTestId, rerender } = render(
+          <ReactDropdownNow
+            options={['one', 'two', 'three']}
+            onOpen={onOpen}
+            value="one"
+          />);
+
+      rerender(
+        <ReactDropdownNow
+          options={['one', 'two', 'three']}
+          onOpen={onOpen}
+          value={undefined}
+        />);
+
+      expect(
+        getByTestId('dropdown-placeholder').innerHTML
+      ).toBe( 'Select...' );
+
+      unmount();
+    });
 });
