@@ -470,11 +470,11 @@ describe('Dropdown', () => {
     it('should clear dropdown value', () => {
       const onOpen = jest.fn();
       const { unmount, getByTestId, rerender } = render(
-          <ReactDropdownNow
-            options={['one', 'two', 'three']}
-            onOpen={onOpen}
-            value="one"
-          />);
+        <ReactDropdownNow
+          options={['one', 'two', 'three']}
+          onOpen={onOpen}
+          value="one"
+        />);
 
       rerender(
         <ReactDropdownNow
