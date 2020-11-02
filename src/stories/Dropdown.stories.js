@@ -87,6 +87,14 @@ customArrowExample.args = {
   options: ['one', 'two', 'three'],
 };
 
+export const clearButtonExample = Template.bind({});
+clearButtonExample.args = {
+  ...FlatArrayExample.args,
+  isClearable: true,
+  options: ['one', 'two', 'three'],
+  value: 'one'
+};
+
 export const customClearIconExample = Template.bind({});
 const clearIcon = <span className="clear">X</span>;
 
