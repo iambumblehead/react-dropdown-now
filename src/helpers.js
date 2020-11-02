@@ -26,7 +26,7 @@ const isGroup = (option) => {
   return Array.isArray(get(option, 'items'));
 };
 
-const prepareOption = (option, index) => {
+export const prepareOption = (option, index) => {
   const opt = pick(option, OPTION_PROPS);
   return {
     index,

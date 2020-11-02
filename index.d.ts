@@ -40,6 +40,8 @@ declare module 'react-dropdown-now' {
   export interface ReactDropdownProps extends SelectionProps {
     arrowClosed?: React.ReactNode;
     arrowOpen?: React.ReactNode;
+    clearIcon?: React.ReactNode;
+    isClearable?: boolean;
     onFocus?: (arg: boolean) => void;
     onOpen?: () => void;
     onClose?: (closedBySelection: boolean) => void;

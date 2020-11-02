@@ -4,8 +4,9 @@ import get from 'lodash/get';
 
 import Menu from './components/Menu';
 import Arrow from './components/Arrow';
+import Clear from './components/Clear';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { prepareOptions, findSelected, defaultMatcher } from './helpers';
+import { prepareOption, prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 function Dropdown({
@@ -25,7 +26,9 @@ function Dropdown({
   className,
   noOptionsDisplay,
   innerRef,
-  menu: MenuContainer
+  menu: MenuContainer,
+  clearIcon,
+  isClearable
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
@@ -56,13 +59,17 @@ function Dropdown({
     },
   });
 
+  const eventStop = event => {
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
   const handleMouseDown = (event) => {
     if (typeof onFocus === 'function') {
       onFocus(isOpen);
     }
     if (event.type === 'mousedown' && event.button !== 0) return;
-    event.stopPropagation();
-    event.preventDefault();
+    eventStop(event);
 
     if (!disabled) {
       const newIsOpen = !isOpen;
@@ -87,13 +94,24 @@ function Dropdown({
     handleOpenStateEvents(false, true);
   };
 
-  const updateValue = useCallback((val) => {
+  const updateValue = useCallback((val, clearable = isClearable) => {
     const newValue = findSelected(options, val, matcher);
+    if (val === undefined && clearable) {
+      fireChangeEvent(prepareOption(undefined));
+      setSelected(val);
+    }
+
     if (newValue) {
       fireChangeEvent(newValue);
       setSelected(newValue);
     }
   }, [options, matcher]);
+
+  const handleClear = event => {
+    eventStop(event);
+
+    updateValue(undefined, isClearable);
+  };
 
   useEffect(() => updateValue(value), [value]);
 
@@ -143,10 +161,7 @@ function Dropdown({
         data-testid="dropdown-control"
         role="presentation"
         ref={innerRef}
-        className={classNames({
-          [`${baseClassName}-control`]: true,
-          ...stateClassNames,
-        })}
+        className={classNames(`${baseClassName}-control`, stateClassNames)}
         onMouseDown={handleMouseDown}
         onTouchEnd={handleMouseDown}
       >
@@ -160,6 +175,14 @@ function Dropdown({
         >
           {placeHolderValue}
         </div>
+        {(selected && isClearable) ? (
+          <Clear
+            stateClassNames={stateClassNames}
+            clearIcon={clearIcon}
+            onClick={handleClear}
+            onMouseDown={eventStop}
+            onTouchEnd={eventStop}
+          /> ) : null}
         <Arrow
           isOpen={isOpen}
           stateClassNames={stateClassNames}

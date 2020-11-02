@@ -9,6 +9,37 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { container, unmount } = render(
       <ReactDropdownNow
+        isClearable
+        options={['one', 'two', 'three']}
+        onOpen={onOpen}
+        value="one"
+      />,
+    );
+
+    expect(container.innerHTML).toBe(
+     `<div data-testid="dropdown-root" class="rdn">
+        <div data-testid="dropdown-control" role="presentation" class="rdn-control">
+          <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected">one</div>
+          <div data-testid="dropdown-clear" class="rdn-control-clear">
+            <button data-testid="dropdown-clear-button" type="button" aria-label="clear" class="rdn-control-clear-button">
+              <span class="rdn-control-clear-button-icon"></span>
+            </button>
+          </div>
+          <div data-testid="dropdown-arrow" class="rdn-control-arrow">
+            <span class="rdn-control-arrow-icon"></span>
+          </div>
+        </div>
+      </div>`.replace(/(\/n|\s*)(?=<)/gi, ''),
+    );
+
+    unmount();
+  });
+
+  it('should not render clear button if !isClearable', () => {
+    const onOpen = jest.fn();
+    const { container, unmount } = render(
+      <ReactDropdownNow
+        isClearable={false}
         options={['one', 'two', 'three']}
         onOpen={onOpen}
         value="one"
@@ -33,6 +64,7 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { getByTestId, container, unmount } = render(
       <ReactDropdownNow
+        isClearable
         options={['one', 'two', 'three']}
         disabled
         onOpen={onOpen}
@@ -48,6 +80,11 @@ describe('Dropdown', () => {
      `<div data-testid="dropdown-root" class="rdn is-disabled">
         <div data-testid="dropdown-control" role="presentation" class="rdn-control is-disabled">
           <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected is-disabled">one</div>
+          <div data-testid="dropdown-clear" class="rdn-control-clear is-disabled">
+            <button data-testid="dropdown-clear-button" type="button" aria-label="clear" class="rdn-control-clear-button is-disabled">
+              <span class="rdn-control-clear-button-icon is-disabled"></span>
+            </button>
+          </div>
           <div data-testid="dropdown-arrow" class="rdn-control-arrow is-disabled">
             <span class="rdn-control-arrow-icon is-disabled"></span>
           </div>
@@ -62,6 +99,7 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { getByTestId, container, unmount } = render(
       <ReactDropdownNow
+        isClearable
         options={[
           'one',
           'two',
@@ -87,6 +125,11 @@ describe('Dropdown', () => {
       `<div data-testid="dropdown-root" class="rdn is-open">
         <div data-testid="dropdown-control" role="presentation" class="rdn-control is-open">
           <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected is-open">one</div>
+          <div data-testid="dropdown-clear" class="rdn-control-clear is-open">
+            <button data-testid="dropdown-clear-button" type="button" aria-label="clear" class="rdn-control-clear-button is-open">
+              <span class="rdn-control-clear-button-icon is-open"></span>
+            </button>
+          </div>
           <div data-testid="dropdown-arrow" class="rdn-control-arrow is-open">
           <span class="rdn-control-arrow-icon is-open"></span>
         </div>
@@ -158,6 +201,27 @@ describe('Dropdown', () => {
     unmount();
   });
 
+  it('should clear value state', () => {
+    const { unmount, getByTestId } = render(
+      <ReactDropdownNow
+        isClearable
+        options={['one', 'two', 'three']}
+        value="one"
+      />,
+    );
+
+    expect(getByTestId('dropdown-placeholder').textContent).toBe(
+      'one'
+    );
+    const dropdownClearButton = getByTestId('dropdown-clear-button');
+    fireEvent.click(dropdownClearButton);
+    expect(getByTestId('dropdown-placeholder').textContent).toBe(
+      'Select...'
+    );
+
+    unmount();
+  });
+
   it('should use and update the selected value state', () => {
     const onOpen = jest.fn();
     const { getAllByTestId, getByTestId, unmount, container } = render(
@@ -224,6 +288,24 @@ describe('Dropdown', () => {
     expect(
       getByTestId('dropdown-arrow').firstChild.classList.contains(
         'arrow-opened',
+      ),
+    ).toBe(true);
+  });
+
+  test('should render custom clear elem', () => {
+    const clearIconElem = <span className="test-clear-icon" />;
+    const { getByTestId } = render(
+      <ReactDropdownNow
+        isClearable
+        options={['one', 'two', 'three']}
+        value="one"
+        clearIcon={clearIconElem}
+      />,
+    );
+
+    expect(
+      getByTestId('dropdown-clear-button').firstChild.classList.contains(
+        'test-clear-icon',
       ),
     ).toBe(true);
   });
@@ -465,5 +547,30 @@ describe('Dropdown', () => {
         'label with custom-id-2',
       );
 
+    });
+
+    it('should clear dropdown value', () => {
+      const onOpen = jest.fn();
+      const { unmount, getByTestId, rerender } = render(
+        <ReactDropdownNow
+          isClearable
+          options={['one', 'two', 'three']}
+          onOpen={onOpen}
+          value="one"
+        />);
+
+      rerender(
+        <ReactDropdownNow
+          isClearable
+          options={['one', 'two', 'three']}
+          onOpen={onOpen}
+          value={undefined}
+        />);
+
+      expect(
+        getByTestId('dropdown-placeholder').innerHTML
+      ).toBe( 'Select...' );
+
+      unmount();
     });
 });

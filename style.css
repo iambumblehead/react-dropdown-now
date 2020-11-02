@@ -1,3 +1,10 @@
+:root {
+    --clear-button-icon-pad: 2px;
+    --clear-button-icon-width: 10px;
+
+    --icon-color: #999;
+}
+
 .rdn {
   position: relative;
 }
@@ -29,8 +36,55 @@
   top: 14px;
 }
 
+.rdn-control-clear {
+  position: absolute;
+  top: 8px;
+  right: 30px;
+  font-size: 0;
+  cursor: pointer;
+}
+
+.rdn-control-clear-button {
+  border: none;
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  background: transparent;    
+  position:relative;
+  width: calc(var(--clear-button-icon-width) * 2);
+  height: calc(var(--clear-button-icon-width) * 2);
+  cursor: pointer;
+}
+    
+.rdn-control-clear-button-icon {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+
+  width: var(--clear-button-icon-width);
+  height: var(--clear-button-icon-width);
+}
+
+.rdn-control-clear-button-icon:before,
+.rdn-control-clear-button-icon:after {
+  position: absolute;
+  left: calc(var(--clear-button-icon-width) / 2px);
+  content: ' ';
+  height: calc(var(--clear-button-icon-width) + 3px);
+  width: 2px;
+  background-color: var(--icon-color);
+}
+
+.rdn-control-clear-button-icon:before {
+  transform: rotate(45deg);
+}
+
+.rdn-control-clear-button-icon:after {
+  transform: rotate(-45deg);
+}
+
 .rdn-control-arrow-icon {
-  border-color: #999 transparent transparent;
+  border-color: var(--icon-color) transparent transparent;
   border-style: solid;
   border-width: 5px 5px 0;
   content: ' ';
@@ -44,7 +98,7 @@
 }
 
 .rdn-control-arrow-icon.is-open {
-  border-color: transparent transparent #999;
+  border-color: transparent transparent var(--icon-color);
   border-width: 0 5px 5px;
 }
 

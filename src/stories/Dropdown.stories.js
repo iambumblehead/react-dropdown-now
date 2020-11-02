@@ -31,6 +31,7 @@ FlatArrayExample.args = {
   onChange: (option) => {
     console.log('You selected ', option.label);
   },
+  isClearable: false,
   matcher: defaultMatcher,
   onClose: () => undefined,
   onOpen: () => undefined,
@@ -84,6 +85,25 @@ customArrowExample.args = {
   arrowClosed,
   arrowOpen,
   options: ['one', 'two', 'three'],
+};
+
+export const clearButtonExample = Template.bind({});
+clearButtonExample.args = {
+  ...FlatArrayExample.args,
+  isClearable: true,
+  options: ['one', 'two', 'three'],
+  value: 'one'
+};
+
+export const customClearIconExample = Template.bind({});
+const clearIcon = <span className="clear">X</span>;
+
+customClearIconExample.args = {
+  ...FlatArrayExample.args,
+  clearIcon,
+  isClearable: true,
+  options: ['one', 'two', 'three'],
+  value: 'one'
 };
 
 export const CustomMenuContainer = Template.bind({});
