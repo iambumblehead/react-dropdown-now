@@ -198,6 +198,26 @@ describe('Dropdown', () => {
     unmount();
   });
 
+  it('should clear value state', () => {
+    const { unmount, getByTestId } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        value="one"
+      />,
+    );
+
+    expect(getByTestId('dropdown-placeholder').textContent).toBe(
+      'one'
+    );
+    const dropdownClearButton = getByTestId('dropdown-clear-button');
+    fireEvent.click(dropdownClearButton);
+    expect(getByTestId('dropdown-placeholder').textContent).toBe(
+      'Select...'
+    );
+
+    unmount();
+  });
+
   it('should use and update the selected value state', () => {
     const onOpen = jest.fn();
     const { getAllByTestId, getByTestId, unmount, container } = render(
@@ -264,6 +284,23 @@ describe('Dropdown', () => {
     expect(
       getByTestId('dropdown-arrow').firstChild.classList.contains(
         'arrow-opened',
+      ),
+    ).toBe(true);
+  });
+
+  test('should render custom clear elem', () => {
+    const clearIconElem = <span className="test-clear-icon" />;
+    const { getByTestId } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        value="one"
+        clearIcon={clearIconElem}
+      />,
+    );
+
+    expect(
+      getByTestId('dropdown-clear-button').firstChild.classList.contains(
+        'test-clear-icon',
       ),
     ).toBe(true);
   });
