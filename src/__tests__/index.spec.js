@@ -9,6 +9,7 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { container, unmount } = render(
       <ReactDropdownNow
+        isClearable
         options={['one', 'two', 'three']}
         onOpen={onOpen}
         value="one"
@@ -63,6 +64,7 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { getByTestId, container, unmount } = render(
       <ReactDropdownNow
+        isClearable
         options={['one', 'two', 'three']}
         disabled
         onOpen={onOpen}
@@ -97,6 +99,7 @@ describe('Dropdown', () => {
     const onOpen = jest.fn();
     const { getByTestId, container, unmount } = render(
       <ReactDropdownNow
+        isClearable
         options={[
           'one',
           'two',
@@ -201,6 +204,7 @@ describe('Dropdown', () => {
   it('should clear value state', () => {
     const { unmount, getByTestId } = render(
       <ReactDropdownNow
+        isClearable
         options={['one', 'two', 'three']}
         value="one"
       />,
@@ -292,6 +296,7 @@ describe('Dropdown', () => {
     const clearIconElem = <span className="test-clear-icon" />;
     const { getByTestId } = render(
       <ReactDropdownNow
+        isClearable
         options={['one', 'two', 'three']}
         value="one"
         clearIcon={clearIconElem}
@@ -548,6 +553,7 @@ describe('Dropdown', () => {
       const onOpen = jest.fn();
       const { unmount, getByTestId, rerender } = render(
         <ReactDropdownNow
+          isClearable
           options={['one', 'two', 'three']}
           onOpen={onOpen}
           value="one"

@@ -28,7 +28,7 @@ function Dropdown({
   innerRef,
   menu: MenuContainer,
   clearIcon,
-  isClearable = true
+  isClearable = false
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,

@@ -93,6 +93,7 @@ const clearIcon = <span className="clear">X</span>;
 customClearIconExample.args = {
   ...FlatArrayExample.args,
   clearIcon,
+  isClearable: true,
   options: ['one', 'two', 'three'],
   value: 'one'
 };
