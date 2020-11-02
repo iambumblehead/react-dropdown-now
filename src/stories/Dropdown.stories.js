@@ -31,7 +31,7 @@ FlatArrayExample.args = {
   onChange: (option) => {
     console.log('You selected ', option.label);
   },
-  isClearable: true,
+  isClearable: false,
   matcher: defaultMatcher,
   onClose: () => undefined,
   onOpen: () => undefined,

@@ -561,6 +561,7 @@ describe('Dropdown', () => {
 
       rerender(
         <ReactDropdownNow
+          isClearable
           options={['one', 'two', 'three']}
           onOpen={onOpen}
           value={undefined}
