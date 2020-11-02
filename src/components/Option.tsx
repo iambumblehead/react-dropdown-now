@@ -3,8 +3,18 @@ import classNames from 'classnames';
 
 import { getOptionDisplay } from '../helpers';
 import { BASE_DEFAULT_PROPS } from '../constants';
+import { RenderItem } from '../types';
 
-const Option = ({
+export interface OptionProps {
+  selected?: boolean;
+  className?: string;
+  baseClassName?: string;
+  tabIndex?: number;
+  option: RenderItem;
+  onSelect?: (event: React.SyntheticEvent, option: RenderItem) => void;
+}
+
+export const Option: React.FC<OptionProps> = ({
   option: item,
   selected,
   onSelect,
@@ -19,7 +29,7 @@ const Option = ({
     'is-disabled-option': !!isDisabled,
   });
 
-  const handleSelect = (e) => {
+  const handleSelect = (e: React.SyntheticEvent) => {
     if (isDisabled) {
       e.stopPropagation();
       return e.preventDefault();
@@ -36,7 +46,7 @@ const Option = ({
       onMouseDown={handleSelect}
       onClick={handleSelect}
       role="option"
-      aria-selected={String(selected)}
+      aria-selected={selected}
       tabIndex={tabIndex}
     >
       {label}
@@ -48,5 +58,3 @@ Option.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   tabIndex: -1,
 };
-
-export default Option;

@@ -1,15 +1,27 @@
-import React, { useCallback, useEffect, useState, useRef, useMemo } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  useMemo,
+} from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
-import Menu from './components/Menu';
-import Arrow from './components/Arrow';
-import Clear from './components/Clear';
+import { Menu } from './components/Menu';
+import { Arrow } from './components/Arrow';
+import { Clear } from './components/Clear';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { prepareOption, prepareOptions, findSelected, defaultMatcher } from './helpers';
+import {
+  prepareOption,
+  prepareOptions,
+  findSelected,
+  defaultMatcher,
+} from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
+import { ReactDropdownProps } from './types';
 
-function Dropdown({
+export const Dropdown: React.FC<ReactDropdownProps> = ({
   placeholder,
   options: originalOptions,
   matcher,
@@ -28,8 +40,8 @@ function Dropdown({
   innerRef,
   menu: MenuContainer,
   clearIcon,
-  isClearable
-}) {
+  isClearable,
+}) => {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
   ]);
@@ -39,7 +51,7 @@ function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const dropdownNode = useRef();
 
-  const handleOpenStateEvents = (dropdownIsOpen, closedBySelection) => {
+  const handleOpenStateEvents = (dropdownIsOpen, closedBySelection = false) => {
     if (dropdownIsOpen && typeof onOpen === 'function') {
       onOpen();
     }
@@ -59,7 +71,7 @@ function Dropdown({
     },
   });
 
-  const eventStop = event => {
+  const eventStop = (event) => {
     event.stopPropagation();
     event.preventDefault();
   };
@@ -78,7 +90,7 @@ function Dropdown({
     }
   };
 
-  const fireChangeEvent = (newSelectedState, e) => {
+  const fireChangeEvent = (newSelectedState, e = null) => {
     if (onSelect) {
       onSelect(newSelectedState.option, e);
     }
@@ -94,20 +106,23 @@ function Dropdown({
     handleOpenStateEvents(false, true);
   };
 
-  const updateValue = useCallback((val, clearable = isClearable) => {
-    const newValue = findSelected(options, val, matcher);
-    if (val === undefined && clearable) {
-      fireChangeEvent(prepareOption(undefined));
-      setSelected(val);
-    }
+  const updateValue = useCallback(
+    (val, clearable = isClearable) => {
+      const newValue = findSelected(options, val, matcher);
+      if (val === undefined && clearable) {
+        fireChangeEvent(prepareOption(undefined));
+        setSelected(val);
+      }
 
-    if (newValue) {
-      fireChangeEvent(newValue);
-      setSelected(newValue);
-    }
-  }, [options, matcher]);
+      if (newValue) {
+        fireChangeEvent(newValue);
+        setSelected(newValue);
+      }
+    },
+    [options, matcher],
+  );
 
-  const handleClear = event => {
+  const handleClear = (event) => {
     eventStop(event);
 
     updateValue(undefined, isClearable);
@@ -125,7 +140,7 @@ function Dropdown({
     [className]: !!className,
     'is-disabled': disabled,
     'is-empty': !options.length,
-    'is-open': isOpen
+    'is-open': isOpen,
   };
 
   const menu = isOpen ? (
@@ -175,14 +190,15 @@ function Dropdown({
         >
           {placeHolderValue}
         </div>
-        {(selected && isClearable) ? (
+        {selected && isClearable ? (
           <Clear
             stateClassNames={stateClassNames}
             clearIcon={clearIcon}
             onClick={handleClear}
             onMouseDown={eventStop}
             onTouchEnd={eventStop}
-          /> ) : null}
+          />
+        ) : null}
         <Arrow
           isOpen={isOpen}
           stateClassNames={stateClassNames}
@@ -193,15 +209,12 @@ function Dropdown({
       {menu}
     </div>
   );
-}
+};
 
 Dropdown.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   matcher: defaultMatcher,
   onOpen: () => undefined,
   onClose: () => undefined,
-  menu: 'div'
+  menu: 'div',
 };
-
-
-export default Dropdown;

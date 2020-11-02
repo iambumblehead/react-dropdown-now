@@ -5,8 +5,16 @@ export const BASE_DEFAULT_PROPS = {
   baseClassName: 'rdn',
 };
 
-export const ITEM_TYPE = {
-  LABEL: 'LABEL',
-  OPTION: 'OPTION',
-};
-export const OPTION_PROPS = ['view', 'label', 'value', 'className', 'id', 'disabled'];
+export enum ITEM_TYPE {
+  LABEL = 'LABEL',
+  OPTION = 'OPTION',
+}
+
+export const OPTION_PROPS = [
+  'view',
+  'label',
+  'value',
+  'className',
+  'id',
+  'disabled',
+];

@@ -92,7 +92,7 @@ clearButtonExample.args = {
   ...FlatArrayExample.args,
   isClearable: true,
   options: ['one', 'two', 'three'],
-  value: 'one'
+  value: 'one',
 };
 
 export const customClearIconExample = Template.bind({});
@@ -103,7 +103,7 @@ customClearIconExample.args = {
   clearIcon,
   isClearable: true,
   options: ['one', 'two', 'three'],
-  value: 'one'
+  value: 'one',
 };
 
 export const CustomMenuContainer = Template.bind({});
@@ -115,16 +115,14 @@ const MenuContainer = ({ className, ...props }) => {
       autoHeight
       autoHeightMin={0}
       autoHeightMax={200}
-      onUpdate={(values) =>
-        console.log(`scrolled update:`,values)
-      }
+      onUpdate={(values) => console.log(`scrolled update:`, values)}
     />
   );
-}
+};
 CustomMenuContainer.args = {
   ...FlatArrayExample.args,
   options: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-  menu: MenuContainer
+  menu: MenuContainer,
 };
 
 export const DisabledOptionExample = Template.bind({});
@@ -136,7 +134,7 @@ DisabledOptionExample.args = {
     {
       name: 'group test',
       items: [
-        { value: 'five', label: 'Not this either', disabled: true  },
+        { value: 'five', label: 'Not this either', disabled: true },
         { value: 'six', label: 'Six' },
       ],
     },

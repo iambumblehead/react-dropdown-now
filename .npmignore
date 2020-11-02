@@ -2,6 +2,7 @@
 .travis.yml
 .babelrc
 .eslintrc.json
+.eslintrc
 .jest
 express.js
 test

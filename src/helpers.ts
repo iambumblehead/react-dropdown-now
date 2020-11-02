@@ -1,18 +1,25 @@
-import { isValidElement } from 'react';
+import { isValidElement, ReactElement, ReactNode } from 'react';
 import isPlainObject from 'lodash/isPlainObject';
 import get from 'lodash/get';
 import pick from 'lodash/pick';
 import flatten from 'lodash/flatten';
 import { ITEM_TYPE, OPTION_PROPS } from './constants';
+import { Option, RenderItem, InputValue } from './types';
 
-export const isNullOrUndefined = (value) => /null|undefined/.test(typeof value);
-export const isValidNonObjectOption = (value) =>
+export const isNullOrUndefined = (value: unknown): boolean => {
+  return /null|undefined/.test(typeof value);
+};
+
+export const isValidNonObjectOption = (value: unknown): boolean =>
   /string|number/.test(typeof value);
-export const isValidDisplayElement = (value) => {
+
+export const isValidDisplayElement = (
+  value: ReactElement<unknown> | unknown,
+): boolean => {
   return isValidElement(value) || isValidNonObjectOption(value);
 };
 
-export const getOptionDisplay = (option) => {
+export const getOptionDisplay = (option: Option): ReactNode => {
   if (isNullOrUndefined(option)) {
     return option;
   }
@@ -26,7 +33,10 @@ const isGroup = (option) => {
   return Array.isArray(get(option, 'items'));
 };
 
-export const prepareOption = (option, index) => {
+export const prepareOption = (
+  option: Option | unknown,
+  index: number = null,
+): RenderItem => {
   const opt = pick(option, OPTION_PROPS);
   return {
     index,
@@ -46,7 +56,7 @@ const prepareGroup = (option, startIndex = 0) => {
   return [{ label: option.name, type: ITEM_TYPE.LABEL }, ...options];
 };
 
-export const prepareOptions = (options) => {
+export const prepareOptions = (options: InputValue[]): RenderItem[] => {
   if (!Array.isArray(options)) {
     return [];
   }
@@ -54,8 +64,9 @@ export const prepareOptions = (options) => {
 
   return options.reduce((accu, option) => {
     if (isGroup(option)) {
-      const newValues = [...accu, prepareGroup(option, count)];
-      count += option.items.length;
+      const opt = <Option>option;
+      const newValues = [...accu, prepareGroup(opt, count)];
+      count += opt.items.length;
       return newValues;
     }
 
@@ -78,14 +89,18 @@ export const prepareOptions = (options) => {
   }, []);
 };
 
-export const findSelected = (options, value, matcher) => {
+export const findSelected = (
+  options: RenderItem[],
+  value: unknown,
+  matcher: (option: RenderItem, val: InputValue) => boolean,
+): RenderItem => {
   const filteredItems = flatten(options).filter(
-    (item) => item.type === ITEM_TYPE.OPTION,
+    (item: RenderItem) => item.type === ITEM_TYPE.OPTION,
   );
   return filteredItems.find((option) => matcher(option, value));
 };
 
-export const defaultMatcher = (item, option) => {
+export const defaultMatcher = (item: RenderItem, option: unknown): boolean => {
   const { value } = item.option;
   return value === option || value === get(option, 'value');
 };

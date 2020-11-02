@@ -1,8 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import ReactDropdownNow from '..';
-import { queryByAttr } from '../../.jest/utils';
+import { Dropdown as ReactDropdownNow } from '..';
+import { queryByAttr, castElement } from '../../.jest/utils';
 
 describe('Dropdown', () => {
   it('should have classnames closed', () => {
@@ -17,7 +17,7 @@ describe('Dropdown', () => {
     );
 
     expect(container.innerHTML).toBe(
-     `<div data-testid="dropdown-root" class="rdn">
+      `<div data-testid="dropdown-root" class="rdn">
         <div data-testid="dropdown-control" role="presentation" class="rdn-control">
           <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected">one</div>
           <div data-testid="dropdown-clear" class="rdn-control-clear">
@@ -47,7 +47,7 @@ describe('Dropdown', () => {
     );
 
     expect(container.innerHTML).toBe(
-     `<div data-testid="dropdown-root" class="rdn">
+      `<div data-testid="dropdown-root" class="rdn">
         <div data-testid="dropdown-control" role="presentation" class="rdn-control">
           <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected">one</div>
           <div data-testid="dropdown-arrow" class="rdn-control-arrow">
@@ -77,7 +77,7 @@ describe('Dropdown', () => {
     fireEvent.mouseDown(dropdownControl);
 
     expect(container.innerHTML).toBe(
-     `<div data-testid="dropdown-root" class="rdn is-disabled">
+      `<div data-testid="dropdown-root" class="rdn is-disabled">
         <div data-testid="dropdown-control" role="presentation" class="rdn-control is-disabled">
           <div data-testid="dropdown-placeholder" class="rdn-control-placeholder is-selected is-disabled">one</div>
           <div data-testid="dropdown-clear" class="rdn-control-clear is-disabled">
@@ -210,14 +210,10 @@ describe('Dropdown', () => {
       />,
     );
 
-    expect(getByTestId('dropdown-placeholder').textContent).toBe(
-      'one'
-    );
+    expect(getByTestId('dropdown-placeholder').textContent).toBe('one');
     const dropdownClearButton = getByTestId('dropdown-clear-button');
     fireEvent.click(dropdownClearButton);
-    expect(getByTestId('dropdown-placeholder').textContent).toBe(
-      'Select...'
-    );
+    expect(getByTestId('dropdown-placeholder').textContent).toBe('Select...');
 
     unmount();
   });
@@ -280,13 +276,13 @@ describe('Dropdown', () => {
     const dropdownControl = getByTestId('dropdown-control');
 
     expect(
-      getByTestId('dropdown-arrow').firstChild.classList.contains(
+      castElement(getByTestId('dropdown-arrow').firstChild).classList.contains(
         'arrow-closed',
       ),
     ).toBe(true);
     fireEvent.mouseDown(dropdownControl);
     expect(
-      getByTestId('dropdown-arrow').firstChild.classList.contains(
+      castElement(getByTestId('dropdown-arrow').firstChild).classList.contains(
         'arrow-opened',
       ),
     ).toBe(true);
@@ -304,9 +300,9 @@ describe('Dropdown', () => {
     );
 
     expect(
-      getByTestId('dropdown-clear-button').firstChild.classList.contains(
-        'test-clear-icon',
-      ),
+      castElement(
+        getByTestId('dropdown-clear-button').firstChild,
+      ).classList.contains('test-clear-icon'),
     ).toBe(true);
   });
 
@@ -316,7 +312,6 @@ describe('Dropdown', () => {
         options={[
           { value: 'item', label: 'item', className: 'item' },
           {
-            type: 'group',
             name: 'group',
             items: [
               {
@@ -351,7 +346,6 @@ describe('Dropdown', () => {
         options={[
           { value: 'item', label: 'item', className: 'item' },
           {
-            type: 'group',
             name: 'group',
             items: [
               {
@@ -382,7 +376,6 @@ describe('Dropdown', () => {
         options={[
           { value: 'item', label: 'item', className: 'item' },
           {
-            type: 'group',
             name: 'group',
             items: [
               {
@@ -419,7 +412,6 @@ describe('Dropdown', () => {
           },
           { value: 'item', label: 'item', className: 'item' },
           {
-            type: 'group',
             name: 'group',
             items: [
               {
@@ -441,9 +433,9 @@ describe('Dropdown', () => {
 
     expect(dropdownControl.classList.contains('tester')).toBe(false);
 
-    expect(dropdownOptions[0].firstChild.classList.contains('tester')).toBe(
-      true,
-    );
+    expect(
+      (dropdownOptions[0].firstChild as Element).classList.contains('tester'),
+    ).toBe(true);
   });
 
   it('should match selected when object option passed to value prop', () => {
@@ -457,7 +449,6 @@ describe('Dropdown', () => {
             className: 'item',
           },
           {
-            type: 'group',
             name: 'group',
             items: [
               {
@@ -476,101 +467,97 @@ describe('Dropdown', () => {
     );
   });
 
-    it('should match selected value to top level id with custom matcher', () => {
-      const {getByTestId} = render(
-        <ReactDropdownNow
-          value="custom-id"
-          matcher={(item, val) => {
-            // item => { id, option: {id, value, label} }
-            return item.id === val;
-          }}
-          options={[
-            {
-              id: 'custom-id',
-              value: 'item',
-              label: 'item with custom id',
-              className: 'item',
-            },
-            {
-              type: 'group',
-              name: 'group',
-              items: [
-                {
-                  value: 'group item',
-                  label: 'group item',
-                  className: 'group-item',
-                },
-              ],
-            },
-          ]}
-        />,
-      );
-
+  it('should match selected value to top level id with custom matcher', () => {
+    const { getByTestId } = render(
+      <ReactDropdownNow
+        value="custom-id"
+        matcher={(item, val) => {
+          // item => { id, option: {id, value, label} }
+          return item.id === val;
+        }}
+        options={[
+          {
+            id: 'custom-id',
+            value: 'item',
+            label: 'item with custom id',
+            className: 'item',
+          },
+          {
+            name: 'group',
+            items: [
+              {
+                value: 'group item',
+                label: 'group item',
+                className: 'group-item',
+              },
+            ],
+          },
+        ]}
+      />,
+    );
 
     expect(getByTestId('dropdown-placeholder').textContent).toBe(
-        'item with custom id',
-      );
-    });
+      'item with custom id',
+    );
+  });
 
-    it('should match selected value (inside a group) to top level id with custom matcher', () => {
-      const {getByTestId} = render(
-        <ReactDropdownNow
-          value="custom-id-2"
-          matcher={(item, val) => {
-            // item => { id, option: {id, value, label} }
-            return item.id === val;
-          }}
-          options={[
-            {
-              id: 'custom-id',
-              value: 'item',
-              label: 'item with custom id',
-              className: 'item',
-            },
-            {
-              type: 'group',
-              name: 'group',
-              items: [
-                {
-                  id: 'custom-id-2',
-                  value: 'group item',
-                  label: 'label with custom-id-2',
-                  className: 'group-item',
-                },
-              ],
-            },
-          ]}
-        />,
-      );
+  it('should match selected value (inside a group) to top level id with custom matcher', () => {
+    const { getByTestId } = render(
+      <ReactDropdownNow
+        value="custom-id-2"
+        matcher={(item, val) => {
+          // item => { id, option: {id, value, label} }
+          return item.id === val;
+        }}
+        options={[
+          {
+            id: 'custom-id',
+            value: 'item',
+            label: 'item with custom id',
+            className: 'item',
+          },
+          {
+            name: 'group',
+            items: [
+              {
+                id: 'custom-id-2',
+                value: 'group item',
+                label: 'label with custom-id-2',
+                className: 'group-item',
+              },
+            ],
+          },
+        ]}
+      />,
+    );
 
-      expect(getByTestId('dropdown-placeholder').textContent).toBe(
-        'label with custom-id-2',
-      );
+    expect(getByTestId('dropdown-placeholder').textContent).toBe(
+      'label with custom-id-2',
+    );
+  });
 
-    });
+  it('should clear dropdown value', () => {
+    const onOpen = jest.fn();
+    const { unmount, getByTestId, rerender } = render(
+      <ReactDropdownNow
+        isClearable
+        options={['one', 'two', 'three']}
+        onOpen={onOpen}
+        value="one"
+      />,
+    );
 
-    it('should clear dropdown value', () => {
-      const onOpen = jest.fn();
-      const { unmount, getByTestId, rerender } = render(
-        <ReactDropdownNow
-          isClearable
-          options={['one', 'two', 'three']}
-          onOpen={onOpen}
-          value="one"
-        />);
+    rerender(
+      <ReactDropdownNow
+        isClearable
+        options={['one', 'two', 'three']}
+        onOpen={onOpen}
+        value={undefined}
+      />,
+    );
 
-      rerender(
-        <ReactDropdownNow
-          isClearable
-          options={['one', 'two', 'three']}
-          onOpen={onOpen}
-          value={undefined}
-        />);
+    expect(getByTestId('dropdown-placeholder').innerHTML).toBe('Select...');
 
-      expect(
-        getByTestId('dropdown-placeholder').innerHTML
-      ).toBe( 'Select...' );
-
-      unmount();
-    });
+    unmount();
+  });
 });

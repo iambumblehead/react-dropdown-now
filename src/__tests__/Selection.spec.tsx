@@ -5,13 +5,8 @@ import { Selection } from '..';
 
 describe('Selection', () => {
   it('should have selection classnames closed', () => {
-    const onOpen = jest.fn();
     const { container, unmount } = render(
-      <Selection
-        options={['one', 'two', 'three']}
-        onOpen={onOpen}
-        value="one"
-      />,
+      <Selection options={['one', 'two', 'three']} value="one" />,
     );
 
     expect(container.innerHTML).toBe(
