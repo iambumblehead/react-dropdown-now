@@ -6,7 +6,7 @@ import Menu from './components/Menu';
 import Arrow from './components/Arrow';
 import Clear from './components/Clear';
 import { useOutsideClick } from './hooks/use-outside-click';
-import { prepareOptions, findSelected, defaultMatcher } from './helpers';
+import { prepareOption, prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
 
 function Dropdown({
@@ -97,7 +97,7 @@ function Dropdown({
   const updateValue = useCallback((val, clearable = isClearable) => {
     const newValue = findSelected(options, val, matcher);
     if (val === undefined && clearable) {
-      fireChangeEvent({ value: val });
+      fireChangeEvent(prepareOption(undefined));
       setSelected(val);
     }
 
