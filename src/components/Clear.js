@@ -12,22 +12,19 @@ const Clear = ({
   const clearButtonClass = classNames( 'rdn-control-clear-button', stateClassNames );
   const clearButtonIconClass = classNames( 'rdn-control-clear-button-icon', stateClassNames );
 
-  const clearButton = (
-    <button
-      data-testid="dropdown-clear-button"
-      type="button"
-      aria-label="clear"
-      className={clearButtonClass}
-      onClick={onClick}
-      onMouseDown={onMouseDown}
-      onTouchEnd={onTouchEnd}
-    >
-      <span className={clearButtonIconClass} />
-    </button>);
-
   return (
     <div data-testid="dropdown-clear" className={clearClass}>
-      {clearIcon || clearButton}
+      <button
+        data-testid="dropdown-clear-button"
+        type="button"
+        aria-label="clear"
+        className={clearButtonClass}
+        onClick={onClick}
+        onMouseDown={onMouseDown}
+        onTouchEnd={onTouchEnd}
+      >
+        {clearIcon || <span className={clearButtonIconClass} />}
+      </button>
     </div>
   );
 };

@@ -87,6 +87,16 @@ customArrowExample.args = {
   options: ['one', 'two', 'three'],
 };
 
+export const customClearExample = Template.bind({});
+const clearIcon = <span className="clear">X</span>;
+
+customClearExample.args = {
+  ...FlatArrayExample.args,
+  clearIcon,
+  options: ['one', 'two', 'three'],
+  value: 'one'
+};
+
 export const CustomMenuContainer = Template.bind({});
 const MenuContainer = ({ className, ...props }) => {
   return (

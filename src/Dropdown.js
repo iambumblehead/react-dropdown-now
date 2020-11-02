@@ -27,6 +27,7 @@ function Dropdown({
   noOptionsDisplay,
   innerRef,
   menu: MenuContainer,
+  clearIcon,
   isClearable = true
 }) {
   const options = useMemo(() => prepareOptions(originalOptions), [
@@ -176,6 +177,7 @@ function Dropdown({
         {(selected && isClearable) ? (
           <Clear
             stateClassNames={stateClassNames}
+            clearIcon={clearIcon}
             onClick={handleClear}
             onMouseDown={eventStop}
             onTouchEnd={eventStop}
