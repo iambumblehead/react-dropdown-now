@@ -94,9 +94,10 @@ function Dropdown({
     handleOpenStateEvents(false, true);
   };
 
-  const updateValue = useCallback((val) => {
+  const updateValue = useCallback((val, clearable = isClearable) => {
     const newValue = findSelected(options, val, matcher);
-    if (val === undefined && isClearable) {
+    if (val === undefined && clearable) {
+      fireChangeEvent({ value: val });
       setSelected(val);
     }
 
@@ -109,7 +110,7 @@ function Dropdown({
   const handleClear = event => {
     eventStop(event);
 
-    updateValue(undefined);
+    updateValue(undefined, isClearable);
   };
 
   useEffect(() => updateValue(value), [value]);
