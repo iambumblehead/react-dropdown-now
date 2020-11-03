@@ -19,7 +19,7 @@ import {
   defaultMatcher,
 } from './helpers';
 import { DEFAULT_PLACEHOLDER_STRING, BASE_DEFAULT_PROPS } from './constants';
-import { ReactDropdownProps } from './types';
+import { ReactDropdownProps, RenderItem } from './types';
 
 export const Dropdown: React.FC<ReactDropdownProps> = ({
   placeholder,
@@ -76,11 +76,17 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     event.preventDefault();
   };
 
-  const handleMouseDown = (event) => {
+  const handleMouseDown = (
+    event: React.MouseEvent | React.TouchEvent | unknown,
+  ) => {
     if (typeof onFocus === 'function') {
       onFocus(isOpen);
     }
-    if (event.type === 'mousedown' && event.button !== 0) return;
+    if (
+      (event as Event).type === 'mousedown' &&
+      (event as MouseEvent).button !== 0
+    )
+      return;
     eventStop(event);
 
     if (!disabled) {
@@ -90,7 +96,10 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     }
   };
 
-  const fireChangeEvent = (newSelectedState, e = null) => {
+  const fireChangeEvent = (
+    newSelectedState: RenderItem,
+    e?: React.SyntheticEvent,
+  ) => {
     if (onSelect) {
       onSelect(newSelectedState.option, e);
     }
@@ -99,7 +108,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     }
   };
 
-  const setValue = (newValue, e) => {
+  const setValue = (newValue: RenderItem, e: React.SyntheticEvent) => {
     fireChangeEvent(newValue, e);
     setSelected(newValue);
     setIsOpen(false);
@@ -122,7 +131,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     [options, matcher],
   );
 
-  const handleClear = (event) => {
+  const handleClear = (event: React.SyntheticEvent) => {
     eventStop(event);
 
     updateValue(undefined, isClearable);

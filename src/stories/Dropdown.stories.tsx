@@ -6,7 +6,7 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import '../../style.css';
 import './assets/custom.css';
 
-import Dropdown from '../Dropdown';
+import { Dropdown } from '../Dropdown';
 
 export default {
   title: 'Examples/Dropdown',
