@@ -2,11 +2,12 @@ import React, { useState, useMemo } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
-import Menu from './components/Menu';
+import { Menu } from './components/Menu';
 import { prepareOptions, findSelected, defaultMatcher } from './helpers';
 import { BASE_DEFAULT_PROPS } from './constants';
+import { SelectionProps, RenderItem } from './types';
 
-function Selection({
+export const Selection: React.FC<SelectionProps> = ({
   options: originalOptions,
   onSelect,
   matcher,
@@ -16,8 +17,8 @@ function Selection({
   baseClassName,
   className,
   noOptionsDisplay,
-  menu: MenuContainer
-}) {
+  menu: MenuContainer,
+}) => {
   const options = useMemo(() => prepareOptions(originalOptions), [
     originalOptions,
   ]);
@@ -25,7 +26,7 @@ function Selection({
     findSelected(options, value, matcher),
   );
 
-  const fireChangeEvent = (newSelectedState, e) => {
+  const fireChangeEvent = (newSelectedState: RenderItem, e = null) => {
     if (onSelect) {
       onSelect(newSelectedState.option, e);
     }
@@ -34,7 +35,7 @@ function Selection({
     }
   };
 
-  const setValue = (newValue, e) => {
+  const setValue = (newValue: RenderItem, e = null) => {
     if (disabled) {
       return null;
     }
@@ -45,7 +46,7 @@ function Selection({
   const menuClass = classNames(`${baseClassName}-selection`, {
     [className]: !!className,
     'is-disabled': disabled,
-    'is-empty': !options.length
+    'is-empty': !options.length,
   });
 
   return (
@@ -60,13 +61,11 @@ function Selection({
       />
     </MenuContainer>
   );
-}
+};
 
 Selection.defaultProps = {
   ...BASE_DEFAULT_PROPS,
   onChange: () => undefined,
   matcher: defaultMatcher,
-  menu: 'div'
+  menu: 'div',
 };
-
-export default Selection;

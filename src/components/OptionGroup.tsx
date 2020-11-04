@@ -2,10 +2,19 @@ import React from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
-import Option from './Option';
+import { Option } from './Option';
 import { BASE_DEFAULT_PROPS, ITEM_TYPE } from '../constants';
+import { RenderItem } from '../types';
 
-const OptionGroup = ({
+export interface OptionGroupProps {
+  selected: RenderItem;
+  className?: string;
+  baseClassName: string;
+  option: RenderItem[];
+  onSelect: (event: React.SyntheticEvent, option: RenderItem) => void;
+}
+
+export const OptionGroup: React.FC<OptionGroupProps> = ({
   option,
   selected,
   onSelect,
@@ -16,7 +25,7 @@ const OptionGroup = ({
     <div
       className={classNames(`${baseClassName}-group`, className)}
       role="listbox"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       {option.map((item) => {
         if (item.type === ITEM_TYPE.LABEL && item.label) {
@@ -51,5 +60,3 @@ const OptionGroup = ({
 OptionGroup.defaultProps = {
   ...BASE_DEFAULT_PROPS,
 };
-
-export default OptionGroup;

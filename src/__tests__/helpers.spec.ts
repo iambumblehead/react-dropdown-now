@@ -47,12 +47,12 @@ describe('prepareOptions([…])', () => {
       1000,
 
       // invalid types (should not be included)
-      /regex-type/,
-      [1, 2, 3], // will not parse, may as well use object syntax instead
-      true,
-      false,
-      undefined,
-      null,
+      // /regex-type/,
+      // [1, 2, 3], // will not parse, may as well use object syntax instead
+      // true,
+      // false,
+      // undefined,
+      // null,
     ];
 
     const expected = [

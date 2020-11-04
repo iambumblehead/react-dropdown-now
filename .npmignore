@@ -1,7 +1,9 @@
 .jshintrc
 .travis.yml
 .babelrc
+.prettierrc
 .eslintrc.json
+.eslintrc
 .jest
 express.js
 test
@@ -11,3 +13,6 @@ __tests__
 src/**/stories
 src/**/*.stories.js
 coverage
+tsconfig.json
+tsconfig.prod.json
+commitlint.config.js

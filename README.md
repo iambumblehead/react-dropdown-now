@@ -9,7 +9,7 @@ The [demo page is here.][1] react-dropdown-now is a [fork of react-dropdown.][0]
 > requires React >= 16.8
 
 ```Javascript
-import Dropdown, { Selection } from 'react-dropdown-now';
+import { Dropdown, Selection } from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
 
 // normal usage
@@ -107,7 +107,6 @@ const options = [{ id: 'custom-id', value: 1, label: 'awesome' }];
 | `rdn-control-placeholder` | placeholder / selected item in dropdown control |
 | `rdn-drop`                | container for dropdown options                  |
 
-
 #### Using custom arrows
 
 **arrowClosed**, **arrowOpen**
@@ -120,9 +119,13 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
   arrowOpen={<span className="arrow-open" />} />;
 ```
 
-More [examples in the docs folder.][2]
+More [examples in the stories folder.][2]
 
 ### Migration
+
+#### v4 => v5
+
+- import statements have changed, please update imports.
 
 #### v3 => v4
 
@@ -134,14 +137,13 @@ More [examples in the docs folder.][2]
 - `onChange` always returns an object with aleast `{value, label}`
 - `option.type` is no longer needed to determine if the option is a group. Once the option has an `items` array then it is assumed to be a group.
 
-
 ### License
 
 **MIT**
 
 [0]: https://github.com/fraserxu/react-dropdown/issues/183
 [1]: https://iambumblehead.github.io/react-dropdown-now/
-[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
+[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/src/stories
 [10]: https://github.com/iambumblehead/react-dropdown-now/pull/71/files#diff-96444c2208ab41b33ce225669e78e3b3426b43216f64e4c34398d6c0d50918e9
 [npm-image]: https://img.shields.io/npm/v/react-dropdown-now.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-dropdown-now

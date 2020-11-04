@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import '../../style.css';
 import './assets/custom.css';
 
-import Selection from '../Selection';
+import { Selection } from '../Selection';
 
 export default {
   title: 'Examples/Selection',

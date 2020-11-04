@@ -1,15 +1,19 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 
-import Option from '../Option';
+import { Option } from '../Option';
+import { castElement } from '../../../.jest/utils';
+import { ITEM_TYPE } from '../../constants';
 
 describe('Option', () => {
   it('renders a string option, selected', () => {
     const { getByText, getByRole } = render(
       <Option
-        selected="one"
+        selected
         option={{
           id: 'one',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
           option: {
             value: 'one',
             label: 'one',
@@ -24,7 +28,14 @@ describe('Option', () => {
 
   it('renders an object option', () => {
     const { getByText, getByRole } = render(
-      <Option option={{ option: { label: 'label', value: 'value' } }} />,
+      <Option
+        option={{
+          id: '',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
+          option: { label: 'label', value: 'value' },
+        }}
+      />,
     );
 
     expect(getByText('label')).toBeInTheDocument();
@@ -34,8 +45,13 @@ describe('Option', () => {
   it('renders an object option, selected', () => {
     const { getByText, getByRole } = render(
       <Option
-        selected="value"
-        option={{ option: { label: 'label', value: 'value' } }}
+        selected
+        option={{
+          id: '',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
+          option: { label: 'label', value: 'value' },
+        }}
       />,
     );
 
@@ -47,12 +63,15 @@ describe('Option', () => {
     const { getByText, getByRole } = render(
       <Option
         option={{
+          id: '',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
           option: {
             label: <span className="test-label">label</span>,
             value: 'value',
           },
         }}
-        selected="value"
+        selected
       />,
     );
 
@@ -60,7 +79,9 @@ describe('Option', () => {
 
     expect(getByText('label')).toBeInTheDocument();
     expect(option.classList.contains('is-selected')).toBe(true);
-    expect(option.firstChild.classList.contains('test-label')).toBe(true);
+    expect(
+      castElement(option.firstChild).classList.contains('test-label'),
+    ).toBe(true);
   });
 
   it('emits onSelect event', () => {
@@ -68,6 +89,9 @@ describe('Option', () => {
     const { getByRole } = render(
       <Option
         option={{
+          id: '',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
           option: {
             value: 'option',
             label: 'option',
@@ -93,19 +117,22 @@ describe('Option', () => {
     );
   });
 
-    it('uses view property when set', () => {
-      const { getByText } = render(
-        <Option
-          option={{
-            option: {
-              label: 'label',
-              value: 'value',
-              view: <span className="tester">test</span>,
-            },
-          }}
-        />,
-      );
+  it('uses view property when set', () => {
+    const { getByText } = render(
+      <Option
+        option={{
+          id: '',
+          index: 0,
+          type: ITEM_TYPE.OPTION,
+          option: {
+            label: 'label',
+            value: 'value',
+            view: <span className="tester">test</span>,
+          },
+        }}
+      />,
+    );
 
-      expect(getByText('test')).toBeInTheDocument();
-    });
+    expect(getByText('test')).toBeInTheDocument();
+  });
 });
