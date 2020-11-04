@@ -119,13 +119,13 @@ The `arrowClosed` & `arrowOpen` props enable passing in custom elements for the 
   arrowOpen={<span className="arrow-open" />} />;
 ```
 
-More [examples in the docs folder.][2]
+More [examples in the stories folder.][2]
 
 ### Migration
 
-#### v3 => v4
+#### v4 => v5
 
-- import statement has changed, please update imports.
+- import statements have changed, please update imports.
 
 #### v3 => v4
 
@@ -143,7 +143,7 @@ More [examples in the docs folder.][2]
 
 [0]: https://github.com/fraserxu/react-dropdown/issues/183
 [1]: https://iambumblehead.github.io/react-dropdown-now/
-[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/docs
+[2]: https://github.com/iambumblehead/react-dropdown-now/tree/master/src/stories
 [10]: https://github.com/iambumblehead/react-dropdown-now/pull/71/files#diff-96444c2208ab41b33ce225669e78e3b3426b43216f64e4c34398d6c0d50918e9
 [npm-image]: https://img.shields.io/npm/v/react-dropdown-now.svg?style=flat-square
 [npm-url]: https://npmjs.org/package/react-dropdown-now

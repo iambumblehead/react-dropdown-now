@@ -92,7 +92,6 @@
     "ts-loader": "^8.0.8",
     "typescript": "^4.0.5"
   },
-  "typings": "./index.d.ts",
   "scripts": {
     "lint:commits": "commitlint --from origin/master --to HEAD",
     "jest": "jest --config=./.jest/jest.config.js",
