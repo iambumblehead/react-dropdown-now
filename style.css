@@ -68,7 +68,7 @@
 .rdn-control-clear-button-icon:before,
 .rdn-control-clear-button-icon:after {
   position: absolute;
-  left: calc(var(--clear-button-icon-width) / 2px);
+  left: calc(var(--clear-button-icon-width) / 2 * 1px);
   content: ' ';
   height: calc(var(--clear-button-icon-width) + 3px);
   width: 2px;
