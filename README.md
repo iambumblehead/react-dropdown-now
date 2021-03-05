@@ -126,6 +126,7 @@ More [examples in the stories folder.][2]
 #### v4 => v5
 
 - import statements have changed, please update imports.
+- added Typescript support using rollup
 
 #### v3 => v4
 
