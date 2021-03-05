@@ -33,8 +33,9 @@ export interface SelectionProps {
   disabled?: boolean;
   value?: InputValue;
   options: InputValue[];
-  onChange?: (arg: Option, event: React.SyntheticEvent) => void;
-  onSelect?: (arg: Option, event: React.SyntheticEvent) => void;
+  onBlur?: (event: React.SyntheticEvent) => void;
+  onChange?: (option: Option, event: React.SyntheticEvent) => void;
+  onSelect?: (option: Option, event: React.SyntheticEvent) => void;
   matcher?: (item: RenderItem, value: InputValue) => boolean;
   className?: string;
   baseClassName?: string;
