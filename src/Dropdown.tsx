@@ -42,9 +42,10 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
   clearIcon,
   isClearable,
 }) => {
-  const options = useMemo(() => prepareOptions(originalOptions), [
-    originalOptions,
-  ]);
+  const options = useMemo(
+    () => prepareOptions(originalOptions),
+    [originalOptions],
+  );
   const [selected, setSelected] = useState(
     findSelected(options, value, matcher),
   );

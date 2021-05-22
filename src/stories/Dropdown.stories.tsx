@@ -1,7 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
 import classNames from 'classnames';
-import { Scrollbars } from 'react-custom-scrollbars';
+import Scrollbars from 'react-custom-scroll';
 
 import '../../style.css';
 import './assets/custom.css';
