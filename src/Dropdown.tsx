@@ -101,7 +101,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     newSelectedState: RenderItem,
     e?: React.SyntheticEvent,
   ) => {
-    if (onSelect) {
+    if (newSelectedState.id !== get(selected, 'id') && onSelect) {
       onSelect(newSelectedState.option, e);
     }
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
