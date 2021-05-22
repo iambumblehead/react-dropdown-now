@@ -19,9 +19,10 @@ export const Selection: React.FC<SelectionProps> = ({
   noOptionsDisplay,
   menu: MenuContainer,
 }) => {
-  const options = useMemo(() => prepareOptions(originalOptions), [
-    originalOptions,
-  ]);
+  const options = useMemo(
+    () => prepareOptions(originalOptions),
+    [originalOptions],
+  );
   const [selected, setSelected] = useState(
     findSelected(options, value, matcher),
   );
