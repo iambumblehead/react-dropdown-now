@@ -233,6 +233,47 @@ describe('Dropdown', () => {
     expect(onChange).toHaveBeenCalledTimes(1);
   });
 
+  it('should call onChange only when change originates at self', () => {
+    const onChangeDropdownOne = jest.fn();
+    const onChangeDropdownTwo = jest.fn();
+
+    const ContainerTwoDropdowns = () => {
+      const [v, setV] = useState('one');
+
+      return (
+        <div>
+          <ReactDropdownNow
+            options={['one', 'two', 'three']}
+            value={v}
+            onChange={onChangeDropdownOne}
+          />
+          <ReactDropdownNow
+            options={['one', 'two', 'three']}
+            value={v}
+            onChange={(o) => {
+              onChangeDropdownTwo(o);
+              setV(String(o.value));
+            }}
+          />
+        </div>
+      );
+    };
+
+    const { unmount, getByTestId, getAllByTestId } = render(
+      <ContainerTwoDropdowns />,
+    );
+
+    const dropdownControls = getAllByTestId('dropdown-control');
+
+    fireEvent.mouseDown(dropdownControls[1]);
+    fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
+
+    expect(onChangeDropdownTwo).toHaveBeenCalledTimes(1);
+    expect(onChangeDropdownOne).toHaveBeenCalledTimes(0);
+
+    unmount();
+  });
+
   it('should call onSelect', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
@@ -265,7 +306,7 @@ describe('Dropdown', () => {
     unmount();
   });
 
-  it('should call onSelect, only if new item is selected', () => {
+  it('should call onSelect, even same item is selected', () => {
     const onOpen = jest.fn();
     const onClose = jest.fn();
     const onChange = jest.fn();
@@ -297,7 +338,7 @@ describe('Dropdown', () => {
     fireEvent.mouseDown(dropdownControl);
     fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
 
-    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onSelect).toHaveBeenCalledTimes(2);
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onClose).toHaveBeenCalledTimes(2);
 

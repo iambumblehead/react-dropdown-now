@@ -50,7 +50,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     findSelected(options, value, matcher),
   );
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownNode = useRef();
+  const dropdownNode = useRef(null);
 
   const handleOpenStateEvents = (dropdownIsOpen, closedBySelection = false) => {
     if (dropdownIsOpen && typeof onOpen === 'function') {
@@ -97,11 +97,20 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
     }
   };
 
+  const isDropdownNodeEvent = (e?: React.SyntheticEvent) => {
+    const { current } = dropdownNode;
+
+    return Boolean(e && current && current.contains(e.target as Node));
+  };
+
   const fireChangeEvent = (
     newSelectedState: RenderItem,
     e?: React.SyntheticEvent,
   ) => {
-    if (newSelectedState.id !== get(selected, 'id') && onSelect) {
+    if (!isDropdownNodeEvent(e)) {
+      return;
+    }
+    if (onSelect) {
       onSelect(newSelectedState.option, e);
     }
     if (newSelectedState.id !== get(selected, 'id') && onChange) {
