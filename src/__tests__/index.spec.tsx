@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { Dropdown as ReactDropdownNow } from '..';
@@ -197,6 +197,150 @@ describe('Dropdown', () => {
     fireEvent.mouseDown(dropdownOptions[2]);
     expect(onChange).toHaveBeenCalledTimes(1);
     expect(onClose).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
+  it('should not call onChange when component is unmounted', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const onChange = jest.fn();
+    const { unmount, getByTestId, getAllByTestId } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        value="one"
+        onOpen={onOpen}
+        onClose={onClose}
+        onChange={onChange}
+      />,
+    );
+
+    const dropdownControl = getByTestId('dropdown-control');
+    const dropdownRoot = getByTestId('dropdown-root');
+
+    fireEvent.mouseDown(dropdownControl);
+
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(dropdownRoot.classList.contains('is-open')).toBe(true);
+
+    const dropdownOptions = getAllByTestId('dropdown-option');
+    fireEvent.mouseDown(dropdownOptions[2]);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    unmount();
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onChange only when change originates at self', () => {
+    const onChangeDropdownOne = jest.fn();
+    const onChangeDropdownTwo = jest.fn();
+
+    const ContainerTwoDropdowns = () => {
+      const [v, setV] = useState('one');
+
+      return (
+        <div>
+          <ReactDropdownNow
+            options={['one', 'two', 'three']}
+            value={v}
+            onChange={onChangeDropdownOne}
+          />
+          <ReactDropdownNow
+            options={['one', 'two', 'three']}
+            value={v}
+            onChange={(o) => {
+              onChangeDropdownTwo(o);
+              setV(String(o.value));
+            }}
+          />
+        </div>
+      );
+    };
+
+    const { unmount, getByTestId, getAllByTestId } = render(
+      <ContainerTwoDropdowns />,
+    );
+
+    const dropdownControls = getAllByTestId('dropdown-control');
+
+    fireEvent.mouseDown(dropdownControls[1]);
+    fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
+
+    expect(onChangeDropdownTwo).toHaveBeenCalledTimes(1);
+    expect(onChangeDropdownOne).toHaveBeenCalledTimes(0);
+
+    unmount();
+  });
+
+  it('should call onSelect', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const onChange = jest.fn();
+    const onSelect = jest.fn();
+    const { unmount, getByTestId, getAllByTestId } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        value="one"
+        onOpen={onOpen}
+        onClose={onClose}
+        onChange={onChange}
+        onSelect={onSelect}
+      />,
+    );
+
+    const dropdownControl = getByTestId('dropdown-control');
+    const dropdownRoot = getByTestId('dropdown-root');
+
+    fireEvent.mouseDown(dropdownControl);
+
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(dropdownRoot.classList.contains('is-open')).toBe(true);
+
+    fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    unmount();
+  });
+
+  it('should call onSelect, even same item is selected', () => {
+    const onOpen = jest.fn();
+    const onClose = jest.fn();
+    const onChange = jest.fn();
+    const onSelect = jest.fn();
+    const { unmount, getByTestId, getAllByTestId } = render(
+      <ReactDropdownNow
+        options={['one', 'two', 'three']}
+        value="one"
+        onOpen={onOpen}
+        onClose={onClose}
+        onChange={onChange}
+        onSelect={onSelect}
+      />,
+    );
+
+    const dropdownControl = getByTestId('dropdown-control');
+    const dropdownRoot = getByTestId('dropdown-root');
+
+    fireEvent.mouseDown(dropdownControl);
+
+    expect(onOpen).toHaveBeenCalledTimes(1);
+    expect(dropdownRoot.classList.contains('is-open')).toBe(true);
+
+    fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
+    expect(onSelect).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
+
+    fireEvent.mouseDown(dropdownControl);
+    fireEvent.mouseDown(getAllByTestId('dropdown-option')[2]);
+
+    expect(onSelect).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(2);
 
     unmount();
   });
