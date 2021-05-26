@@ -37,7 +37,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
   isClearable,
 }) => {
   const options = prepareOptions(originalOptions);
-  const [selected, setSelected] = useState(
+  const [selected, setSelected] = useState(() =>
     findSelected(options, value, matcher),
   );
   const [isOpen, setIsOpen] = useState(false);

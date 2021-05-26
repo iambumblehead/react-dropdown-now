@@ -20,7 +20,7 @@ export const Selection: React.FC<SelectionProps> = ({
   menu: MenuContainer,
 }) => {
   const options = prepareOptions(originalOptions);
-  const [selected, setSelected] = useState(
+  const [selected, setSelected] = useState(() =>
     findSelected(options, value, matcher),
   );
 
