@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useState,
-  useRef,
-  useMemo,
-} from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
@@ -42,10 +36,7 @@ export const Dropdown: React.FC<ReactDropdownProps> = ({
   clearIcon,
   isClearable,
 }) => {
-  const options = useMemo(
-    () => prepareOptions(originalOptions),
-    [originalOptions],
-  );
+  const options = prepareOptions(originalOptions);
   const [selected, setSelected] = useState(
     findSelected(options, value, matcher),
   );

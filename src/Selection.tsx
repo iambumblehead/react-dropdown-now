@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 import get from 'lodash/get';
 
@@ -19,10 +19,7 @@ export const Selection: React.FC<SelectionProps> = ({
   noOptionsDisplay,
   menu: MenuContainer,
 }) => {
-  const options = useMemo(
-    () => prepareOptions(originalOptions),
-    [originalOptions],
-  );
+  const options = prepareOptions(originalOptions);
   const [selected, setSelected] = useState(
     findSelected(options, value, matcher),
   );
