@@ -34,4 +34,11 @@ jobs:
         CI: true
         
     - name: validate pr title
-      uses: ./.github/actions/pr-lint
+      uses: aslafy-z/conventional-pr-title-action@v2.2.0
+      with:
+        success-state: Title follows the specification.
+        failure-state: Title does not follow the specification.
+        context-name: conventional-pr-title
+        preset: '@commitlint/config-conventional@latest'
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
