@@ -71,14 +71,7 @@ module.exports = {
   // ],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: [
-    "js",
-    "json",
-    "jsx",
-    "ts",
-    "tsx",
-    "node"
-  ],
+  moduleFileExtensions: ['js', 'json', 'jsx', 'ts', 'tsx', 'node'],
 
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   // moduleNameMapper: {},
@@ -93,7 +86,7 @@ module.exports = {
   // notifyMode: "failure-change",
 
   // A preset that is used as a base for Jest's configuration
-  preset: "ts-jest",
+  preset: 'ts-jest',
 
   // Run tests from one or more projects
   // projects: undefined,
@@ -126,8 +119,8 @@ module.exports = {
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFiles: [],
-  "transform": {
-    "^.+\\.[jt]s?(x)?$": "ts-jest"
+  transform: {
+    '^.+\\.[jt]s?(x)?$': 'ts-jest',
   },
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
@@ -140,7 +133,7 @@ module.exports = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-jsdom",
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
@@ -150,7 +143,7 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/__tests__/**/*.[jt]s?(x)",
+    '**/__tests__/**/*.[jt]s?(x)',
     // "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
 

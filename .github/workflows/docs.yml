@@ -1,20 +1,17 @@
-name: git-validate
+name: deploy-docs
 
 on:
-  pull_request:
-    branches-ignore:
-      - gh-pages
-    types: [opened, synchronize, edited, reopened]
+  push:
+    tags:
+       - v*
 
 jobs:
-  validate-git:
+  deploy:
 
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
 
     - name: setup node 14.x
       uses: actions/setup-node@v2
@@ -39,18 +36,16 @@ jobs:
       if: steps.yarn-cache.outputs.cache-hit != 'true'
       run: yarn
 
-    - name: validate git
+    - name: Build docs
       run: |
-        yarn lint:commits
+        rm -rf docs
+        yarn build-storybook
       env:
         CI: true
         
-    - name: validate pr title
-      uses: aslafy-z/conventional-pr-title-action@v2.2.0
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        success-state: Title follows the specification.
-        failure-state: Title does not follow the specification.
-        context-name: conventional-pr-title
-        preset: '@commitlint/config-conventional@latest'
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./docs
+        publish_branch: gh-pages

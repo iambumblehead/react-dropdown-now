@@ -1,7 +1,0 @@
-
-name: 'PR Lint GitHub Action'
-description: 'PR Lint for Github Actions'
-author: 'Layton Whiteley'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
