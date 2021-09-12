@@ -9,14 +9,10 @@
       "jsx": "react",
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "composite": true
     },
     "include": ["src/**/*"],
     "exclude": ["node_modules", "build"],
-    "files": [],
-    "references": [
-      {
-        "path": "./tsconfig.prod.json"
-      }
-    ]
+    "files": []
   }

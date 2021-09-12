@@ -23,7 +23,5 @@ build/Release
 node_modules
 dist
 
-# This project doesn't use Yarn
-yarn.lock
 tmp
 docs
